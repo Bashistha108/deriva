@@ -10,7 +10,7 @@ CREATE TABLE ledger_entry (
     reference_entity_id VARCHAR(255),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     
-    CONSTRAINT fk_ledger_account FOREIGN KEY (account_id) REFERENCES user_account(id),
+    CONSTRAINT fk_ledger_account FOREIGN KEY (account_id) REFERENCES accounts(id),
     CONSTRAINT uq_ledger_account_event UNIQUE (account_id, event_id)
 );
 

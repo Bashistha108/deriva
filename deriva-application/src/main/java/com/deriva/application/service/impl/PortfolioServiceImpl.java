@@ -12,6 +12,9 @@ import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class PortfolioServiceImpl implements PortfolioService {
 
     private final LedgerPort ledgerPort;

@@ -1,0 +1,39 @@
+name: Java CI/CD with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: maven
+    
+    - name: Build with Maven
+      run: mvn -B verify --file pom.xml
+      
+    - name: Run Static Analysis (SpotBugs & Checkstyle)
+      run: mvn checkstyle:check spotbugs:check
+      
+    - name: SonarQube Scan
+      run: mvn sonar:sonar -Dsonar.projectKey=deriva -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      
+    - name: Build Docker Image
+      run: mvn spring-boot:build-image
+      
+    - name: Publish to Docker Hub
+      if: github.ref == 'refs/heads/main'
+      run: |
+        echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+        docker push myorg/deriva:latest

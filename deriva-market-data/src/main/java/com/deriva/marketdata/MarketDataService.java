@@ -5,12 +5,15 @@ import com.deriva.domain.marketdata.MarketQuote;
 import com.deriva.domain.marketdata.OptionQuote;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.deriva.application.port.out.MarketDataPort;
+
 @Service
-public class MarketDataService {
+public class MarketDataService implements MarketDataPort {
 
     private final MarketDataProvider provider;
     
@@ -24,8 +27,15 @@ public class MarketDataService {
         this.provider = provider;
     }
 
+    @Override
     public MarketQuote getUnderlyingQuote(Symbol symbol) {
         return provider.getUnderlyingQuote(symbol);
+    }
+
+    @Override
+    public BigDecimal getLatestPrice(String symbol) {
+        MarketQuote quote = provider.getUnderlyingQuote(new Symbol(symbol));
+        return quote.last().value();
     }
 
     public List<OptionQuote> getOptionChain(Symbol symbol) {
