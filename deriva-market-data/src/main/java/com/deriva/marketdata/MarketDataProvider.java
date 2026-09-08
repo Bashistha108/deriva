@@ -11,4 +11,6 @@ public interface MarketDataProvider {
     
     List<OptionQuote> getOptionChain(Symbol underlyingSymbol);
     
+    String getRawOptionChain(String symbol, Long date);
+    
 }

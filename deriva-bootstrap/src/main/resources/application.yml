@@ -16,3 +16,28 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: false
+
+yahoo:
+  api:
+    url: "https://query1.finance.yahoo.com/v7/finance/options"
+  data:
+    redis:
+      host: localhost
+      port: 6380
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: deriva-backend
+
+logging:
+  level:
+    com.deriva: DEBUG
+    org.springframework.security: DEBUG
