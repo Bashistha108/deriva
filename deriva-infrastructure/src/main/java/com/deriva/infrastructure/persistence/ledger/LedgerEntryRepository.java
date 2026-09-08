@@ -3,9 +3,11 @@ package com.deriva.infrastructure.persistence.ledger;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.UUID;
+import java.util.List;
 
 @Repository
 public interface LedgerEntryRepository extends JpaRepository<LedgerEntryEntity, UUID> {
+    List<LedgerEntryEntity> findByAccountIdOrderByCreatedAtAsc(UUID accountId);
     // Inherits save() which acts as append if we only call it with new entities.
     // No update or delete methods are exposed.
 }

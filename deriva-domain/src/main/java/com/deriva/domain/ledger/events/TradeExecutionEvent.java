@@ -11,7 +11,10 @@ public record TradeExecutionEvent(
         Instant timestamp,
         BigDecimal amount,
         String currency,
-        String tradeId
+        String tradeId,
+        String assetSymbol,
+        int quantity,
+        BigDecimal price
 ) implements LedgerEvent {
     @Override
     public LedgerEventType eventType() {
