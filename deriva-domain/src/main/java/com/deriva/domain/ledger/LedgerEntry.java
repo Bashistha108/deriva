@@ -12,6 +12,7 @@ public record LedgerEntry(
         BigDecimal amount,
         String currency,
         String referenceEntityId,
+        String payload,
         Instant createdAt
 ) {
     public LedgerEntry {
@@ -21,6 +22,7 @@ public record LedgerEntry(
         if (eventId == null) throw new IllegalArgumentException("Event ID cannot be null");
         if (amount == null) throw new IllegalArgumentException("Amount cannot be null");
         if (currency == null) throw new IllegalArgumentException("Currency cannot be null");
+        if (payload == null) throw new IllegalArgumentException("Payload cannot be null");
         if (createdAt == null) throw new IllegalArgumentException("Created At cannot be null");
     }
 }

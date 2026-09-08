@@ -3,6 +3,7 @@ package com.deriva.application.service;
 import com.deriva.application.port.out.LedgerPort;
 import com.deriva.application.service.impl.LedgerServiceImpl;
 import com.deriva.domain.ledger.LedgerEntry;
+import com.deriva.domain.ledger.events.LedgerEvent;
 import com.deriva.domain.ledger.LedgerEventType;
 import com.deriva.domain.ledger.events.CashMovementEvent;
 import org.junit.jupiter.api.BeforeEach;
@@ -55,10 +56,11 @@ class LedgerServiceTest {
                 new BigDecimal("1000.00"),
                 "USD",
                 null,
+                "{}",
                 event.timestamp()
         );
 
-        when(ledgerPort.append(any(LedgerEntry.class))).thenReturn(mockEntry);
+        when(ledgerPort.append(any(LedgerEvent.class))).thenReturn(mockEntry);
 
         // Act
         LedgerEntry result = ledgerService.recordEvent(event);
@@ -70,9 +72,9 @@ class LedgerServiceTest {
         assertEquals(eventId, result.eventId());
         assertEquals(new BigDecimal("1000.00"), result.amount());
 
-        ArgumentCaptor<LedgerEntry> captor = ArgumentCaptor.forClass(LedgerEntry.class);
+        ArgumentCaptor<LedgerEvent> captor = ArgumentCaptor.forClass(LedgerEvent.class);
         verify(ledgerPort).append(captor.capture());
-        LedgerEntry captured = captor.getValue();
+        LedgerEvent captured = captor.getValue();
         assertEquals(accountId, captured.accountId());
         assertEquals(eventId, captured.eventId());
     }
@@ -91,7 +93,7 @@ class LedgerServiceTest {
                 "USD"
         );
 
-        when(ledgerPort.append(any(LedgerEntry.class))).thenThrow(new IllegalStateException("Event " + eventId + " already recorded"));
+        when(ledgerPort.append(any(LedgerEvent.class))).thenThrow(new IllegalStateException("Event " + eventId + " already recorded"));
 
         // Act & Assert
         IllegalStateException ex = assertThrows(IllegalStateException.class, () -> ledgerService.recordEvent(event));

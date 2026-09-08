@@ -29,13 +29,16 @@ public class LedgerEntryEntity {
     @Column(name = "reference_entity_id")
     private String referenceEntityId;
 
+    @Column(name = "payload", columnDefinition = "TEXT")
+    private String payload;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
     protected LedgerEntryEntity() {
     }
 
-    public LedgerEntryEntity(UUID id, UUID accountId, String eventType, UUID eventId, BigDecimal amount, String currency, String referenceEntityId, Instant createdAt) {
+    public LedgerEntryEntity(UUID id, UUID accountId, String eventType, UUID eventId, BigDecimal amount, String currency, String referenceEntityId, String payload, Instant createdAt) {
         this.id = id;
         this.accountId = accountId;
         this.eventType = eventType;
@@ -43,6 +46,7 @@ public class LedgerEntryEntity {
         this.amount = amount;
         this.currency = currency;
         this.referenceEntityId = referenceEntityId;
+        this.payload = payload;
         this.createdAt = createdAt;
     }
 
@@ -53,5 +57,6 @@ public class LedgerEntryEntity {
     public BigDecimal getAmount() { return amount; }
     public String getCurrency() { return currency; }
     public String getReferenceEntityId() { return referenceEntityId; }
+    public String getPayload() { return payload; }
     public Instant getCreatedAt() { return createdAt; }
 }
