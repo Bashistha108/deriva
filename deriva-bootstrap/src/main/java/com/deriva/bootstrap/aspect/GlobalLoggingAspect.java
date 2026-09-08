@@ -16,6 +16,7 @@ public class GlobalLoggingAspect {
 
     @Pointcut("execution(* com.deriva..*(..)) && " +
               "!execution(* com.deriva.api.filter.CorrelationIdFilter.*(..)) && " +
+              "!execution(* com.deriva.api.security.JwtAuthenticationFilter.*(..)) && " +
               "!within(com.deriva.bootstrap.aspect..*) && " +
               "!within(org.springframework..*)")
     public void applicationPackagePointcut() {

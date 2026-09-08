@@ -4,23 +4,13 @@
 > deriva-frontend@0.1.0 dev
 > next dev
 
+⚠ Port 3000 is in use by an unknown process, using available port 3001 instead.
 ▲ Next.js 16.3.4 (Turbopack)
-- Local:         http://localhost:3000
-- Network:       http://192.168.178.26:3000
-✓ Ready in 295ms
-✓ Running next.config.ts took 23ms
-
+- Local:         http://localhost:3001
+- Network:       http://192.168.178.26:3001
+✓ Ready in 433ms
+✓ Running next.config.ts took 80ms
 [INFO] Scanning for projects...
-Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.pom
-Progress (1): 743 BProgress (1): 1.6 kBProgress (1): 3.4 kBProgress (1): 8.7 kBProgress (1): 10 kB Progress (1): 13 kBProgress (1): 15 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.pom (15 kB at 40 kB/s)
-Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.jar
-Progress (1): 0.9/99 kBProgress (1): 2.3/99 kBProgress (1): 3.6/99 kBProgress (1): 5.0/99 kBProgress (1): 6.4/99 kBProgress (1): 7.7/99 kBProgress (1): 8.2/99 kBProgress (1): 9.6/99 kBProgress (1): 11/99 kB Progress (1): 12/99 kBProgress (1): 14/99 kBProgress (1): 15/99 kBProgress (1): 16/99 kBProgress (1): 18/99 kBProgress (1): 19/99 kBProgress (1): 21/99 kBProgress (1): 22/99 kBProgress (1): 23/99 kBProgress (1): 25/99 kBProgress (1): 26/99 kBProgress (1): 27/99 kBProgress (1): 29/99 kBProgress (1): 30/99 kBProgress (1): 31/99 kBProgress (1): 33/99 kBProgress (1): 34/99 kBProgress (1): 36/99 kBProgress (1): 37/99 kBProgress (1): 38/99 kBProgress (1): 40/99 kBProgress (1): 41/99 kBProgress (1): 42/99 kBProgress (1): 44/99 kBProgress (1): 45/99 kBProgress (1): 46/99 kBProgress (1): 48/99 kBProgress (1): 49/99 kBProgress (1): 53/99 kBProgress (1): 57/99 kBProgress (1): 62/99 kBProgress (1): 66/99 kBProgress (1): 70/99 kBProgress (1): 74/99 kBProgress (1): 78/99 kBProgress (1): 83/99 kBProgress (1): 87/99 kBProgress (1): 91/99 kBProgress (1): 95/99 kBProgress (1): 99 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.jar (99 kB at 1.0 MB/s)
-Downloading from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.pom
-Progress (1): 771 BProgress (1): 2.5 kBProgress (1): 6.0 kBProgress (1): 7.7 kBProgress (1): 9.5 kBProgress (1): 12 kB Progress (1): 19 kBProgress (1): 22 kBProgress (1): 26 kBProgress (1): 31 kBProgress (1): 36 kBProgress (1): 42 kBProgress (1): 43 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.pom (43 kB at 646 kB/s)
-Downloading from central: https://repo.maven.apache.org/maven2/com/github/hazendaz/base-parent/46/base-parent-46.pom
-Progress (1): 845 BProgress (1): 3.3 kBProgress (1): 5.3 kBProgress (1): 7.7 kBProgress (1): 9.5 kBProgress (1): 12 kB Progress (1): 14 kBProgress (1): 15 kBProgress (1): 19 kBProgress (1): 24 kBProgress (1): 25 kBProgress (1): 28 kBProgress (1): 33 kBProgress (1): 36 kBProgress (1): 41 kBProgress (1): 48 kBProgress (1): 57 kBProgress (1): 61 kBProgress (1): 69 kBProgress (1): 69 kBProgress (1): 75 kBProgress (1): 80 kBProgress (1): 87 kBProgress (1): 90 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/com/github/hazendaz/base-parent/46/base-parent-46.pom (90 kB at 1.0 MB/s)
-Downloading from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.jar
-Progress (1): 3.8/170 kBProgress (1): 8.0/170 kBProgress (1): 8.2/170 kBProgress (1): 12/170 kB Progress (1): 17/170 kBProgress (1): 21/170 kBProgress (1): 25/170 kBProgress (1): 29/170 kBProgress (1): 34/170 kBProgress (1): 38/170 kBProgress (1): 42/170 kBProgress (1): 46/170 kBProgress (1): 50/170 kBProgress (1): 55/170 kBProgress (1): 59/170 kBProgress (1): 63/170 kBProgress (1): 67/170 kBProgress (1): 72/170 kBProgress (1): 76/170 kBProgress (1): 80/170 kBProgress (1): 96/170 kBProgress (1): 113/170 kBProgress (1): 129/170 kBProgress (1): 139/170 kBProgress (1): 156/170 kBProgress (1): 170 kB                        Downloaded from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.jar (170 kB at 1.1 MB/s)
 [INFO] 
 [INFO] --------------------< com.deriva:deriva-bootstrap >---------------------
 [INFO] Building deriva-bootstrap 1.0.0-SNAPSHOT
@@ -28,6 +18,16 @@ Progress (1): 3.8/170 kBProgress (1): 8.0/170 kBProgress (1): 8.2/170 kBProgr
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] >>> spring-boot:3.3.3:run (default-cli) > test-compile @ deriva-bootstrap >>>
+⨯ Another next dev server is already running.
+
+- Local:        http://localhost:3000
+- PID:          2473044
+- Dir:          /home/bashistha/Desktop/deriva/deriva-frontend
+- Log:          .next/dev/logs/next-development.log
+
+You can access the existing server at http://localhost:3000,
+or run kill 2473044 to stop it and start a new one.
+[?25h
 [INFO] 
 [INFO] --- jacoco:0.8.12:prepare-agent (default) @ deriva-bootstrap ---
 [INFO] argLine set to -javaagent:/home/bashistha/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/bashistha/Desktop/deriva/deriva-bootstrap/target/jacoco.exec
@@ -60,260 +60,1129 @@ Progress (1): 3.8/170 kBProgress (1): 8.0/170 kBProgress (1): 8.2/170 kBProgr
 
  :: Spring Boot ::                (v3.3.3)
 
-2026-09-08T20:51:03.668+02:00  INFO 2284689 --- [           main] com.deriva.bootstrap.DerivaApplication   : Starting DerivaApplication using Java 21.0.12 with PID 2284689 (/home/bashistha/Desktop/deriva/deriva-bootstrap/target/classes started by bashistha in /home/bashistha/Desktop/deriva/deriva-bootstrap)
-2026-09-08T20:51:03.669+02:00 DEBUG 2284689 --- [           main] com.deriva.bootstrap.DerivaApplication   : Running with Spring Boot v3.3.3, Spring v6.1.12
-2026-09-08T20:51:03.670+02:00  INFO 2284689 --- [           main] com.deriva.bootstrap.DerivaApplication   : No active profile set, falling back to 1 default profile: "default"
-2026-09-08T20:51:04.156+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2026-09-08T20:51:04.156+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-09-08T20:51:04.247+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 86 ms. Found 6 JPA repository interfaces.
-2026-09-08T20:51:04.499+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
-2026-09-08T20:51:04.500+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2026-09-08T20:51:04.513+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
-2026-09-08T20:51:05.021+02:00  INFO 2284689 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
-2026-09-08T20:51:05.029+02:00  INFO 2284689 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-09-08T20:51:05.029+02:00  INFO 2284689 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
-2026-09-08T20:51:05.064+02:00  INFO 2284689 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2026-09-08T20:51:05.064+02:00  INFO 2284689 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1355 ms
-2026-09-08T20:51:05.366+02:00  INFO 2284689 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.config.RedisConfig.cacheConfiguration()
-2026-09-08T20:51:05.514+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-09-08T20:51:05.709+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7792e14f
-2026-09-08T20:51:05.709+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-09-08T20:51:05.728+02:00  INFO 2284689 --- [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/deriva (PostgreSQL 16.15)
-2026-09-08T20:51:05.750+02:00 ERROR 2284689 --- [           main] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
-2026-09-08T20:51:05.764+02:00  INFO 2284689 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
-2026-09-08T20:51:05.765+02:00  WARN 2284689 --- [           main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [lettuce-timer-3-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
- java.base/java.lang.Thread.sleep0(Native Method)
- java.base/java.lang.Thread.sleep(Thread.java:509)
- io.netty.util.HashedWheelTimer$Worker.waitForNextTick(HashedWheelTimer.java:598)
- io.netty.util.HashedWheelTimer$Worker.run(HashedWheelTimer.java:494)
- io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
- java.base/java.lang.Thread.run(Thread.java:1583)
-2026-09-08T20:51:05.765+02:00  WARN 2284689 --- [           main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
- java.base/jdk.internal.misc.Unsafe.park(Native Method)
- java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
- java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1797)
- java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
- java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
- java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
- java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
- java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
- java.base/java.lang.Thread.run(Thread.java:1583)
-2026-09-08T20:51:05.768+02:00  WARN 2284689 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
-2026-09-08T20:51:05.768+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-09-08T20:51:05.770+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2026-09-08T20:51:05.787+02:00  INFO 2284689 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+2026-09-08T22:00:05.896+02:00  INFO 2500556 --- [           main] com.deriva.bootstrap.DerivaApplication   : Starting DerivaApplication using Java 21.0.12 with PID 2500556 (/home/bashistha/Desktop/deriva/deriva-bootstrap/target/classes started by bashistha in /home/bashistha/Desktop/deriva/deriva-bootstrap)
+2026-09-08T22:00:05.898+02:00 DEBUG 2500556 --- [           main] com.deriva.bootstrap.DerivaApplication   : Running with Spring Boot v3.3.3, Spring v6.1.12
+2026-09-08T22:00:05.898+02:00  INFO 2500556 --- [           main] com.deriva.bootstrap.DerivaApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-09-08T22:00:06.427+02:00  INFO 2500556 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-08T22:00:06.428+02:00  INFO 2500556 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-08T22:00:06.522+02:00  INFO 2500556 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 89 ms. Found 6 JPA repository interfaces.
+2026-09-08T22:00:06.778+02:00  INFO 2500556 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-08T22:00:06.779+02:00  INFO 2500556 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-08T22:00:06.790+02:00  INFO 2500556 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2026-09-08T22:00:07.302+02:00  INFO 2500556 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-09-08T22:00:07.311+02:00  INFO 2500556 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-08T22:00:07.312+02:00  INFO 2500556 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2026-09-08T22:00:07.349+02:00  INFO 2500556 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-09-08T22:00:07.350+02:00  INFO 2500556 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1410 ms
+2026-09-08T22:00:07.654+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.config.RedisConfig.cacheConfiguration()
+2026-09-08T22:00:07.802+02:00  INFO 2500556 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-08T22:00:08.003+02:00  INFO 2500556 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@402676e3
+2026-09-08T22:00:08.004+02:00  INFO 2500556 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-08T22:00:08.025+02:00  INFO 2500556 --- [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/deriva (PostgreSQL 16.15)
+2026-09-08T22:00:08.056+02:00  INFO 2500556 --- [           main] o.f.core.internal.command.DbValidate     : Successfully validated 10 migrations (execution time 00:00.019s)
+2026-09-08T22:00:08.086+02:00  INFO 2500556 --- [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 10
+2026-09-08T22:00:08.088+02:00  INFO 2500556 --- [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-09-08T22:00:08.161+02:00  INFO 2500556 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-08T22:00:08.208+02:00  INFO 2500556 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2026-09-08T22:00:08.233+02:00  INFO 2500556 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-08T22:00:08.440+02:00  INFO 2500556 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-08T22:00:08.480+02:00  WARN 2500556 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-09-08T22:00:09.110+02:00  INFO 2500556 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-08T22:00:09.137+02:00  INFO 2500556 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-08T22:00:09.384+02:00 DEBUG 2500556 --- [           main] c.d.a.security.JwtAuthenticationFilter   : Filter 'jwtAuthenticationFilter' configured for use
+2026-09-08T22:00:09.453+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.infrastructure.messaging.config.KafkaConfiguration.objectMapper()
+2026-09-08T22:00:09.638+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.security.SecurityConfig.authenticationManager()
+2026-09-08T22:00:09.654+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.security.SecurityConfig.passwordEncoder()
+2026-09-08T22:00:09.660+02:00  INFO 2500556 --- [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name customUserDetailsService
+2026-09-08T22:00:09.689+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.config.WebSocketConfig.configureClientInboundChannel()
+2026-09-08T22:00:09.703+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.config.WebSocketConfig.configureMessageBroker()
+2026-09-08T22:00:09.773+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.infrastructure.messaging.config.KafkaConfiguration.kafkaTemplate()
+2026-09-08T22:00:09.775+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.infrastructure.messaging.config.KafkaConfiguration.producerFactory()
+2026-09-08T22:00:09.882+02:00  WARN 2500556 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-09-08T22:00:09.951+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.config.WebSocketConfig.registerStompEndpoints()
+2026-09-08T22:00:10.143+02:00  INFO 2500556 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 4 endpoints beneath base path '/actuator'
+2026-09-08T22:00:10.165+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.security.SecurityConfig.filterChain()
+2026-09-08T22:00:10.166+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.security.SecurityConfig.corsConfigurationSource()
+2026-09-08T22:00:10.194+02:00 DEBUG 2500556 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with filters: DisableEncodeUrlFilter, WebAsyncManagerIntegrationFilter, SecurityContextHolderFilter, HeaderWriterFilter, CorsFilter, LogoutFilter, JwtAuthenticationFilter, RequestCacheAwareFilter, SecurityContextHolderAwareRequestFilter, AnonymousAuthenticationFilter, SessionManagementFilter, ExceptionTranslationFilter, AuthorizationFilter
+2026-09-08T22:00:10.259+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.config.OpenApiConfig.customOpenAPI()
+2026-09-08T22:00:10.263+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.infrastructure.messaging.config.KafkaConfiguration.consumerFactory()
+2026-09-08T22:00:10.268+02:00  INFO 2500556 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.infrastructure.messaging.config.KafkaConfiguration.kafkaListenerContainerFactory()
+2026-09-08T22:00:10.799+02:00  INFO 2500556 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-09-08T22:00:10.836+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-1
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
 
-Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2026-09-08T20:51:05.796+02:00 ERROR 2284689 --- [           main] o.s.boot.SpringApplication               : Application run failed
+2026-09-08T22:00:10.881+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:10.995+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:10.995+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:10.995+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897610994
+2026-09-08T22:00:10.998+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Subscribed to topic(s): option-lifecycle-events
+2026-09-08T22:00:11.003+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-2
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
 
-org.springframework.context.ApplicationContextException: Unable to start web server
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:165) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:619) ~[spring-context-6.1.12.jar:6.1.12]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.3.jar:3.3.3]
-	at com.deriva.bootstrap.DerivaApplication.main(DerivaApplication.java:19) ~[classes/:na]
-Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
-	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:147) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:516) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:222) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:188) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:162) ~[spring-boot-3.3.3.jar:3.3.3]
-	... 8 common frames omitted
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:87) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:266) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:240) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52) ~[spring-boot-3.3.3.jar:3.3.3]
-	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4414) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
-	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
-	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
-	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
-	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:874) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:437) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
-	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:128) ~[spring-boot-3.3.3.jar:3.3.3]
-	... 13 common frames omitted
-Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customUserDetailsService' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782) ~[spring-beans-6.1.12.jar:6.1.12]
-	... 54 common frames omitted
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
-	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1705) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1454) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782) ~[spring-beans-6.1.12.jar:6.1.12]
-	... 68 common frames omitted
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jpaSharedEM_entityManagerFactory': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument
-	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:682) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1355) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1185) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.1.12.jar:6.1.12]
-	... 82 common frames omitted
-Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Found more than one migration with version 8
-Offenders:
--> /home/bashistha/Desktop/deriva/deriva-bootstrap/file:/home/bashistha/.m2/repository/com/deriva/deriva-infrastructure/1.0.0-SNAPSHOT/deriva-infrastructure-1.0.0-SNAPSHOT.jar!/db/migration/V8__Create_Order_Tables.sql (SQL)
--> /home/bashistha/Desktop/deriva/deriva-bootstrap/target/classes/db/migration/V8__Create_Market_Data_Cache.sql (SQL)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1806) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.1.12.jar:6.1.12]
-	... 94 common frames omitted
-Caused by: org.flywaydb.core.api.FlywayException: Found more than one migration with version 8
-Offenders:
--> /home/bashistha/Desktop/deriva/deriva-bootstrap/file:/home/bashistha/.m2/repository/com/deriva/deriva-infrastructure/1.0.0-SNAPSHOT/deriva-infrastructure-1.0.0-SNAPSHOT.jar!/db/migration/V8__Create_Order_Tables.sql (SQL)
--> /home/bashistha/Desktop/deriva/deriva-bootstrap/target/classes/db/migration/V8__Create_Market_Data_Cache.sql (SQL)
-	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.checkForIncompatibilities(CompositeMigrationResolver.java:92) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.doFindAvailableMigrations(CompositeMigrationResolver.java:125) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.resolveMigrations(CompositeMigrationResolver.java:112) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.resolveMigrations(CompositeMigrationResolver.java:118) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.internal.info.MigrationInfoServiceImpl.refresh(MigrationInfoServiceImpl.java:82) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.internal.command.DbValidate.lambda$validate$0(DbValidate.java:108) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:55) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.internal.command.DbValidate.validate(DbValidate.java:101) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.Flyway.doValidate(Flyway.java:414) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.Flyway.lambda$migrate$0(Flyway.java:158) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:205) ~[flyway-core-10.10.0.jar:na]
-	at org.flywaydb.core.Flyway.migrate(Flyway.java:147) ~[flyway-core-10.10.0.jar:na]
-	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.3.3.jar:3.3.3]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853) ~[spring-beans-6.1.12.jar:6.1.12]
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802) ~[spring-beans-6.1.12.jar:6.1.12]
-	... 103 common frames omitted
+2026-09-08T22:00:11.004+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:11.010+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:11.010+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:11.010+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897611010
+2026-09-08T22:00:11.010+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Subscribed to topic(s): option-lifecycle-events
+2026-09-08T22:00:11.012+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-3
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
 
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  5.886 s
-[INFO] Finished at: 2026-09-08T20:51:06+02:00
-[INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.3.3:run (default-cli) on project deriva-bootstrap: Process terminated with exit code: 1 -> [Help 1]
-[ERROR] 
-[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
-[ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
-[ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
- GET / 200 in 1564ms (next.js: 1381ms, application-code: 183ms)
- GET / 200 in 19ms (next.js: 9ms, application-code: 10ms)
- GET / 200 in 22ms (next.js: 4ms, application-code: 18ms)
- GET /portfolio 200 in 330ms (next.js: 313ms, application-code: 17ms)
- GET /trades 200 in 227ms (next.js: 205ms, application-code: 22ms)
- GET /options 200 in 407ms (next.js: 380ms, application-code: 27ms)
-[browser] Failed to fetch options chain TypeError: Failed to fetch
-    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
-    at fetchOptionsChain (src/app/options/page.tsx:49:25)
-    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
-  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
-  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
-> 22 |       return originalFetch(...args);
-     |              ^
-  23 |     };
-  24 |
-  25 |     return () => { (src/app/options/page.tsx:83:15)
-[browser] Failed to fetch options chain TypeError: Failed to fetch
-    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
-    at fetchOptionsChain (src/app/options/page.tsx:49:25)
-    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
-  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
-  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
-> 22 |       return originalFetch(...args);
-     |              ^
-  23 |     };
-  24 |
-  25 |     return () => { (src/app/options/page.tsx:83:15)
-[browser] Failed to fetch options chain TypeError: Failed to fetch
-    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
-    at fetchOptionsChain (src/app/options/page.tsx:49:25)
-    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
-  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
-  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
-> 22 |       return originalFetch(...args);
-     |              ^
-  23 |     };
-  24 |
-  25 |     return () => { (src/app/options/page.tsx:83:15)
-[browser] Failed to fetch options chain TypeError: Failed to fetch
-    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
-    at fetchOptionsChain (src/app/options/page.tsx:49:25)
-    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
-  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
-  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
-> 22 |       return originalFetch(...args);
-     |              ^
-  23 |     };
-  24 |
-  25 |     return () => { (src/app/options/page.tsx:83:15)
-[?25h
+2026-09-08T22:00:11.012+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:11.017+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:11.018+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:11.018+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897611017
+2026-09-08T22:00:11.018+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Subscribed to topic(s): order-filled-events
+2026-09-08T22:00:11.028+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-4
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-09-08T22:00:11.028+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:11.031+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:11.032+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:11.032+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897611031
+2026-09-08T22:00:11.032+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Subscribed to topic(s): position-events
+2026-09-08T22:00:11.033+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-5
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-09-08T22:00:11.034+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:11.037+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:11.038+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:11.038+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897611037
+2026-09-08T22:00:11.038+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Subscribed to topic(s): order-events
+2026-09-08T22:00:11.039+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-6
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-09-08T22:00:11.040+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:11.042+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:11.043+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:11.043+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897611042
+2026-09-08T22:00:11.043+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Subscribed to topic(s): option-lifecycle-events
+2026-09-08T22:00:11.044+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-7
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-09-08T22:00:11.045+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:11.047+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:11.047+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:11.047+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897611047
+2026-09-08T22:00:11.048+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Subscribed to topic(s): risk-events
+2026-09-08T22:00:11.049+02:00  INFO 2500556 --- [           main] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = latest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-deriva-group-8
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = deriva-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.JsonDeserializer
+
+2026-09-08T22:00:11.049+02:00  INFO 2500556 --- [           main] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2026-09-08T22:00:11.051+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2026-09-08T22:00:11.052+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2026-09-08T22:00:11.052+02:00  INFO 2500556 --- [           main] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1788897611051
+2026-09-08T22:00:11.052+02:00  INFO 2500556 --- [           main] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Subscribed to topic(s): market-quote-updates
+2026-09-08T22:00:11.053+02:00  INFO 2500556 --- [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : Starting...
+2026-09-08T22:00:11.054+02:00  INFO 2500556 --- [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=true, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@11b0cf30]]
+2026-09-08T22:00:11.055+02:00  INFO 2500556 --- [           main] o.s.m.s.b.SimpleBrokerMessageHandler     : Started.
+2026-09-08T22:00:11.069+02:00  INFO 2500556 --- [           main] com.deriva.bootstrap.DerivaApplication   : Started DerivaApplication in 5.421 seconds (process running for 5.622)
+2026-09-08T22:00:11.071+02:00  INFO 2500556 --- [MessageBroker-3] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:11.072+02:00  INFO 2500556 --- [MessageBroker-3] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#3-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#4-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#0-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#7-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#1-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#5-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#2-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.249+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.248+02:00  INFO 2500556 --- [ntainer#6-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Cluster ID: Some(5L6g3nShT-eMCtK--X86sw)
+2026-09-08T22:00:11.250+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.251+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.270+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-1-22c88ee0-d4db-4573-aea1-15e8dcbd3aaf
+2026-09-08T22:00:11.270+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-3-9e38593c-e1bf-46b9-81d1-fec7a5c02bf0
+2026-09-08T22:00:11.270+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-7-d4f3ee56-1c9f-4ae2-bfa8-fee6ff21abae
+2026-09-08T22:00:11.270+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.270+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.271+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.271+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-2-7eb51878-e01c-470f-85df-bb0c1296f54b
+2026-09-08T22:00:11.271+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-6-8f7b3eb6-b7e0-4d39-a041-b7312799f0b3
+2026-09-08T22:00:11.271+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-8-7f7111d6-21cc-4372-95d7-367f49f5479c
+2026-09-08T22:00:11.271+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-4-e960963b-4a82-4da4-bf4c-58edfd1eeb45
+2026-09-08T22:00:11.272+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.272+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.272+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.271+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Request joining group due to: need to re-join with the given member-id: consumer-deriva-group-5-07316fe8-1c15-4ae3-b6ad-8bf8895b11fc
+2026-09-08T22:00:11.272+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:11.272+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] (Re-)joining group
+2026-09-08T22:00:13.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:13.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-4-e960963b-4a82-4da4-bf4c-58edfd1eeb45', protocol='range'}
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-5-07316fe8-1c15-4ae3-b6ad-8bf8895b11fc', protocol='range'}
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-8-7f7111d6-21cc-4372-95d7-367f49f5479c', protocol='range'}
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-3-9e38593c-e1bf-46b9-81d1-fec7a5c02bf0', protocol='range'}
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-6-8f7b3eb6-b7e0-4d39-a041-b7312799f0b3', protocol='range'}
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-7-d4f3ee56-1c9f-4ae2-bfa8-fee6ff21abae', protocol='range'}
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-1-22c88ee0-d4db-4573-aea1-15e8dcbd3aaf', protocol='range'}
+2026-09-08T22:00:14.281+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Successfully joined group with generation Generation{generationId=10, memberId='consumer-deriva-group-2-7eb51878-e01c-470f-85df-bb0c1296f54b', protocol='range'}
+2026-09-08T22:00:14.298+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Finished assignment for group at generation 10: {consumer-deriva-group-2-7eb51878-e01c-470f-85df-bb0c1296f54b=Assignment(partitions=[]), consumer-deriva-group-3-9e38593c-e1bf-46b9-81d1-fec7a5c02bf0=Assignment(partitions=[order-filled-events-0]), consumer-deriva-group-6-8f7b3eb6-b7e0-4d39-a041-b7312799f0b3=Assignment(partitions=[]), consumer-deriva-group-1-22c88ee0-d4db-4573-aea1-15e8dcbd3aaf=Assignment(partitions=[option-lifecycle-events-0]), consumer-deriva-group-4-e960963b-4a82-4da4-bf4c-58edfd1eeb45=Assignment(partitions=[position-events-0]), consumer-deriva-group-7-d4f3ee56-1c9f-4ae2-bfa8-fee6ff21abae=Assignment(partitions=[risk-events-0]), consumer-deriva-group-8-7f7111d6-21cc-4372-95d7-367f49f5479c=Assignment(partitions=[market-quote-updates-0]), consumer-deriva-group-5-07316fe8-1c15-4ae3-b6ad-8bf8895b11fc=Assignment(partitions=[order-events-0])}
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-3-9e38593c-e1bf-46b9-81d1-fec7a5c02bf0', protocol='range'}
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-4-e960963b-4a82-4da4-bf4c-58edfd1eeb45', protocol='range'}
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-6-8f7b3eb6-b7e0-4d39-a041-b7312799f0b3', protocol='range'}
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[position-events-0])
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[])
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#5-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Adding newly assigned partitions: 
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-2-7eb51878-e01c-470f-85df-bb0c1296f54b', protocol='range'}
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[])
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-5-07316fe8-1c15-4ae3-b6ad-8bf8895b11fc', protocol='range'}
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[order-events-0])
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-1-22c88ee0-d4db-4573-aea1-15e8dcbd3aaf', protocol='range'}
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[option-lifecycle-events-0])
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#7-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Adding newly assigned partitions: 
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-8-7f7111d6-21cc-4372-95d7-367f49f5479c', protocol='range'}
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Successfully synced group in generation Generation{generationId=10, memberId='consumer-deriva-group-7-d4f3ee56-1c9f-4ae2-bfa8-fee6ff21abae', protocol='range'}
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[market-quote-updates-0])
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: []
+2026-09-08T22:00:14.309+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[order-filled-events-0])
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Notifying assignor about the new Assignment(partitions=[risk-events-0])
+2026-09-08T22:00:14.310+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: []
+2026-09-08T22:00:14.311+02:00  INFO 2500556 --- [ntainer#1-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Adding newly assigned partitions: market-quote-updates-0
+2026-09-08T22:00:14.311+02:00  INFO 2500556 --- [ntainer#2-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Adding newly assigned partitions: order-filled-events-0
+2026-09-08T22:00:14.311+02:00  INFO 2500556 --- [ntainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Adding newly assigned partitions: risk-events-0
+2026-09-08T22:00:14.311+02:00  INFO 2500556 --- [ntainer#3-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Adding newly assigned partitions: position-events-0
+2026-09-08T22:00:14.311+02:00  INFO 2500556 --- [ntainer#4-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Adding newly assigned partitions: order-events-0
+2026-09-08T22:00:14.311+02:00  INFO 2500556 --- [ntainer#6-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Adding newly assigned partitions: option-lifecycle-events-0
+2026-09-08T22:00:14.320+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition position-events-0 to the committed offset FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}
+2026-09-08T22:00:14.320+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition order-filled-events-0 to the committed offset FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}
+2026-09-08T22:00:14.320+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition market-quote-updates-0 to the committed offset FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition risk-events-0 to the committed offset FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition order-events-0 to the committed offset FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: [market-quote-updates-0]
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: [risk-events-0]
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: [order-events-0]
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerUtils        : Setting offset for partition option-lifecycle-events-0 to the committed offset FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}
+2026-09-08T22:00:14.322+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: [option-lifecycle-events-0]
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: [position-events-0]
+2026-09-08T22:00:14.321+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions assigned: [order-filled-events-0]
+2026-09-08T22:00:15.067+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:15.068+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:17.067+02:00  INFO 2500556 --- [MessageBroker-5] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:17.068+02:00  INFO 2500556 --- [MessageBroker-5] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:19.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:19.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:21.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:21.068+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:23.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:23.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:25.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:25.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+⨯ ReferenceError: watchlistData is not defined
+    at <unknown> (src/app/page.tsx:171:32)
+    at Array.map (<anonymous>)
+    at Dashboard (src/app/page.tsx:170:28)
+  169 |               <TableBody>
+  170 |                 {watchlist.map((sym) => {
+> 171 |                   const data = watchlistData[sym] || { price: 0, change: 0, changePercent: 0 };
+      |                                ^
+  172 |                   return (
+  173 |                     <TableRow key={sym} className="border-[#2a2a2a] hover:bg-[#222]">
+  174 |                       <TableCell className="font-medium text-white">{sym}</TableCell> {
+  digest: '4140595460'
+}
+ GET / 500 in 135ms (next.js: 34ms, application-code: 101ms)
+[browser] Uncaught ReferenceError: watchlistData is not defined
+    at <unknown> (src/app/page.tsx:171:32)
+    at Array.map (<anonymous>)
+    at Dashboard (src/app/page.tsx:170:28)
+  169 |               <TableBody>
+  170 |                 {watchlist.map((sym) => {
+> 171 |                   const data = watchlistData[sym] || { price: 0, change: 0, changePercent: 0 };
+      |                                ^
+  172 |                   return (
+  173 |                     <TableRow key={sym} className="border-[#2a2a2a] hover:bg-[#222]">
+  174 |                       <TableCell className="font-medium text-white">{sym}</TableCell>
+2026-09-08T22:00:27.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:27.067+02:00  INFO 2500556 --- [MessageBroker-1] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:29.067+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:29.068+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:31.067+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:31.067+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:33.067+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.MarketDataSimulator.simulateMarketData()
+2026-09-08T22:00:33.067+02:00  INFO 2500556 --- [MessageBroker-4] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.messaging.WebsocketBroadcaster.broadcastQuote()
+2026-09-08T22:00:34.502+02:00  INFO 2500556 --- [ionShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopping...
+2026-09-08T22:00:34.502+02:00  INFO 2500556 --- [ionShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : BrokerAvailabilityEvent[available=false, SimpleBrokerMessageHandler [org.springframework.messaging.simp.broker.DefaultSubscriptionRegistry@11b0cf30]]
+2026-09-08T22:00:34.502+02:00  INFO 2500556 --- [ionShutdownHook] o.s.m.s.b.SimpleBrokerMessageHandler     : Stopped.
+2026-09-08T22:00:34.505+02:00  INFO 2500556 --- [ntainer#6-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Revoke previously assigned partitions option-lifecycle-events-0
+2026-09-08T22:00:34.505+02:00  INFO 2500556 --- [ntainer#4-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Revoke previously assigned partitions order-events-0
+2026-09-08T22:00:34.505+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Member consumer-deriva-group-6-8f7b3eb6-b7e0-4d39-a041-b7312799f0b3 sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.505+02:00  INFO 2500556 --- [ntainer#2-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Revoke previously assigned partitions order-filled-events-0
+2026-09-08T22:00:34.505+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions revoked: [order-filled-events-0]
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions revoked: [option-lifecycle-events-0]
+2026-09-08T22:00:34.505+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions revoked: [order-events-0]
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#1-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Revoke previously assigned partitions market-quote-updates-0
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions revoked: [market-quote-updates-0]
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Member consumer-deriva-group-8-7f7111d6-21cc-4372-95d7-367f49f5479c sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Member consumer-deriva-group-3-9e38593c-e1bf-46b9-81d1-fec7a5c02bf0 sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#0-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Revoke previously assigned partitions risk-events-0
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions revoked: [risk-events-0]
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Member consumer-deriva-group-2-7eb51878-e01c-470f-85df-bb0c1296f54b sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Member consumer-deriva-group-1-22c88ee0-d4db-4573-aea1-15e8dcbd3aaf sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.508+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.508+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.506+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Member consumer-deriva-group-5-07316fe8-1c15-4ae3-b6ad-8bf8895b11fc sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#3-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Revoke previously assigned partitions position-events-0
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: partitions revoked: [position-events-0]
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Member consumer-deriva-group-4-e960963b-4a82-4da4-bf4c-58edfd1eeb45 sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Member consumer-deriva-group-7-d4f3ee56-1c9f-4ae2-bfa8-fee6ff21abae sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2026-09-08T22:00:34.507+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.509+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-1, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-6, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-7, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-8, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.510+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-3, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Unsubscribed all topics or patterns and assigned partitions
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-2, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-5, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.511+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-deriva-group-4, groupId=deriva-group] Request joining group due to: consumer pro-actively leaving the group
+2026-09-08T22:00:34.515+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.516+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.516+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.516+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.516+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.516+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.516+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.517+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.520+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-6 unregistered
+2026-09-08T22:00:34.521+02:00  INFO 2500556 --- [ntainer#5-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.521+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-2 unregistered
+2026-09-08T22:00:34.521+02:00  INFO 2500556 --- [ntainer#7-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.934+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.933+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.935+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.937+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.937+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.937+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.938+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.938+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2026-09-08T22:00:34.938+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2026-09-08T22:00:34.939+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.939+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.940+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-1 unregistered
+2026-09-08T22:00:34.940+02:00  INFO 2500556 --- [ntainer#6-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.941+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2026-09-08T22:00:34.941+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2026-09-08T22:00:34.942+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-5 unregistered
+2026-09-08T22:00:34.942+02:00  INFO 2500556 --- [ntainer#4-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.942+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-7 unregistered
+2026-09-08T22:00:34.942+02:00  INFO 2500556 --- [ntainer#0-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.943+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-3 unregistered
+2026-09-08T22:00:34.943+02:00  INFO 2500556 --- [ntainer#2-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.948+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-4 unregistered
+2026-09-08T22:00:34.949+02:00  INFO 2500556 --- [ntainer#3-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.950+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-deriva-group-8 unregistered
+2026-09-08T22:00:34.950+02:00  INFO 2500556 --- [ntainer#1-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : deriva-group: Consumer stopped
+2026-09-08T22:00:34.970+02:00  INFO 2500556 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-08T22:00:34.972+02:00  INFO 2500556 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-09-08T22:00:34.981+02:00  INFO 2500556 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.

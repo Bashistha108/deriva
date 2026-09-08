@@ -163,17 +163,24 @@ export default function Dashboard() {
                 <TableRow className="border-[#2a2a2a] hover:bg-[#222]">
                   <TableHead className="text-[#b3b3b3]">Symbol</TableHead>
                   <TableHead className="text-right text-[#b3b3b3]">Price</TableHead>
+                  <TableHead className="text-right text-[#b3b3b3]">Change</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {watchlist.map((item) => (
-                  <TableRow key={item.symbol} className="border-[#2a2a2a] hover:bg-[#222]">
-                    <TableCell className="font-medium text-white">{item.symbol}</TableCell>
-                    <TableCell className={`text-right ${item.change >= 0 ? 'text-[#00ff00]' : 'text-[#ff4444]'}`}>
-                      ${item.price.toFixed(2)}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {watchlist.map((sym) => {
+                  const data = watchlistData[sym] || { price: 0, change: 0, changePercent: 0 };
+                  return (
+                    <TableRow key={sym} className="border-[#2a2a2a] hover:bg-[#222]">
+                      <TableCell className="font-medium text-white">{sym}</TableCell>
+                      <TableCell className="text-right text-white">
+                        {data.price ? `$${data.price.toFixed(2)}` : '-'}
+                      </TableCell>
+                      <TableCell className={`text-right ${data.change >= 0 ? 'text-[#00ff00]' : 'text-[#ff4444]'}`}>
+                        {data.change > 0 ? "+" : ""}{data.change.toFixed(2)} ({data.changePercent > 0 ? "+" : ""}{data.changePercent.toFixed(2)}%)
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
               </TableBody>
             </Table>
           </CardContent>

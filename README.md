@@ -62,7 +62,32 @@ npm install
 npm run dev
 ```
 
-### 3. Unified Logging
+### 3. Using Docker Compose (Fully Containerized)
+
+If you prefer to run the entire stack (Database, Redis, Kafka, Backend, and Frontend) in isolated Docker containers, you can use `docker-compose`.
+
+```bash
+# In the project root directory
+docker-compose up -d --build
+```
+
+This will automatically:
+- Provision the infrastructure databases and message brokers.
+- Build the multi-module Spring Boot backend via a multi-stage Dockerfile.
+- Build the Next.js frontend in standalone mode.
+- Link them together via an internal Docker network.
+
+*To view logs for the containerized stack:*
+```bash
+docker-compose logs -f
+```
+
+*To tear down the environment:*
+```bash
+docker-compose down
+```
+
+### 4. Unified Logging
 
 When using `start.sh`, logs are automatically formatted and routed to `deriva-app.log`. 
 - Backend logs are prefixed with `[Backend]`

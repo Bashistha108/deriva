@@ -138,6 +138,30 @@ export default function OptionsChain() {
     }
   };
 
+  const [watchlistData, setWatchlistData] = useState<Record<string, { price: number, change: number, changePercent: number }>>({});
+  
+  useEffect(() => {
+    // Fetch quotes for all watchlist items
+    watchlist.forEach(sym => {
+      fetch(`http://localhost:8080/api/v1/options/${sym}/raw`)
+        .then(res => res.json())
+        .then(data => {
+          const result = data.optionChain?.result?.[0]?.quote;
+          if (result) {
+            setWatchlistData(prev => ({
+              ...prev,
+              [sym]: {
+                price: result.regularMarketPrice || 0,
+                change: result.regularMarketChange || 0,
+                changePercent: result.regularMarketChangePercent || 0
+              }
+            }));
+          }
+        })
+        .catch(e => console.error(`Failed to fetch quote for ${sym}`, e));
+    });
+  }, [watchlist]);
+
   return (
     <div className="flex h-screen bg-[#111111] text-[#b3b3b3] text-sm font-sans overflow-hidden">
       
@@ -152,7 +176,9 @@ export default function OptionsChain() {
           <span>Last / Change %</span>
         </div>
         <div className="flex-1 overflow-y-auto">
-          {watchlist.map(sym => (
+          {watchlist.map(sym => {
+            const data = watchlistData[sym] || { price: 0, change: 0, changePercent: 0 };
+            return (
             <div 
               key={sym} 
               className={`flex justify-between items-center p-2 cursor-pointer hover:bg-[#2a2a2a] ${selectedTicker === sym ? 'bg-[#2a2a2a] border-l-2 border-blue-500' : 'border-l-2 border-transparent'}`}
@@ -163,13 +189,13 @@ export default function OptionsChain() {
                 <span className="text-[10px] text-red-500 bg-[#331111] px-1 rounded w-max mt-0.5">NT</span>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-white">{sym === selectedTicker ? underlyingPrice.toFixed(2) : (Math.random() * 500).toFixed(2)}</span>
-                <span className={sym === selectedTicker ? (priceChange >= 0 ? "text-green-500" : "text-red-500") : "text-green-500"}>
-                  {sym === selectedTicker ? `${priceChangePercent > 0 ? '+' : ''}${priceChangePercent.toFixed(2)}%` : `+${(Math.random() * 5).toFixed(2)}%`}
+                <span className="text-white">{data.price ? data.price.toFixed(2) : '-'}</span>
+                <span className={data.change >= 0 ? "text-green-500" : "text-red-500"}>
+                  {data.changePercent ? `${data.changePercent > 0 ? '+' : ''}${data.changePercent.toFixed(2)}%` : '-'}
                 </span>
               </div>
             </div>
-          ))}
+          )})}
         </div>
         <div className="p-2 border-t border-[#2a2a2a]">
           <div className="flex items-center gap-2 bg-[#222222] rounded p-1">
