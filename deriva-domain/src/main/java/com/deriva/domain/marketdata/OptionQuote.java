@@ -13,7 +13,10 @@ public record OptionQuote(
         long volume, 
         Percentage impliedVolatility,
         BigDecimal delta,
-        BigDecimal gamma) {
+        BigDecimal gamma,
+        BigDecimal theta,
+        BigDecimal vega,
+        BigDecimal rho) {
     
     public OptionQuote {
         if (contract == null) throw new IllegalArgumentException("OptionContract cannot be null");
