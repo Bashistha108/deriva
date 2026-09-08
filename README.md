@@ -24,4 +24,46 @@ The project is structured as a Maven multi-module application to enforce archite
 
 ## Getting Started
 
-*(Instructions for building and running will be added as infrastructure and application layers are developed)*
+There are multiple ways to start the Deriva application.
+
+### 1. Using the Interactive Script (Recommended)
+
+The easiest way to start both the backend and frontend is by using the interactive startup script.
+
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+This script will:
+- Prompt for database credentials (port, username, password, DB name).
+- Configure the environment variables.
+- Boot the Spring Boot backend (`deriva-bootstrap`).
+- Boot the Next.js frontend (`deriva-frontend`).
+- Capture all application logs and save them cleanly to a unified `deriva-app.log` file, overriding it on each run.
+
+### 2. Manual Startup
+
+If you prefer to run the components independently:
+
+**Backend:**
+```bash
+# Navigate to the project root
+mvn clean install -DskipTests
+cd deriva-bootstrap
+mvn spring-boot:run
+```
+
+**Frontend:**
+```bash
+# In a new terminal
+cd deriva-frontend
+npm install
+npm run dev
+```
+
+### 3. Unified Logging
+
+When using `start.sh`, logs are automatically formatted and routed to `deriva-app.log`. 
+- Backend logs are prefixed with `[Backend]`
+- Frontend logs are prefixed with `[Frontend]`

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,11 +36,13 @@ public class MockMarketDataProvider implements MarketDataProvider {
     }
 
     @Override
+    @org.springframework.cache.annotation.Cacheable(value = "quotes", key = "#symbol.value()")
     public MarketQuote getUnderlyingQuote(Symbol symbol) {
         return spotPrices.get(symbol);
     }
 
     @Override
+    @org.springframework.cache.annotation.Cacheable(value = "optionChains", key = "#underlyingSymbol.value()")
     public List<OptionQuote> getOptionChain(Symbol underlyingSymbol) {
         MarketQuote spotQuote = spotPrices.get(underlyingSymbol);
         if (spotQuote == null) return List.of();
@@ -118,5 +119,10 @@ public class MockMarketDataProvider implements MarketDataProvider {
                 BigDecimal.valueOf(vega).setScale(4, RoundingMode.HALF_UP),
                 BigDecimal.valueOf(rho).setScale(4, RoundingMode.HALF_UP)
         );
+    }
+    
+    @Override
+    public String getRawOptionChain(String symbol, Long date) {
+        return "{}";
     }
 }

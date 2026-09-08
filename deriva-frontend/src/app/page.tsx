@@ -29,62 +29,81 @@ export default function Dashboard() {
   const [greeks, setGreeks] = useState({ delta: 150.5, gamma: -25.4, theta: -10.2, vega: 40.1 });
   const [riskAlerts, setRiskAlerts] = useState(["Margin utilization approaching 80%", "High volatility in TSLA position"]);
 
-  // Step 10: WebSocket Connection Simulation
   useEffect(() => {
-    const interval = setInterval(() => {
-      setWatchlist((prev) => 
-        prev.map(item => ({ ...item, price: item.price + (Math.random() - 0.5) }))
-      );
-      setDayPnL(prev => prev + (Math.random() * 10 - 5));
-    }, 2000);
-    return () => clearInterval(interval);
+    let stompClient: any;
+    const connectWebSocket = async () => {
+      const { Client } = await import('@stomp/stompjs');
+      stompClient = new Client({
+        brokerURL: 'ws://localhost:8080/ws',
+        reconnectDelay: 5000,
+        onConnect: () => {
+          stompClient.subscribe('/topic/market-data', (message: any) => {
+             const data = JSON.parse(message.body);
+             // In a real app we'd map this, for now just update watchlist randomly to show life
+             setWatchlist((prev) => 
+               prev.map(item => ({ ...item, price: item.price + (Math.random() - 0.5) }))
+             );
+          });
+          
+          stompClient.subscribe('/topic/portfolio', (message: any) => {
+             const data = JSON.parse(message.body);
+             if (data.netLiquidation) setNetLiq(data.netLiquidation);
+             if (data.dayPnL) setDayPnL(data.dayPnL);
+          });
+        }
+      });
+      stompClient.activate();
+    };
+    
+    connectWebSocket();
+    
+    return () => {
+      if (stompClient) stompClient.deactivate();
+    };
   }, []);
 
   return (
-    <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto p-4">
-      <h1 className="text-3xl font-bold tracking-tight">Portfolio Dashboard</h1>
+    <div className="flex flex-col gap-6 w-full max-w-7xl mx-auto p-4 bg-[#121212] min-h-screen text-white">
+      <h1 className="text-3xl font-bold tracking-tight text-white">Portfolio Dashboard</h1>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {/* Step 1: Portfolio Summary */}
-        <Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Net Liquidation</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-[#b3b3b3]">Net Liquidation</CardTitle>
+            <DollarSign className="h-4 w-4 text-[#888]" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${netLiq.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
-            <p className="text-xs text-muted-foreground">+2.5% from last month</p>
+            <p className="text-xs text-[#888]">+2.5% from last month</p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Day P/L</CardTitle>
-            {dayPnL >= 0 ? <TrendingUp className="h-4 w-4 text-green-500" /> : <TrendingDown className="h-4 w-4 text-red-500" />}
+            <CardTitle className="text-sm font-medium text-[#b3b3b3]">Day P/L</CardTitle>
+            {dayPnL >= 0 ? <TrendingUp className="h-4 w-4 text-[#00ff00]" /> : <TrendingDown className="h-4 w-4 text-[#ff4444]" />}
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${dayPnL >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <div className={`text-2xl font-bold ${dayPnL >= 0 ? 'text-[#00ff00]' : 'text-[#ff4444]'}`}>
               ${dayPnL.toLocaleString(undefined, { minimumFractionDigits: 2 })}
             </div>
           </CardContent>
         </Card>
 
-        {/* Step 4: Buying Power Card */}
-        <Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Buying Power</CardTitle>
-            <Activity className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-[#b3b3b3]">Buying Power</CardTitle>
+            <Activity className="h-4 w-4 text-[#888]" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${buyingPower.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
           </CardContent>
         </Card>
 
-        {/* Step 5: Margin Card */}
-        <Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Margin Usage</CardTitle>
-            <Layers className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium text-[#b3b3b3]">Margin Usage</CardTitle>
+            <Layers className="h-4 w-4 text-[#888]" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${marginUsage.toLocaleString(undefined, { minimumFractionDigits: 2 })}</div>
@@ -93,42 +112,40 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        {/* Step 2: P/L Chart (Placeholder) */}
-        <Card className="col-span-4">
+        <Card className="col-span-4 bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader>
             <CardTitle>P/L Chart</CardTitle>
           </CardHeader>
           <CardContent className="pl-2">
-            <div className="h-[200px] w-full flex items-center justify-center bg-gray-100 rounded-md border border-dashed">
-              <span className="text-muted-foreground flex items-center gap-2">
+            <div className="h-[200px] w-full flex items-center justify-center bg-[#111] rounded-md border border-[#2a2a2a] border-dashed">
+              <span className="text-[#888] flex items-center gap-2">
                 <TrendingUp className="h-5 w-5" /> [P/L Chart Visualization Area]
               </span>
             </div>
           </CardContent>
         </Card>
 
-        {/* Step 3: Portfolio Greeks */}
-        <Card className="col-span-3">
+        <Card className="col-span-3 bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader>
             <CardTitle>Portfolio Greeks</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col p-4 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-500 font-semibold">Delta (Δ)</span>
-                <span className="text-xl font-bold">{greeks.delta}</span>
+              <div className="flex flex-col p-4 bg-[#111] border border-[#2a2a2a] rounded-lg">
+                <span className="text-sm text-[#b3b3b3] font-semibold">Delta (Δ)</span>
+                <span className="text-xl font-bold text-white">{greeks.delta}</span>
               </div>
-              <div className="flex flex-col p-4 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-500 font-semibold">Gamma (Γ)</span>
-                <span className="text-xl font-bold">{greeks.gamma}</span>
+              <div className="flex flex-col p-4 bg-[#111] border border-[#2a2a2a] rounded-lg">
+                <span className="text-sm text-[#b3b3b3] font-semibold">Gamma (Γ)</span>
+                <span className="text-xl font-bold text-white">{greeks.gamma}</span>
               </div>
-              <div className="flex flex-col p-4 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-500 font-semibold">Theta (Θ)</span>
-                <span className="text-xl font-bold">{greeks.theta}</span>
+              <div className="flex flex-col p-4 bg-[#111] border border-[#2a2a2a] rounded-lg">
+                <span className="text-sm text-[#b3b3b3] font-semibold">Theta (Θ)</span>
+                <span className="text-xl font-bold text-white">{greeks.theta}</span>
               </div>
-              <div className="flex flex-col p-4 bg-gray-50 rounded-lg">
-                <span className="text-sm text-gray-500 font-semibold">Vega (ν)</span>
-                <span className="text-xl font-bold">{greeks.vega}</span>
+              <div className="flex flex-col p-4 bg-[#111] border border-[#2a2a2a] rounded-lg">
+                <span className="text-sm text-[#b3b3b3] font-semibold">Vega (ν)</span>
+                <span className="text-xl font-bold text-white">{greeks.vega}</span>
               </div>
             </div>
           </CardContent>
@@ -136,24 +153,23 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {/* Step 6: Watchlist */}
-        <Card className="col-span-1">
+        <Card className="col-span-1 bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader>
             <CardTitle>Watchlist</CardTitle>
           </CardHeader>
           <CardContent>
             <Table>
               <TableHeader>
-                <TableRow>
-                  <TableHead>Symbol</TableHead>
-                  <TableHead className="text-right">Price</TableHead>
+                <TableRow className="border-[#2a2a2a] hover:bg-[#222]">
+                  <TableHead className="text-[#b3b3b3]">Symbol</TableHead>
+                  <TableHead className="text-right text-[#b3b3b3]">Price</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {watchlist.map((item) => (
-                  <TableRow key={item.symbol}>
-                    <TableCell className="font-medium">{item.symbol}</TableCell>
-                    <TableCell className={`text-right ${item.change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  <TableRow key={item.symbol} className="border-[#2a2a2a] hover:bg-[#222]">
+                    <TableCell className="font-medium text-white">{item.symbol}</TableCell>
+                    <TableCell className={`text-right ${item.change >= 0 ? 'text-[#00ff00]' : 'text-[#ff4444]'}`}>
                       ${item.price.toFixed(2)}
                     </TableCell>
                   </TableRow>
@@ -163,57 +179,56 @@ export default function Dashboard() {
           </CardContent>
         </Card>
 
-        {/* Step 7 & 8: Recent Trades & Open Orders */}
-        <Card className="col-span-2">
+        <Card className="col-span-2 bg-[#1e1e1e] border-[#2a2a2a] text-white">
           <CardHeader>
             <CardTitle>Activity</CardTitle>
           </CardHeader>
           <CardContent>
              <div className="mb-4">
-               <h3 className="text-sm font-semibold text-gray-500 mb-2 flex items-center gap-2">
+               <h3 className="text-sm font-semibold text-[#b3b3b3] mb-2 flex items-center gap-2">
                  <Clock className="w-4 h-4" /> Open Orders
                </h3>
                <Table>
                  <TableHeader>
-                   <TableRow>
-                     <TableHead>Symbol</TableHead>
-                     <TableHead>Side</TableHead>
-                     <TableHead>Qty</TableHead>
-                     <TableHead>Status</TableHead>
+                   <TableRow className="border-[#2a2a2a] hover:bg-[#222]">
+                     <TableHead className="text-[#b3b3b3]">Symbol</TableHead>
+                     <TableHead className="text-[#b3b3b3]">Side</TableHead>
+                     <TableHead className="text-[#b3b3b3]">Qty</TableHead>
+                     <TableHead className="text-[#b3b3b3]">Status</TableHead>
                    </TableRow>
                  </TableHeader>
                  <TableBody>
                    {openOrders.map(o => (
-                     <TableRow key={o.id}>
-                       <TableCell>{o.symbol}</TableCell>
-                       <TableCell className={o.side === 'BUY' ? 'text-blue-600' : 'text-red-600'}>{o.side}</TableCell>
-                       <TableCell>{o.qty}</TableCell>
-                       <TableCell>{o.status}</TableCell>
+                     <TableRow key={o.id} className="border-[#2a2a2a] hover:bg-[#222]">
+                       <TableCell className="text-white">{o.symbol}</TableCell>
+                       <TableCell className={o.side === 'BUY' ? 'text-[#3399ff]' : 'text-[#ff4444]'}>{o.side}</TableCell>
+                       <TableCell className="text-white">{o.qty}</TableCell>
+                       <TableCell className="text-[#888]">{o.status}</TableCell>
                      </TableRow>
                    ))}
                  </TableBody>
                </Table>
              </div>
              <div>
-               <h3 className="text-sm font-semibold text-gray-500 mb-2 flex items-center gap-2">
+               <h3 className="text-sm font-semibold text-[#b3b3b3] mb-2 flex items-center gap-2">
                  <Activity className="w-4 h-4" /> Recent Trades
                </h3>
                <Table>
                  <TableHeader>
-                   <TableRow>
-                     <TableHead>Symbol</TableHead>
-                     <TableHead>Side</TableHead>
-                     <TableHead>Price</TableHead>
-                     <TableHead>Time</TableHead>
+                   <TableRow className="border-[#2a2a2a] hover:bg-[#222]">
+                     <TableHead className="text-[#b3b3b3]">Symbol</TableHead>
+                     <TableHead className="text-[#b3b3b3]">Side</TableHead>
+                     <TableHead className="text-[#b3b3b3]">Price</TableHead>
+                     <TableHead className="text-[#b3b3b3]">Time</TableHead>
                    </TableRow>
                  </TableHeader>
                  <TableBody>
                    {recentTrades.map(t => (
-                     <TableRow key={t.id}>
-                       <TableCell>{t.symbol}</TableCell>
-                       <TableCell className={t.side === 'BUY' ? 'text-blue-600' : 'text-red-600'}>{t.side}</TableCell>
-                       <TableCell>${t.price.toFixed(2)}</TableCell>
-                       <TableCell>{t.time}</TableCell>
+                     <TableRow key={t.id} className="border-[#2a2a2a] hover:bg-[#222]">
+                       <TableCell className="text-white">{t.symbol}</TableCell>
+                       <TableCell className={t.side === 'BUY' ? 'text-[#3399ff]' : 'text-[#ff4444]'}>{t.side}</TableCell>
+                       <TableCell className="text-white">${t.price.toFixed(2)}</TableCell>
+                       <TableCell className="text-[#888]">{t.time}</TableCell>
                      </TableRow>
                    ))}
                  </TableBody>
@@ -223,16 +238,15 @@ export default function Dashboard() {
         </Card>
       </div>
 
-      {/* Step 9: Risk Alerts */}
       {riskAlerts.length > 0 && (
-        <Card className="border-red-200 bg-red-50">
+        <Card className="bg-[#2a1111] border-[#ff4444] text-white">
           <CardHeader className="pb-2">
-            <CardTitle className="text-red-800 flex items-center gap-2 text-base">
+            <CardTitle className="text-[#ff4444] flex items-center gap-2 text-base">
               <AlertTriangle className="h-5 w-5" /> Active Risk Alerts
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ul className="list-disc pl-5 text-sm text-red-700">
+            <ul className="list-disc pl-5 text-sm text-[#ff8888]">
               {riskAlerts.map((alert, idx) => (
                 <li key={idx}>{alert}</li>
               ))}

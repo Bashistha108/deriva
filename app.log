@@ -1,0 +1,319 @@
+[System] Starting Backend...
+[System] Starting Frontend...
+
+> deriva-frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.3.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.178.26:3000
+✓ Ready in 295ms
+✓ Running next.config.ts took 23ms
+
+[INFO] Scanning for projects...
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.pom
+Progress (1): 743 BProgress (1): 1.6 kBProgress (1): 3.4 kBProgress (1): 8.7 kBProgress (1): 10 kB Progress (1): 13 kBProgress (1): 15 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.pom (15 kB at 40 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.jar
+Progress (1): 0.9/99 kBProgress (1): 2.3/99 kBProgress (1): 3.6/99 kBProgress (1): 5.0/99 kBProgress (1): 6.4/99 kBProgress (1): 7.7/99 kBProgress (1): 8.2/99 kBProgress (1): 9.6/99 kBProgress (1): 11/99 kB Progress (1): 12/99 kBProgress (1): 14/99 kBProgress (1): 15/99 kBProgress (1): 16/99 kBProgress (1): 18/99 kBProgress (1): 19/99 kBProgress (1): 21/99 kBProgress (1): 22/99 kBProgress (1): 23/99 kBProgress (1): 25/99 kBProgress (1): 26/99 kBProgress (1): 27/99 kBProgress (1): 29/99 kBProgress (1): 30/99 kBProgress (1): 31/99 kBProgress (1): 33/99 kBProgress (1): 34/99 kBProgress (1): 36/99 kBProgress (1): 37/99 kBProgress (1): 38/99 kBProgress (1): 40/99 kBProgress (1): 41/99 kBProgress (1): 42/99 kBProgress (1): 44/99 kBProgress (1): 45/99 kBProgress (1): 46/99 kBProgress (1): 48/99 kBProgress (1): 49/99 kBProgress (1): 53/99 kBProgress (1): 57/99 kBProgress (1): 62/99 kBProgress (1): 66/99 kBProgress (1): 70/99 kBProgress (1): 74/99 kBProgress (1): 78/99 kBProgress (1): 83/99 kBProgress (1): 87/99 kBProgress (1): 91/99 kBProgress (1): 95/99 kBProgress (1): 99 kB                      Downloaded from central: https://repo.maven.apache.org/maven2/org/apache/maven/plugins/maven-checkstyle-plugin/3.3.1/maven-checkstyle-plugin-3.3.1.jar (99 kB at 1.0 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.pom
+Progress (1): 771 BProgress (1): 2.5 kBProgress (1): 6.0 kBProgress (1): 7.7 kBProgress (1): 9.5 kBProgress (1): 12 kB Progress (1): 19 kBProgress (1): 22 kBProgress (1): 26 kBProgress (1): 31 kBProgress (1): 36 kBProgress (1): 42 kBProgress (1): 43 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.pom (43 kB at 646 kB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/com/github/hazendaz/base-parent/46/base-parent-46.pom
+Progress (1): 845 BProgress (1): 3.3 kBProgress (1): 5.3 kBProgress (1): 7.7 kBProgress (1): 9.5 kBProgress (1): 12 kB Progress (1): 14 kBProgress (1): 15 kBProgress (1): 19 kBProgress (1): 24 kBProgress (1): 25 kBProgress (1): 28 kBProgress (1): 33 kBProgress (1): 36 kBProgress (1): 41 kBProgress (1): 48 kBProgress (1): 57 kBProgress (1): 61 kBProgress (1): 69 kBProgress (1): 69 kBProgress (1): 75 kBProgress (1): 80 kBProgress (1): 87 kBProgress (1): 90 kB                   Downloaded from central: https://repo.maven.apache.org/maven2/com/github/hazendaz/base-parent/46/base-parent-46.pom (90 kB at 1.0 MB/s)
+Downloading from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.jar
+Progress (1): 3.8/170 kBProgress (1): 8.0/170 kBProgress (1): 8.2/170 kBProgress (1): 12/170 kB Progress (1): 17/170 kBProgress (1): 21/170 kBProgress (1): 25/170 kBProgress (1): 29/170 kBProgress (1): 34/170 kBProgress (1): 38/170 kBProgress (1): 42/170 kBProgress (1): 46/170 kBProgress (1): 50/170 kBProgress (1): 55/170 kBProgress (1): 59/170 kBProgress (1): 63/170 kBProgress (1): 67/170 kBProgress (1): 72/170 kBProgress (1): 76/170 kBProgress (1): 80/170 kBProgress (1): 96/170 kBProgress (1): 113/170 kBProgress (1): 129/170 kBProgress (1): 139/170 kBProgress (1): 156/170 kBProgress (1): 170 kB                        Downloaded from central: https://repo.maven.apache.org/maven2/com/github/spotbugs/spotbugs-maven-plugin/4.8.6.0/spotbugs-maven-plugin-4.8.6.0.jar (170 kB at 1.1 MB/s)
+[INFO] 
+[INFO] --------------------< com.deriva:deriva-bootstrap >---------------------
+[INFO] Building deriva-bootstrap 1.0.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.3.3:run (default-cli) > test-compile @ deriva-bootstrap >>>
+[INFO] 
+[INFO] --- jacoco:0.8.12:prepare-agent (default) @ deriva-bootstrap ---
+[INFO] argLine set to -javaagent:/home/bashistha/.m2/repository/org/jacoco/org.jacoco.agent/0.8.12/org.jacoco.agent-0.8.12-runtime.jar=destfile=/home/bashistha/Desktop/deriva/deriva-bootstrap/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ deriva-bootstrap ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 8 resources from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.13.0:compile (default-compile) @ deriva-bootstrap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ deriva-bootstrap ---
+[INFO] skip non existing resourceDirectory /home/bashistha/Desktop/deriva/deriva-bootstrap/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.13.0:testCompile (default-testCompile) @ deriva-bootstrap ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.3.3:run (default-cli) < test-compile @ deriva-bootstrap <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.3.3:run (default-cli) @ deriva-bootstrap ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.3.3)
+
+2026-09-08T20:51:03.668+02:00  INFO 2284689 --- [           main] com.deriva.bootstrap.DerivaApplication   : Starting DerivaApplication using Java 21.0.12 with PID 2284689 (/home/bashistha/Desktop/deriva/deriva-bootstrap/target/classes started by bashistha in /home/bashistha/Desktop/deriva/deriva-bootstrap)
+2026-09-08T20:51:03.669+02:00 DEBUG 2284689 --- [           main] com.deriva.bootstrap.DerivaApplication   : Running with Spring Boot v3.3.3, Spring v6.1.12
+2026-09-08T20:51:03.670+02:00  INFO 2284689 --- [           main] com.deriva.bootstrap.DerivaApplication   : No active profile set, falling back to 1 default profile: "default"
+2026-09-08T20:51:04.156+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-08T20:51:04.156+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-08T20:51:04.247+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 86 ms. Found 6 JPA repository interfaces.
+2026-09-08T20:51:04.499+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-09-08T20:51:04.500+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-09-08T20:51:04.513+02:00  INFO 2284689 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-09-08T20:51:05.021+02:00  INFO 2284689 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-09-08T20:51:05.029+02:00  INFO 2284689 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-09-08T20:51:05.029+02:00  INFO 2284689 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2026-09-08T20:51:05.064+02:00  INFO 2284689 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-09-08T20:51:05.064+02:00  INFO 2284689 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1355 ms
+2026-09-08T20:51:05.366+02:00  INFO 2284689 --- [           main] c.d.b.aspect.GlobalLoggingAspect         : [Backend]com.deriva.api.config.RedisConfig.cacheConfiguration()
+2026-09-08T20:51:05.514+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-08T20:51:05.709+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7792e14f
+2026-09-08T20:51:05.709+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-08T20:51:05.728+02:00  INFO 2284689 --- [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:5432/deriva (PostgreSQL 16.15)
+2026-09-08T20:51:05.750+02:00 ERROR 2284689 --- [           main] o.s.b.web.embedded.tomcat.TomcatStarter  : Error starting Tomcat context. Exception: org.springframework.beans.factory.UnsatisfiedDependencyException. Message: Error creating bean with name 'jwtAuthenticationFilter' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+2026-09-08T20:51:05.764+02:00  INFO 2284689 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-09-08T20:51:05.765+02:00  WARN 2284689 --- [           main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [lettuce-timer-3-1] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Thread.sleep0(Native Method)
+ java.base/java.lang.Thread.sleep(Thread.java:509)
+ io.netty.util.HashedWheelTimer$Worker.waitForNextTick(HashedWheelTimer.java:598)
+ io.netty.util.HashedWheelTimer$Worker.run(HashedWheelTimer.java:494)
+ io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+2026-09-08T20:51:05.765+02:00  WARN 2284689 --- [           main] o.a.c.loader.WebappClassLoaderBase       : The web application [ROOT] appears to have started a thread named [HikariPool-1 housekeeper] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/jdk.internal.misc.Unsafe.park(Native Method)
+ java.base/java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:269)
+ java.base/java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:1797)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1182)
+ java.base/java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:899)
+ java.base/java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1070)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+ java.base/java.lang.Thread.run(Thread.java:1583)
+2026-09-08T20:51:05.768+02:00  WARN 2284689 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Unable to start web server
+2026-09-08T20:51:05.768+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-09-08T20:51:05.770+02:00  INFO 2284689 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-09-08T20:51:05.787+02:00  INFO 2284689 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-09-08T20:51:05.796+02:00 ERROR 2284689 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.context.ApplicationContextException: Unable to start web server
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:165) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:619) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.3.jar:3.3.3]
+	at com.deriva.bootstrap.DerivaApplication.main(DerivaApplication.java:19) ~[classes/:na]
+Caused by: org.springframework.boot.web.server.WebServerException: Unable to start embedded Tomcat
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:147) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.<init>(TomcatWebServer.java:107) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getTomcatWebServer(TomcatServletWebServerFactory.java:516) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory.getWebServer(TomcatServletWebServerFactory.java:222) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.createWebServer(ServletWebServerApplicationContext.java:188) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.onRefresh(ServletWebServerApplicationContext.java:162) ~[spring-boot-3.3.3.jar:3.3.3]
+	... 8 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'jwtAuthenticationFilter' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/JwtAuthenticationFilter.class]: Unsatisfied dependency expressed through constructor parameter 1: Error creating bean with name 'customUserDetailsService' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.getOrderedBeansOfType(ServletContextInitializerBeans.java:211) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:174) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAsRegistrationBean(ServletContextInitializerBeans.java:169) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.addAdaptableBeans(ServletContextInitializerBeans.java:154) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.ServletContextInitializerBeans.<init>(ServletContextInitializerBeans.java:87) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.getServletContextInitializerBeans(ServletWebServerApplicationContext.java:266) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.selfInitialize(ServletWebServerApplicationContext.java:240) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.web.embedded.tomcat.TomcatStarter.onStartup(TomcatStarter.java:52) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:4414) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.StandardHost.startInternal(StandardHost.java:772) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1203) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.ContainerBase$StartChild.call(ContainerBase.java:1193) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317) ~[na:na]
+	at org.apache.tomcat.util.threads.InlineExecutorService.execute(InlineExecutorService.java:75) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at java.base/java.util.concurrent.AbstractExecutorService.submit(AbstractExecutorService.java:145) ~[na:na]
+	at org.apache.catalina.core.ContainerBase.startInternal(ContainerBase.java:749) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.StandardEngine.startInternal(StandardEngine.java:203) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.StandardService.startInternal(StandardService.java:415) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.core.StandardServer.startInternal(StandardServer.java:874) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:164) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.apache.catalina.startup.Tomcat.start(Tomcat.java:437) ~[tomcat-embed-core-10.1.28.jar:10.1.28]
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize(TomcatWebServer.java:128) ~[spring-boot-3.3.3.jar:3.3.3]
+	... 13 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'customUserDetailsService' defined in URL [jar:file:/home/bashistha/.m2/repository/com/deriva/deriva-api/1.0.0-SNAPSHOT/deriva-api-1.0.0-SNAPSHOT.jar!/com/deriva/api/security/CustomUserDetailsService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 54 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userRepository' defined in com.deriva.infrastructure.persistence.user.UserRepository defined in @EnableJpaRepositories declared on DerivaApplication: Cannot resolve reference to bean 'jpaSharedEM_entityManagerFactory' while setting bean property 'entityManager'
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1705) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1454) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 68 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jpaSharedEM_entityManagerFactory': Cannot resolve reference to bean 'entityManagerFactory' while setting constructor argument
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:377) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:135) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:682) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:509) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1355) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1185) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 82 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'flywayInitializer' defined in class path resource [org/springframework/boot/autoconfigure/flyway/FlywayAutoConfiguration$FlywayConfiguration.class]: Found more than one migration with version 8
+Offenders:
+-> /home/bashistha/Desktop/deriva/deriva-bootstrap/file:/home/bashistha/.m2/repository/com/deriva/deriva-infrastructure/1.0.0-SNAPSHOT/deriva-infrastructure-1.0.0-SNAPSHOT.jar!/db/migration/V8__Create_Order_Tables.sql (SQL)
+-> /home/bashistha/Desktop/deriva/deriva-bootstrap/target/classes/db/migration/V8__Create_Market_Data_Cache.sql (SQL)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1806) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:365) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 94 common frames omitted
+Caused by: org.flywaydb.core.api.FlywayException: Found more than one migration with version 8
+Offenders:
+-> /home/bashistha/Desktop/deriva/deriva-bootstrap/file:/home/bashistha/.m2/repository/com/deriva/deriva-infrastructure/1.0.0-SNAPSHOT/deriva-infrastructure-1.0.0-SNAPSHOT.jar!/db/migration/V8__Create_Order_Tables.sql (SQL)
+-> /home/bashistha/Desktop/deriva/deriva-bootstrap/target/classes/db/migration/V8__Create_Market_Data_Cache.sql (SQL)
+	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.checkForIncompatibilities(CompositeMigrationResolver.java:92) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.doFindAvailableMigrations(CompositeMigrationResolver.java:125) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.resolveMigrations(CompositeMigrationResolver.java:112) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.internal.resolver.CompositeMigrationResolver.resolveMigrations(CompositeMigrationResolver.java:118) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.internal.info.MigrationInfoServiceImpl.refresh(MigrationInfoServiceImpl.java:82) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.internal.command.DbValidate.lambda$validate$0(DbValidate.java:108) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.internal.jdbc.TransactionalExecutionTemplate.execute(TransactionalExecutionTemplate.java:55) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.internal.command.DbValidate.validate(DbValidate.java:101) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.Flyway.doValidate(Flyway.java:414) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.Flyway.lambda$migrate$0(Flyway.java:158) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.FlywayExecutor.execute(FlywayExecutor.java:205) ~[flyway-core-10.10.0.jar:na]
+	at org.flywaydb.core.Flyway.migrate(Flyway.java:147) ~[flyway-core-10.10.0.jar:na]
+	at org.springframework.boot.autoconfigure.flyway.FlywayMigrationInitializer.afterPropertiesSet(FlywayMigrationInitializer.java:66) ~[spring-boot-autoconfigure-3.3.3.jar:3.3.3]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 103 common frames omitted
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  5.886 s
+[INFO] Finished at: 2026-09-08T20:51:06+02:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:3.3.3:run (default-cli) on project deriva-bootstrap: Process terminated with exit code: 1 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException
+ GET / 200 in 1564ms (next.js: 1381ms, application-code: 183ms)
+ GET / 200 in 19ms (next.js: 9ms, application-code: 10ms)
+ GET / 200 in 22ms (next.js: 4ms, application-code: 18ms)
+ GET /portfolio 200 in 330ms (next.js: 313ms, application-code: 17ms)
+ GET /trades 200 in 227ms (next.js: 205ms, application-code: 22ms)
+ GET /options 200 in 407ms (next.js: 380ms, application-code: 27ms)
+[browser] Failed to fetch options chain TypeError: Failed to fetch
+    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
+    at fetchOptionsChain (src/app/options/page.tsx:49:25)
+    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
+  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
+  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
+> 22 |       return originalFetch(...args);
+     |              ^
+  23 |     };
+  24 |
+  25 |     return () => { (src/app/options/page.tsx:83:15)
+[browser] Failed to fetch options chain TypeError: Failed to fetch
+    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
+    at fetchOptionsChain (src/app/options/page.tsx:49:25)
+    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
+  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
+  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
+> 22 |       return originalFetch(...args);
+     |              ^
+  23 |     };
+  24 |
+  25 |     return () => { (src/app/options/page.tsx:83:15)
+[browser] Failed to fetch options chain TypeError: Failed to fetch
+    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
+    at fetchOptionsChain (src/app/options/page.tsx:49:25)
+    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
+  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
+  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
+> 22 |       return originalFetch(...args);
+     |              ^
+  23 |     };
+  24 |
+  25 |     return () => { (src/app/options/page.tsx:83:15)
+[browser] Failed to fetch options chain TypeError: Failed to fetch
+    at ClientLogger.useEffect (src/app/ClientLogger.tsx:22:14)
+    at fetchOptionsChain (src/app/options/page.tsx:49:25)
+    at OptionsChain.useEffect (src/app/options/page.tsx:36:5)
+  20 |       const url = typeof resource === 'string' ? resource : (resource instanceof Request ? resource.url : 'Unknown URL');
+  21 |       console.log(`[Frontend] Fetch: ${method} ${url}`);
+> 22 |       return originalFetch(...args);
+     |              ^
+  23 |     };
+  24 |
+  25 |     return () => { (src/app/options/page.tsx:83:15)
+[?25h

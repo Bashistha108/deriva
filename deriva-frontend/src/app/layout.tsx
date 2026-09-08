@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 };
 
 import Link from "next/link";
+import { ClientLogger } from "./ClientLogger";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -25,27 +26,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
-        <nav className="bg-gray-900 text-white p-4 sticky top-0 z-50">
+      <body className="min-h-full flex flex-col bg-[#111] text-[#b3b3b3]">
+        <ClientLogger />
+        <nav className="bg-[#161616] border-b border-[#2a2a2a] p-4 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto flex items-center gap-6">
-            <Link href="/" className="font-bold text-xl mr-4 text-blue-400">
+            <Link href="/" className="font-bold text-xl mr-4 text-white">
               Deriva
             </Link>
-            <Link href="/" className="hover:text-blue-300 transition-colors">
+            <Link href="/" className="hover:text-white transition-colors">
               Dashboard
             </Link>
-            <Link href="/portfolio" className="hover:text-blue-300 transition-colors">
+            <Link href="/portfolio" className="hover:text-white transition-colors">
               Portfolio Risk
             </Link>
-            <Link href="/trades" className="hover:text-blue-300 transition-colors">
+            <Link href="/trades" className="hover:text-white transition-colors">
               Trades Ledger
             </Link>
-            <Link href="/options" className="hover:text-blue-300 transition-colors">
+            <Link href="/options" className="hover:text-white transition-colors">
               Options Chain
             </Link>
           </div>
         </nav>
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 text-[#b3b3b3]">{children}</main>
       </body>
     </html>
   );
