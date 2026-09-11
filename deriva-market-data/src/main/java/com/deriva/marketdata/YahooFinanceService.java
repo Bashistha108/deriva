@@ -32,7 +32,6 @@ import java.util.Optional;
 import com.deriva.domain.common.Price;
 
 @Service
-@Primary
 public class YahooFinanceService implements MarketDataProvider {
 
     private static final Logger log = LoggerFactory.getLogger(YahooFinanceService.class);
@@ -54,15 +53,58 @@ public class YahooFinanceService implements MarketDataProvider {
                 .build();
     }
 
-    private JsonNode fetchFromYahoo(String ticker, Long date) {
-        // Fallback to cache if 429
+    private String cookie = null;
+    private String crumb = null;
+
+    private synchronized void refreshCrumbAndCookie() {
         try {
-            String url = "/{ticker}";
+            log.info("Fetching new Yahoo cookie and crumb...");
+            // 1. Fetch cookie
+            RestClient cookieClient = RestClient.builder()
+                    .defaultHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36")
+                    .build();
+            var cookieResponse = cookieClient.get()
+                    .uri("https://fc.yahoo.com/")
+                    .retrieve()
+                    .toBodilessEntity();
+            
+            List<String> setCookies = cookieResponse.getHeaders().get(HttpHeaders.SET_COOKIE);
+            if (setCookies != null && !setCookies.isEmpty()) {
+                for (String c : setCookies) {
+                    if (c.startsWith("A3=")) {
+                        this.cookie = c.split(";")[0];
+                        break;
+                    }
+                }
+            }
+
+            // 2. Fetch crumb
+            if (this.cookie != null) {
+                this.crumb = cookieClient.get()
+                        .uri("https://query1.finance.yahoo.com/v1/test/getcrumb")
+                        .header(HttpHeaders.COOKIE, this.cookie)
+                        .retrieve()
+                        .body(String.class);
+            }
+            log.info("Successfully fetched Yahoo crumb");
+        } catch (Exception e) {
+            log.error("Failed to fetch Yahoo crumb/cookie", e);
+        }
+    }
+
+    private JsonNode fetchFromYahoo(String ticker, Long date) {
+        if (crumb == null || cookie == null) {
+            refreshCrumbAndCookie();
+        }
+        
+        try {
+            String url = "/{ticker}?crumb=" + (crumb != null ? crumb : "");
             if (date != null) {
-                url += "?date=" + date;
+                url += "&date=" + date;
             }
             String response = restClient.method(HttpMethod.GET)
                     .uri(url, ticker)
+                    .header(HttpHeaders.COOKIE, cookie != null ? cookie : "")
                     .retrieve()
                     .body(String.class);
 
@@ -80,20 +122,48 @@ public class YahooFinanceService implements MarketDataProvider {
             
             return root;
         } catch (Exception e) {
-            log.error("Failed to fetch from Yahoo API for {}: {}", ticker, e.getMessage());
-            if (date == null) {
-                Optional<MarketDataCacheEntity> cached = cacheRepository.findById(ticker);
-                if (cached.isPresent()) {
-                    try {
-                        log.info("Falling back to cached data for {}", ticker);
-                        return objectMapper.readTree(cached.get().getOptionsData());
-                    } catch (Exception ex) {
-                        throw new MarketDataException("Failed to parse cached data", ex);
-                    }
+            // If unauthorized, maybe crumb expired
+            if (e.getMessage() != null && e.getMessage().contains("401")) {
+                log.warn("Unauthorized from Yahoo, refreshing crumb and retrying...");
+                refreshCrumbAndCookie();
+                // Simple retry
+                return fetchFromYahooRetry(ticker, date);
+            }
+            return fallbackToCache(ticker, date, e);
+        }
+    }
+
+    private JsonNode fetchFromYahooRetry(String ticker, Long date) {
+        try {
+            String url = "/{ticker}?crumb=" + (crumb != null ? crumb : "");
+            if (date != null) {
+                url += "&date=" + date;
+            }
+            String response = restClient.method(HttpMethod.GET)
+                    .uri(url, ticker)
+                    .header(HttpHeaders.COOKIE, cookie != null ? cookie : "")
+                    .retrieve()
+                    .body(String.class);
+            return objectMapper.readTree(response);
+        } catch (Exception e) {
+            return fallbackToCache(ticker, date, e);
+        }
+    }
+
+    private JsonNode fallbackToCache(String ticker, Long date, Exception originalException) {
+        log.error("Failed to fetch from Yahoo API for {}: {}", ticker, originalException.getMessage());
+        if (date == null) {
+            Optional<MarketDataCacheEntity> cached = cacheRepository.findById(ticker);
+            if (cached.isPresent()) {
+                try {
+                    log.info("Falling back to cached data for {}", ticker);
+                    return objectMapper.readTree(cached.get().getOptionsData());
+                } catch (Exception ex) {
+                    throw new MarketDataException("Failed to parse cached data", ex);
                 }
             }
-            throw new MarketDataException("No data available for " + ticker + (date != null ? " on date " + date : ""), e);
         }
+        throw new MarketDataException("No data available for " + ticker + (date != null ? " on date " + date : ""), originalException);
     }
 
     @Override

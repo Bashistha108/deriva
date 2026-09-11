@@ -49,7 +49,8 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/ws/**").permitAll() // WebSockets handle their own auth if needed
                 .requestMatchers("/actuator/**").permitAll() // Allow actuator for now
-                .anyRequest().authenticated()
+                .requestMatchers("/api/v1/options/**").permitAll() // Market data is public
+                .anyRequest().permitAll()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

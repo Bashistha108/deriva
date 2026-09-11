@@ -63,6 +63,7 @@ public class OptionChainController {
                     .header("Content-Type", "application/json")
                     .body(rawJson);
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.notFound().build();
         }
     }
