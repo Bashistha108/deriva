@@ -6,14 +6,14 @@
 read -p "Enter Database Host [localhost]: " DB_HOST
 DB_HOST=${DB_HOST:-localhost}
 
-read -p "Enter Database Port [5432]: " DB_PORT
-DB_PORT=${DB_PORT:-5432}
+read -p "Enter Database Port [5433]: " DB_PORT
+DB_PORT=${DB_PORT:-5433}
 
 read -p "Enter Database Name [deriva]: " DB_NAME
 DB_NAME=${DB_NAME:-deriva}
 
-read -p "Enter Database Username [postgres]: " DB_USER
-DB_USER=${DB_USER:-postgres}
+read -p "Enter Database Username [deriva]: " DB_USER
+DB_USER=${DB_USER:-deriva}
 
 read -sp "Enter Database Password [password]: " DB_PASS
 DB_PASS=${DB_PASS:-password}
@@ -22,6 +22,9 @@ echo ""
 # Log file setup
 LOG_FILE="app.log"
 > "$LOG_FILE" # Overwrite log file on startup
+
+echo "Starting required docker containers..."
+docker compose up -d postgres redis kafka
 
 echo "Starting Deriva Application..."
 echo "Logs will be written to $LOG_FILE. Press Ctrl+C to stop."
