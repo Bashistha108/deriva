@@ -23,8 +23,7 @@ echo ""
 LOG_FILE="app.log"
 > "$LOG_FILE" # Overwrite log file on startup
 
-echo "Starting required docker containers..."
-docker compose up -d postgres redis kafka
+echo "Assuming required services (Postgres, Redis, Kafka) are already running..."
 
 echo "Starting Deriva Application..."
 echo "Logs will be written to $LOG_FILE. Press Ctrl+C to stop."
