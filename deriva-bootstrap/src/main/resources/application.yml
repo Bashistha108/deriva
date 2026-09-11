@@ -17,13 +17,16 @@ spring:
         format_sql: true
     show-sql: false
 
+  kafka:
+    bootstrap-servers: localhost:9094
+
 yahoo:
   api:
     url: "https://query1.finance.yahoo.com/v7/finance/options"
   data:
     redis:
       host: localhost
-      port: 6380
+      port: 6379
   
 management:
   endpoints:
