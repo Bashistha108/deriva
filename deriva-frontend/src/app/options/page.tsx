@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Search, Plus, Minus, X, TrendingUp, TrendingDown, Settings } from "lucide-react";
+import { Search, Plus, Minus, X, TrendingUp, TrendingDown, Settings, ChevronRight, ChevronLeft } from "lucide-react";
 
 type Leg = {
   id: string;
@@ -31,6 +31,66 @@ export default function OptionsChain() {
   
   const [loading, setLoading] = useState(false);
   const [selectedLegs, setSelectedLegs] = useState<Leg[]>([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const renderPayoffGraph = () => {
+    if (selectedLegs.length === 0) return null;
+    
+    // Generate data points
+    const minPrice = underlyingPrice * 0.7;
+    const maxPrice = underlyingPrice * 1.3;
+    const steps = 50;
+    const stepSize = (maxPrice - minPrice) / steps;
+    const points = [];
+    
+    let minPL = 0;
+    let maxPL = 0;
+    
+    for (let i = 0; i <= steps; i++) {
+      const p = minPrice + (i * stepSize);
+      let pl = selectedLegs.reduce((acc, leg) => {
+        let legVal = 0;
+        if (leg.type === "CALL") legVal = Math.max(0, p - leg.strike);
+        if (leg.type === "PUT") legVal = Math.max(0, leg.strike - p);
+        
+        // if BUY, we paid leg.price. if SELL, we received leg.price
+        const cost = leg.side === "BUY" ? leg.price : -leg.price;
+        const val = leg.side === "BUY" ? legVal : -legVal;
+        
+        return acc + ((val - cost) * leg.qty * 100);
+      }, 0);
+      
+      points.push({ price: p, pl });
+      if (pl < minPL) minPL = pl;
+      if (pl > maxPL) maxPL = pl;
+    }
+    
+    // SVG padding
+    const w = 260;
+    const h = 120;
+    const padX = 10;
+    const padY = 10;
+    
+    // Normalize coordinates
+    const getX = (price: number) => padX + ((price - minPrice) / (maxPrice - minPrice)) * (w - 2 * padX);
+    const getY = (pl: number) => padY + (1 - (pl - minPL) / (maxPL - minPL || 1)) * (h - 2 * padY);
+    
+    const polylinePoints = points.map(pt => `${getX(pt.price)},${getY(pt.pl)}`).join(' ');
+    const zeroY = getY(0);
+    
+    return (
+      <div className="mt-4 bg-gray-100 dark:bg-[#111] border border-gray-300 dark:border-[#2a2a2a] rounded p-2 flex flex-col items-center">
+        <svg width={w} height={h} className="overflow-visible">
+          {/* Zero line */}
+          <line x1={padX} y1={zeroY} x2={w - padX} y2={zeroY} stroke="#888" strokeWidth="1" strokeDasharray="4 4" />
+          {/* Payoff line */}
+          <polyline points={polylinePoints} fill="none" stroke="#3b82f6" strokeWidth="2" />
+          {/* Current price marker */}
+          <line x1={getX(underlyingPrice)} y1={padY} x2={getX(underlyingPrice)} y2={h - padY} stroke="#a3a3a3" strokeWidth="1" strokeDasharray="2 2" />
+        </svg>
+      </div>
+    );
+  };
 
   useEffect(() => {
     fetchOptionsChain(selectedTicker);
@@ -103,9 +163,14 @@ export default function OptionsChain() {
     const id = `${type}-${strike}-${side}`;
     setSelectedLegs(prev => {
       const exists = prev.find(l => l.id === id);
-      if (exists) return prev;
+      if (exists) {
+        // Toggle off if already selected
+        return prev.filter(l => l.id !== id);
+      }
       return [...prev, { id, type, strike, expiration: expDate, side, price, qty: 1 }];
     });
+    // When a leg is added, automatically open the sidebar if not open
+    setIsSidebarOpen(true);
   };
 
   const removeLeg = (id: string) => setSelectedLegs(prev => prev.filter(l => l.id !== id));
@@ -119,7 +184,7 @@ export default function OptionsChain() {
   // Render mock greeks if Yahoo doesn't provide them
   const renderMockGreek = (type: string, strike: number, isCall: boolean) => {
     // Generate pseudo-realistic greeks based on moneyness for visual purposes
-    const moneyness = strike / underlyingPrice;
+    const moneyness = strike / (underlyingPrice || 1);
     let delta = 0, gamma = 0.05, theta = -0.25, vega = 0.01;
     
     if (isCall) {
@@ -163,15 +228,15 @@ export default function OptionsChain() {
   }, [watchlist]);
 
   return (
-    <div className="flex h-screen bg-[#111111] text-[#b3b3b3] text-sm font-sans overflow-hidden">
+    <div className="flex h-[calc(100vh-65px)] bg-white dark:bg-[#111111] text-gray-800 dark:text-[#b3b3b3] text-sm font-sans overflow-hidden">
       
       {/* Left Sidebar - Watchlist */}
-      <div className="w-64 border-r border-[#2a2a2a] flex flex-col bg-[#161616]">
-        <div className="flex items-center justify-between p-3 border-b border-[#2a2a2a] bg-[#1e1e1e]">
-          <span className="font-semibold text-white">HauptWatchlist</span>
-          <Settings className="w-4 h-4 cursor-pointer hover:text-white" />
+      <div className="w-64 border-r border-gray-300 dark:border-[#2a2a2a] flex flex-col bg-gray-50 dark:bg-[#161616]">
+        <div className="flex items-center justify-between p-3 border-b border-gray-300 dark:border-[#2a2a2a] bg-gray-200 dark:bg-[#1e1e1e]">
+          <span className="font-semibold text-gray-900 dark:text-white">HauptWatchlist</span>
+          <Settings className="w-4 h-4 cursor-pointer hover:text-gray-900 dark:hover:text-white" />
         </div>
-        <div className="flex items-center justify-between p-2 text-xs text-[#808080] border-b border-[#2a2a2a]">
+        <div className="flex items-center justify-between p-2 text-xs text-gray-500 dark:text-[#808080] border-b border-gray-300 dark:border-[#2a2a2a]">
           <span>Fin Instrument</span>
           <span>Last / Change %</span>
         </div>
@@ -181,27 +246,27 @@ export default function OptionsChain() {
             return (
             <div 
               key={sym} 
-              className={`flex justify-between items-center p-2 cursor-pointer hover:bg-[#2a2a2a] ${selectedTicker === sym ? 'bg-[#2a2a2a] border-l-2 border-blue-500' : 'border-l-2 border-transparent'}`}
+              className={`flex justify-between items-center p-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-[#2a2a2a] ${selectedTicker === sym ? 'bg-gray-200 dark:bg-[#2a2a2a] border-l-2 border-blue-500' : 'border-l-2 border-transparent'}`}
               onClick={() => { setSelectedTicker(sym); setSelectedExpiry(null); }}
             >
               <div className="flex flex-col">
-                <span className="font-semibold text-[#e0e0e0]">{sym}</span>
-                <span className="text-[10px] text-red-500 bg-[#331111] px-1 rounded w-max mt-0.5">NT</span>
+                <span className="font-semibold text-gray-800 dark:text-[#e0e0e0]">{sym}</span>
+                <span className="text-[10px] text-red-700 dark:text-red-500 bg-red-100 dark:bg-[#331111] px-1 rounded w-max mt-0.5">NT</span>
               </div>
               <div className="flex flex-col items-end">
-                <span className="text-white">{data.price ? data.price.toFixed(2) : '-'}</span>
-                <span className={data.change >= 0 ? "text-green-500" : "text-red-500"}>
+                <span className="text-gray-900 dark:text-white">{data.price ? data.price.toFixed(2) : '-'}</span>
+                <span className={data.change >= 0 ? "text-green-600 dark:text-green-500" : "text-red-600 dark:text-red-500"}>
                   {data.changePercent ? `${data.changePercent > 0 ? '+' : ''}${data.changePercent.toFixed(2)}%` : '-'}
                 </span>
               </div>
             </div>
           )})}
         </div>
-        <div className="p-2 border-t border-[#2a2a2a]">
-          <div className="flex items-center gap-2 bg-[#222222] rounded p-1">
+        <div className="p-2 border-t border-gray-300 dark:border-[#2a2a2a]">
+          <div className="flex items-center gap-2 bg-white dark:bg-[#222222] border border-gray-300 dark:border-transparent rounded p-1">
             <Plus className="w-4 h-4 text-gray-500" />
             <input 
-              className="bg-transparent border-none outline-none text-white w-full text-xs" 
+              className="bg-transparent border-none outline-none text-gray-900 dark:text-white w-full text-xs" 
               placeholder="Add Symbol"
               value={tickerInput}
               onChange={e => setTickerInput(e.target.value)}
@@ -212,45 +277,45 @@ export default function OptionsChain() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 relative">
         
         {/* Top Header / Tabs */}
-        <div className="flex items-center gap-6 px-4 py-2 border-b border-[#2a2a2a] bg-[#1a1a1a] text-xs">
-          <span className="cursor-pointer hover:text-white">Charts</span>
-          <span className="cursor-pointer text-blue-400 border-b-2 border-blue-400 pb-1">Options</span>
-          <span className="cursor-pointer hover:text-white">Connections</span>
-          <span className="cursor-pointer hover:text-white">News</span>
-          <span className="cursor-pointer hover:text-white">Fundamentals</span>
+        <div className="flex items-center gap-6 px-4 py-2 border-b border-gray-300 dark:border-[#2a2a2a] bg-gray-100 dark:bg-[#1a1a1a] text-xs font-semibold">
+          <span className="cursor-pointer hover:text-gray-900 dark:hover:text-white">Charts</span>
+          <span className="cursor-pointer text-blue-600 dark:text-blue-400 border-b-2 border-blue-600 dark:border-blue-400 pb-1">Options</span>
+          <span className="cursor-pointer hover:text-gray-900 dark:hover:text-white">Connections</span>
+          <span className="cursor-pointer hover:text-gray-900 dark:hover:text-white">News</span>
+          <span className="cursor-pointer hover:text-gray-900 dark:hover:text-white">Fundamentals</span>
         </div>
 
         {/* Sub Header */}
-        <div className="flex items-center justify-between px-4 py-2 bg-[#1e1e1e] border-b border-[#2a2a2a]">
+        <div className="flex items-center justify-between px-4 py-2 bg-gray-200 dark:bg-[#1e1e1e] border-b border-gray-300 dark:border-[#2a2a2a]">
           <div className="flex items-center gap-4">
-             <span className="text-white font-bold">{selectedTicker}</span>
-             <span className="text-white">{underlyingPrice.toFixed(2)}</span>
-             <span className={priceChange >= 0 ? "text-green-500" : "text-red-500"}>
+             <span className="text-gray-900 dark:text-white font-bold">{selectedTicker}</span>
+             <span className="text-gray-900 dark:text-white">{underlyingPrice.toFixed(2)}</span>
+             <span className={priceChange >= 0 ? "text-green-600 dark:text-green-500" : "text-red-600 dark:text-red-500"}>
                {priceChange > 0 ? '+' : ''}{priceChange.toFixed(2)} {priceChangePercent > 0 ? '+' : ''}{priceChangePercent.toFixed(2)}%
              </span>
           </div>
           <div className="flex gap-2">
-            <select className="bg-[#2a2a2a] text-white border border-[#333] rounded px-2 py-1 text-xs outline-none">
+            <select className="bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white border border-gray-400 dark:border-[#333] rounded px-2 py-1 text-xs outline-none">
               <option>Calls/Puts</option>
             </select>
-            <select className="bg-[#2a2a2a] text-white border border-[#333] rounded px-2 py-1 text-xs outline-none">
+            <select className="bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-white border border-gray-400 dark:border-[#333] rounded px-2 py-1 text-xs outline-none">
               <option>40 Strikes</option>
             </select>
-            <div className="flex border border-[#333] rounded overflow-hidden">
+            <div className="flex border border-gray-400 dark:border-[#333] rounded overflow-hidden">
                {expirations.slice(0, 3).map(exp => (
                  <button 
                    key={exp.ts}
                    onClick={() => setSelectedExpiry(exp.ts)}
-                   className={`px-3 py-1 text-xs ${selectedExpiry === exp.ts ? 'bg-[#333333] text-white' : 'bg-[#1a1a1a] hover:bg-[#222]'}`}
+                   className={`px-3 py-1 text-xs ${selectedExpiry === exp.ts ? 'bg-gray-300 dark:bg-[#333333] text-gray-900 dark:text-white font-semibold' : 'bg-gray-100 dark:bg-[#1a1a1a] hover:bg-gray-200 dark:hover:bg-[#222]'}`}
                  >
                    {exp.date}
                  </button>
                ))}
                <select 
-                 className="bg-[#1a1a1a] text-white px-2 outline-none text-xs border-l border-[#333]"
+                 className="bg-gray-100 dark:bg-[#1a1a1a] text-gray-900 dark:text-white px-2 outline-none text-xs border-l border-gray-400 dark:border-[#333]"
                  onChange={(e) => setSelectedExpiry(Number(e.target.value))}
                  value={selectedExpiry || ''}
                >
@@ -264,94 +329,109 @@ export default function OptionsChain() {
         </div>
 
         {/* Options Chain Table */}
-        <div className="flex-1 overflow-auto bg-[#111]">
+        <div className="flex-1 overflow-auto bg-white dark:bg-[#111]">
           {loading ? (
-             <div className="flex items-center justify-center h-full text-[#666]">Loading options data...</div>
+             <div className="flex items-center justify-center h-full text-gray-500 dark:text-[#666]">Loading options data...</div>
           ) : (
              <table className="w-full text-xs text-right border-collapse">
-               <thead className="sticky top-0 z-10 bg-[#1e1e1e] text-[#808080]">
+               <thead className="sticky top-0 z-10 bg-gray-200 dark:bg-[#1e1e1e] text-gray-600 dark:text-[#808080]">
                  <tr>
-                   <th colSpan={8} className="py-2 border-b border-r border-[#2a2a2a] text-center bg-[#181818]">
+                   <th colSpan={7} className="py-2 border-b border-r border-gray-300 dark:border-[#2a2a2a] text-center bg-gray-200 dark:bg-[#181818]">
                      <div className="flex justify-between px-2">
                        <span></span>
-                       <span>Calls</span>
+                       <span className="font-bold text-gray-800 dark:text-white">Calls</span>
                        <span></span>
                      </div>
                    </th>
-                   <th className="py-2 border-b border-r border-[#2a2a2a] bg-[#111] text-center px-4">Strike</th>
-                   <th colSpan={7} className="py-2 border-b border-[#2a2a2a] text-center bg-[#181818]">
+                   <th className="py-2 border-b border-r border-gray-300 dark:border-[#2a2a2a] bg-gray-100 dark:bg-[#111] text-center px-4 font-bold text-gray-800 dark:text-white">Strike</th>
+                   <th colSpan={7} className="py-2 border-b border-gray-300 dark:border-[#2a2a2a] text-center bg-gray-200 dark:bg-[#181818]">
                      <div className="flex justify-between px-2">
                        <span></span>
-                       <span>Puts</span>
+                       <span className="font-bold text-gray-800 dark:text-white">Puts</span>
                        <span></span>
                      </div>
                    </th>
                  </tr>
-                 <tr className="border-b border-[#2a2a2a] bg-[#161616]">
+                 <tr className="border-b border-gray-300 dark:border-[#2a2a2a] bg-gray-100 dark:bg-[#161616]">
                    {/* Calls */}
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Bid</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Ask</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Change %</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Delta</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Gamma</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Theta</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Vega</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a] text-white font-bold">IV</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Bid</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Ask</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Change %</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Delta</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Gamma</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Theta</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Vega</th>
                    {/* Center */}
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a] bg-[#111]"></th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] bg-white dark:bg-[#111]"></th>
                    {/* Puts */}
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Bid</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Ask</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Change %</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Delta</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Gamma</th>
-                   <th className="font-normal py-1 px-2 border-r border-[#2a2a2a]">Theta</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Bid</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Ask</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Change %</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Delta</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Gamma</th>
+                   <th className="font-normal py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a]">Theta</th>
                    <th className="font-normal py-1 px-2">Vega</th>
                  </tr>
                </thead>
                <tbody>
                  {strikes.map((strike, idx) => {
-                   const call = calls.find(c => c.strike === strike);
-                   const put = puts.find(p => p.strike === strike);
-                   const isCallITM = strike < underlyingPrice;
-                   const isPutITM = strike > underlyingPrice;
+                   const call = calls[idx];
+                   const put = puts[idx];
+                   const isCallITM = call?.inTheMoney;
+                   const isPutITM = put?.inTheMoney;
                    
+                   const hasCallBuy = selectedLegs.some(l => l.strike === strike && l.type === "CALL" && l.side === "BUY");
+                   const hasCallSell = selectedLegs.some(l => l.strike === strike && l.type === "CALL" && l.side === "SELL");
+                   const hasPutBuy = selectedLegs.some(l => l.strike === strike && l.type === "PUT" && l.side === "BUY");
+                   const hasPutSell = selectedLegs.some(l => l.strike === strike && l.type === "PUT" && l.side === "SELL");
+
+                   const itmBg = 'bg-blue-50/50 dark:bg-[#151a1f]';
+
+                   // Highlighting logic for IBKR style (Bid = Sell = Red, Ask = Buy = Blue)
+                   const getCellBg = (isITM: boolean, side: "BUY"|"SELL"|null) => {
+                      if (side === "BUY") return 'bg-blue-200 dark:bg-blue-900/60 font-bold';
+                      if (side === "SELL") return 'bg-red-200 dark:bg-red-900/60 font-bold';
+                      return isITM ? itmBg : '';
+                   };
+
                    return (
-                     <tr key={strike} className="border-b border-[#222] hover:bg-[#1f1f1f] group cursor-pointer">
+                     <tr key={strike} className="border-b border-gray-200 dark:border-[#222] hover:bg-gray-50 dark:hover:bg-[#1f1f1f] group cursor-pointer transition-colors">
                        {/* CALLS */}
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isCallITM ? 'bg-[#151a1f]' : ''}`} onClick={() => handleLegClick("CALL", strike, "SELL", call?.bid)}>
-                         <span className="text-blue-400 hover:bg-blue-900/30 px-1 rounded">{call?.bid?.toFixed(2) || '-'}</span>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${getCellBg(isCallITM, hasCallSell ? "SELL" : null)}`} onClick={() => handleLegClick("CALL", strike, "SELL", call?.bid)}>
+                         <span className="text-red-600 dark:text-red-400 px-1 rounded inline-block w-full">{call?.bid?.toFixed(2) || '-'}</span>
                        </td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isCallITM ? 'bg-[#151a1f]' : ''}`} onClick={() => handleLegClick("CALL", strike, "BUY", call?.ask)}>
-                         <span className="text-red-400 hover:bg-red-900/30 px-1 rounded">{call?.ask?.toFixed(2) || '-'}</span>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${getCellBg(isCallITM, hasCallBuy ? "BUY" : null)}`} onClick={() => handleLegClick("CALL", strike, "BUY", call?.ask)}>
+                         <span className="text-blue-600 dark:text-blue-400 px-1 rounded inline-block w-full">{call?.ask?.toFixed(2) || '-'}</span>
                        </td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isCallITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('change', strike, true)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isCallITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('delta', strike, true)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isCallITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('gamma', strike, true)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isCallITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('theta', strike, true)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isCallITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('vega', strike, true)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] font-bold text-white ${isCallITM ? 'bg-[#151a1f]' : ''}`}>
-                         {call?.impliedVolatility ? (call.impliedVolatility * 100).toFixed(1) + '%' : '-'}
-                       </td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isCallITM ? itmBg : ''}`}>{renderMockGreek('change', strike, true)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isCallITM ? itmBg : ''}`}>{renderMockGreek('delta', strike, true)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isCallITM ? itmBg : ''}`}>{renderMockGreek('gamma', strike, true)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isCallITM ? itmBg : ''}`}>{renderMockGreek('theta', strike, true)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isCallITM ? itmBg : ''}`}>{renderMockGreek('vega', strike, true)}</td>
                        
                        {/* STRIKE */}
-                       <td className="py-1 px-2 border-r border-[#2a2a2a] bg-[#1a1a1a] text-center text-[#e0e0e0] group-hover:bg-[#333] transition-colors relative">
-                          {Math.abs(strike - underlyingPrice) < 0.5 && <div className="absolute left-0 top-1/2 w-full h-[1px] bg-gray-500 z-0"></div>}
-                          <span className="relative z-10 bg-[#1a1a1a] group-hover:bg-[#333] px-1">{strike.toFixed(1)}</span>
+                       <td className="py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] bg-gray-100 dark:bg-[#1a1a1a] text-center group-hover:bg-gray-200 dark:group-hover:bg-[#333] transition-colors relative">
+                          {Math.abs(strike - underlyingPrice) < 0.5 && <div className="absolute left-0 top-1/2 w-full h-[1px] bg-gray-400 dark:bg-gray-500 z-0"></div>}
+                          <div className="flex flex-col items-center justify-center relative z-10">
+                            <span className="font-bold text-gray-900 dark:text-[#e0e0e0] leading-tight">{strike.toFixed(1)}</span>
+                            <span className="text-[10px] text-gray-500 dark:text-gray-400 leading-tight">
+                              IV: {call?.impliedVolatility ? (call.impliedVolatility * 100).toFixed(1) + '%' : '-'}
+                            </span>
+                          </div>
                        </td>
                        
                        {/* PUTS */}
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isPutITM ? 'bg-[#151a1f]' : ''}`} onClick={() => handleLegClick("PUT", strike, "SELL", put?.bid)}>
-                         <span className="text-blue-400 hover:bg-blue-900/30 px-1 rounded">{put?.bid?.toFixed(2) || '-'}</span>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${getCellBg(isPutITM, hasPutSell ? "SELL" : null)}`} onClick={() => handleLegClick("PUT", strike, "SELL", put?.bid)}>
+                         <span className="text-red-600 dark:text-red-400 px-1 rounded inline-block w-full">{put?.bid?.toFixed(2) || '-'}</span>
                        </td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isPutITM ? 'bg-[#151a1f]' : ''}`} onClick={() => handleLegClick("PUT", strike, "BUY", put?.ask)}>
-                         <span className="text-red-400 hover:bg-red-900/30 px-1 rounded">{put?.ask?.toFixed(2) || '-'}</span>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${getCellBg(isPutITM, hasPutBuy ? "BUY" : null)}`} onClick={() => handleLegClick("PUT", strike, "BUY", put?.ask)}>
+                         <span className="text-blue-600 dark:text-blue-400 px-1 rounded inline-block w-full">{put?.ask?.toFixed(2) || '-'}</span>
                        </td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isPutITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('change', strike, false)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isPutITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('delta', strike, false)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isPutITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('gamma', strike, false)}</td>
-                       <td className={`py-1 px-2 border-r border-[#2a2a2a] ${isPutITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('theta', strike, false)}</td>
-                       <td className={`py-1 px-2 ${isPutITM ? 'bg-[#151a1f]' : ''}`}>{renderMockGreek('vega', strike, false)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isPutITM ? itmBg : ''}`}>{renderMockGreek('change', strike, false)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isPutITM ? itmBg : ''}`}>{renderMockGreek('delta', strike, false)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isPutITM ? itmBg : ''}`}>{renderMockGreek('gamma', strike, false)}</td>
+                       <td className={`py-1 px-2 border-r border-gray-300 dark:border-[#2a2a2a] ${isPutITM ? itmBg : ''}`}>{renderMockGreek('theta', strike, false)}</td>
+                       <td className={`py-1 px-2 ${isPutITM ? itmBg : ''}`}>{renderMockGreek('vega', strike, false)}</td>
                      </tr>
                    );
                  })}
@@ -359,56 +439,86 @@ export default function OptionsChain() {
              </table>
           )}
         </div>
+        
+        {/* Expand Sidebar Button (Only visible if sidebar is closed) */}
+        {!isSidebarOpen && (
+          <div 
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-500 rounded-l-lg p-1.5 cursor-pointer z-30 shadow-lg"
+            onClick={() => setIsSidebarOpen(true)}
+            title="Open Performance Profile"
+          >
+            <ChevronLeft className="w-5 h-5 text-white" />
+          </div>
+        )}
       </div>
 
       {/* Right Sidebar - Strategy Profile */}
-      <div className="w-80 border-l border-[#2a2a2a] bg-[#161616] flex flex-col">
-        <div className="p-4 border-b border-[#2a2a2a]">
-          <h3 className="text-white font-bold mb-2">Performance Profile</h3>
-          <div className="flex justify-between text-xs mt-4">
+      <div 
+        className={`border-l border-gray-300 dark:border-[#2a2a2a] bg-gray-50 dark:bg-[#161616] flex flex-col transition-all duration-300 ${isSidebarOpen ? 'w-80 opacity-100 translate-x-0' : 'w-0 opacity-0 translate-x-full overflow-hidden'}`}
+      >
+        <div className="flex items-center justify-between p-4 border-b border-gray-300 dark:border-[#2a2a2a] bg-gray-200 dark:bg-[#1e1e1e]">
+           <h3 className="text-gray-900 dark:text-white font-bold whitespace-nowrap">Performance Profile</h3>
+           <div 
+             className="cursor-pointer bg-gray-300 hover:bg-gray-400 dark:bg-[#333] dark:hover:bg-[#444] rounded-full p-1 min-w-[24px]"
+             onClick={() => setIsSidebarOpen(false)}
+           >
+             <ChevronRight className="w-4 h-4 text-gray-700 dark:text-gray-300" />
+           </div>
+        </div>
+        
+        <div className="p-4 border-b border-gray-300 dark:border-[#2a2a2a]">
+          <div className="flex justify-between text-xs mt-2">
              <div className="flex flex-col items-center">
-                <span className="text-[#808080]">Max Loss</span>
-                <span className="text-red-500 font-bold">{selectedLegs.length ? (isCredit ? 'Unlimited' : (netCost).toFixed(2)) : '-'}</span>
+                <span className="text-gray-500 dark:text-[#808080]">Max Loss</span>
+                <span className="text-red-600 dark:text-red-500 font-bold">{selectedLegs.length ? (isCredit ? 'Unlimited' : (netCost).toFixed(2)) : '-'}</span>
              </div>
              <div className="flex flex-col items-center">
-                <span className="text-[#808080]">Break Even</span>
-                <span className="text-white font-bold">-</span>
+                <span className="text-gray-500 dark:text-[#808080]">Break Even</span>
+                <span className="text-gray-900 dark:text-white font-bold">-</span>
              </div>
              <div className="flex flex-col items-center">
-                <span className="text-[#808080]">Max Return</span>
-                <span className="text-green-500 font-bold text-lg">∞</span>
+                <span className="text-gray-500 dark:text-[#808080]">Max Return</span>
+                <span className="text-green-600 dark:text-green-500 font-bold text-lg leading-none">∞</span>
              </div>
           </div>
+          {/* Payoff Graph */}
+          {renderPayoffGraph()}
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
-          <div className="text-xs mb-2 text-[#808080]">Selected Legs</div>
-          {selectedLegs.map(leg => (
-             <div key={leg.id} className="bg-[#1e1e1e] border border-[#333] rounded p-2 mb-2 relative">
-               <X className="absolute top-2 right-2 w-3 h-3 cursor-pointer hover:text-white" onClick={() => removeLeg(leg.id)} />
-               <div className="font-semibold text-white">
-                 <span className={leg.side === 'BUY' ? 'text-blue-400' : 'text-red-400'}>{leg.side}</span> {leg.qty} {leg.expiration} {leg.strike} {leg.type}
-               </div>
-               <div className="flex justify-between items-center mt-2">
-                 <div className="flex items-center gap-2 bg-[#111] rounded px-1">
-                   <Minus className="w-3 h-3 cursor-pointer" onClick={() => updateLegQty(leg.id, -1)} />
-                   <span className="w-4 text-center">{leg.qty}</span>
-                   <Plus className="w-3 h-3 cursor-pointer" onClick={() => updateLegQty(leg.id, 1)} />
-                 </div>
-                 <span className="text-white">@ {leg.price.toFixed(2)}</span>
-               </div>
+          <div className="text-xs mb-2 text-gray-500 dark:text-[#808080] font-semibold uppercase tracking-wider">Selected Legs</div>
+          {selectedLegs.length === 0 ? (
+             <div className="text-center text-gray-500 dark:text-gray-600 py-8 text-xs italic">
+               Select Bid/Ask to add legs
              </div>
-          ))}
+          ) : (
+            selectedLegs.map(leg => (
+               <div key={leg.id} className="bg-white dark:bg-[#1e1e1e] border border-gray-300 dark:border-[#333] rounded p-2 mb-2 relative shadow-sm">
+                 <X className="absolute top-2 right-2 w-4 h-4 text-gray-400 cursor-pointer hover:text-gray-900 dark:hover:text-white" onClick={() => removeLeg(leg.id)} />
+                 <div className="font-bold text-gray-900 dark:text-white pr-6">
+                   <span className={leg.side === 'BUY' ? 'text-blue-600 dark:text-blue-400' : 'text-red-600 dark:text-red-400'}>{leg.side}</span> {leg.qty} {leg.expiration} {leg.strike} {leg.type}
+                 </div>
+                 <div className="flex justify-between items-center mt-3">
+                   <div className="flex items-center gap-2 bg-gray-100 dark:bg-[#111] rounded px-2 py-1">
+                     <Minus className="w-3 h-3 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" onClick={() => updateLegQty(leg.id, -1)} />
+                     <span className="w-4 text-center font-semibold">{leg.qty}</span>
+                     <Plus className="w-3 h-3 cursor-pointer text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" onClick={() => updateLegQty(leg.id, 1)} />
+                   </div>
+                   <span className="text-gray-900 dark:text-white font-mono">@ {leg.price.toFixed(2)}</span>
+                 </div>
+               </div>
+            ))
+          )}
 
           {selectedLegs.length > 0 && (
-             <div className="mt-4 pt-4 border-t border-[#333]">
-                <div className="flex justify-between items-center font-bold text-white">
+             <div className="mt-4 pt-4 border-t border-gray-300 dark:border-[#333]">
+                <div className="flex justify-between items-center font-bold text-gray-900 dark:text-white text-base">
                    <span>Net {isCredit ? 'Credit' : 'Debit'}:</span>
-                   <span className={isCredit ? 'text-green-500' : 'text-red-500'}>
+                   <span className={isCredit ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'}>
                      ${Math.abs(netCost).toFixed(2)}
                    </span>
                 </div>
-                <button className="w-full mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded text-sm transition-colors"
+                <button className="w-full mt-4 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2 rounded text-sm transition-colors shadow-sm"
                   onClick={() => { alert('Order submitted successfully (mock)'); setSelectedLegs([]); }}>
                   Submit Order
                 </button>

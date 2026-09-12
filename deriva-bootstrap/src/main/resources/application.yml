@@ -44,3 +44,5 @@ logging:
   level:
     com.deriva: DEBUG
     org.springframework.security: DEBUG
+    org.apache.kafka: WARN
+    org.springframework.kafka: WARN

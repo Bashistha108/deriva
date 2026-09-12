@@ -10,8 +10,8 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
-@Component
-@EnableScheduling
+// @Component
+// @EnableScheduling
 public class MarketDataSimulator {
 
     private final WebsocketBroadcaster broadcaster;
