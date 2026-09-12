@@ -51,4 +51,20 @@ public class OptionChainController {
                 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/{symbol}/raw")
+    @Operation(summary = "Get raw option chain", description = "Retrieves the raw JSON option chain data directly from the provider.")
+    public ResponseEntity<String> getRawOptionChain(
+            @PathVariable String symbol,
+            @RequestParam(required = false) Long date) {
+        try {
+            String rawJson = marketDataPort.getRawOptionChain(symbol, date);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(rawJson);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

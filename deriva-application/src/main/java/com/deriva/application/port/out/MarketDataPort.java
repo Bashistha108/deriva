@@ -16,4 +16,9 @@ public interface MarketDataPort {
     MarketQuote getUnderlyingQuote(Symbol symbol);
     
     List<OptionQuote> getOptionChain(Symbol underlyingSymbol);
+    
+    /**
+     * Gets the raw JSON options chain data from the provider.
+     */
+    String getRawOptionChain(String symbol, Long date);
 }

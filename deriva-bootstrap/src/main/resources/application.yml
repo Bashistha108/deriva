@@ -16,3 +16,33 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
     show-sql: false
+
+  kafka:
+    bootstrap-servers: localhost:9094
+
+yahoo:
+  api:
+    url: "https://query1.finance.yahoo.com/v7/finance/options"
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: deriva-backend
+
+logging:
+  level:
+    com.deriva: DEBUG
+    org.springframework.security: DEBUG
+    org.apache.kafka: WARN
+    org.springframework.kafka: WARN

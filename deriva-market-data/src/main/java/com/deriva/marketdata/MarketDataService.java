@@ -62,4 +62,9 @@ public class MarketDataService implements MarketDataPort {
         chainCache.clear();
         lastFetchTime.clear();
     }
+    
+    @Override
+    public String getRawOptionChain(String symbol, Long date) {
+        return provider.getRawOptionChain(symbol, date);
+    }
 }

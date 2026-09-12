@@ -1,100 +1,95 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { Filter, Download } from "lucide-react";
 
 export default function Trades() {
-  const [activeTab, setActiveTab] = useState("ALL"); // OPEN, PENDING, FILLED, CLOSED, ALL
-  
   const trades = [
-    { id: "T1", symbol: "AAPL", strategy: "Iron Condor", side: "SELL", qty: 10, price: 1.50, status: "FILLED", pnl: 250.00, returnPct: 15.5, holdPeriod: "2 Days", fees: 2.60 },
-    { id: "T2", symbol: "TSLA", strategy: "Call Calendar", side: "BUY", qty: 5, price: 3.20, status: "OPEN", pnl: -15.00, returnPct: -2.1, holdPeriod: "5 Days", fees: 1.30 },
-    { id: "T3", symbol: "MSFT", strategy: "Single Leg Put", side: "BUY", qty: 20, price: 0.85, status: "CLOSED", pnl: -1700.00, returnPct: -100.0, holdPeriod: "14 Days", fees: 13.00 },
-    { id: "T4", symbol: "SPY", strategy: "Vertical Spread", side: "SELL", qty: 50, price: 2.10, status: "PENDING", pnl: 0, returnPct: 0, holdPeriod: "0 Days", fees: 0 },
+    { id: "T1", time: "09:30:05", symbol: "AAPL", type: "Option", side: "SELL", qty: 10, price: 1.50, commission: 2.60, netAmount: 1500.00, realizedPnL: 250.00 },
+    { id: "T2", time: "10:15:20", symbol: "TSLA", type: "Option", side: "BUY", qty: 5, price: 3.20, commission: 1.30, netAmount: 1600.00, realizedPnL: -15.00 },
+    { id: "T3", time: "11:05:12", symbol: "MSFT", type: "Stock", side: "BUY", qty: 20, price: 0.85, commission: 13.00, netAmount: 17.00, realizedPnL: -170.00 },
+    { id: "T4", time: "14:20:45", symbol: "SPY", type: "Option", side: "SELL", qty: 50, price: 2.10, commission: 0.00, netAmount: 10500.00, realizedPnL: 0 },
   ];
 
-  const filtered = activeTab === "ALL" ? trades : trades.filter(t => t.status === activeTab);
-
   return (
-    <div className="p-6 space-y-6 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold tracking-tight">Trades & Analytics</h1>
+    <div className="p-6 space-y-6 max-w-7xl mx-auto bg-[#121212] min-h-screen text-white">
+      <div className="flex justify-between items-center">
+        <h1 className="text-3xl font-bold tracking-tight text-white">Trades Ledger</h1>
+        <div className="flex gap-2">
+          <Button variant="outline" className="border-[#2a2a2a] bg-[#1e1e1e] text-white hover:bg-[#2a2a2a] hover:text-white"><Filter className="w-4 h-4 mr-2"/> Filter</Button>
+          <Button variant="outline" className="border-[#2a2a2a] bg-[#1e1e1e] text-white hover:bg-[#2a2a2a] hover:text-white"><Download className="w-4 h-4 mr-2"/> Export</Button>
+        </div>
+      </div>
 
-      {/* Step 14: Performance Analytics */}
       <div className="grid gap-4 md:grid-cols-4">
-         <Card>
-           <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Win Rate</CardTitle></CardHeader>
-           <CardContent><div className="text-2xl font-bold text-green-600">65.4%</div></CardContent>
-         </Card>
-         <Card>
-           <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Profit Factor</CardTitle></CardHeader>
-           <CardContent><div className="text-2xl font-bold">1.85</div></CardContent>
-         </Card>
-         <Card>
-           <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">YTD Commisions</CardTitle></CardHeader>
-           <CardContent><div className="text-2xl font-bold text-red-600">$145.20</div></CardContent>
-         </Card>
-         <Card>
-           <CardHeader className="pb-2"><CardTitle className="text-sm text-muted-foreground">Avg Hold Time</CardTitle></CardHeader>
-           <CardContent><div className="text-2xl font-bold">8.5 Days</div></CardContent>
-         </Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
+          <CardHeader className="pb-2">
+             <CardTitle className="text-sm text-[#b3b3b3]">Total Trades (YTD)</CardTitle>
+          </CardHeader>
+          <CardContent><p className="text-2xl font-bold text-white">1,245</p></CardContent>
+        </Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
+          <CardHeader className="pb-2">
+             <CardTitle className="text-sm text-[#b3b3b3]">Win Rate</CardTitle>
+          </CardHeader>
+          <CardContent><p className="text-2xl font-bold text-[#00ff00]">68.5%</p></CardContent>
+        </Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
+          <CardHeader className="pb-2">
+             <CardTitle className="text-sm text-[#b3b3b3]">Total Commissions</CardTitle>
+          </CardHeader>
+          <CardContent><p className="text-2xl font-bold text-[#ff4444]">$845.50</p></CardContent>
+        </Card>
+        <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
+          <CardHeader className="pb-2">
+             <CardTitle className="text-sm text-[#b3b3b3]">Realized P/L</CardTitle>
+          </CardHeader>
+          <CardContent><p className="text-2xl font-bold text-[#00ff00]">+$12,450.00</p></CardContent>
+        </Card>
       </div>
 
-      {/* Tabs (Steps 2-6) */}
-      <div className="flex gap-2 border-b pb-2">
-        {["ALL", "OPEN", "PENDING", "FILLED", "CLOSED"].map(tab => (
-          <Button 
-            key={tab} 
-            variant={activeTab === tab ? "default" : "ghost"} 
-            onClick={() => setActiveTab(tab)}
-            className="font-semibold"
-          >
-            {tab}
-          </Button>
-        ))}
-      </div>
-
-      {/* Table (Steps 7-13) */}
-      <Card>
-        <Table>
-          <TableHeader className="bg-muted/50">
-            <TableRow>
-              <TableHead>Symbol</TableHead>
-              <TableHead>Strategy</TableHead>
-              <TableHead>Side</TableHead>
-              <TableHead>Qty</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead className="text-right">P/L</TableHead>
-              <TableHead className="text-right">Return %</TableHead>
-              <TableHead className="text-right">Hold Time</TableHead>
-              <TableHead className="text-right">Fees</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {filtered.map(t => (
-              <TableRow key={t.id}>
-                <TableCell className="font-bold">{t.symbol}</TableCell>
-                <TableCell>{t.strategy}</TableCell>
-                <TableCell className={t.side === 'BUY' ? 'text-blue-600 font-bold' : 'text-red-600 font-bold'}>{t.side}</TableCell>
-                <TableCell>{t.qty}</TableCell>
-                <TableCell>${t.price.toFixed(2)}</TableCell>
-                <TableCell>
-                   <span className="px-2 py-1 text-xs rounded-full bg-slate-100 font-semibold">{t.status}</span>
-                </TableCell>
-                <TableCell className={`text-right font-bold ${t.pnl >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  ${t.pnl.toFixed(2)}
-                </TableCell>
-                <TableCell className={`text-right font-bold ${t.returnPct >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {t.returnPct}%
-                </TableCell>
-                <TableCell className="text-right text-muted-foreground">{t.holdPeriod}</TableCell>
-                <TableCell className="text-right text-muted-foreground">${t.fees.toFixed(2)}</TableCell>
+      <Card className="bg-[#1e1e1e] border-[#2a2a2a] text-white">
+        <CardHeader>
+          <CardTitle>Trade History</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-[#2a2a2a] hover:bg-[#222]">
+                <TableHead className="text-[#b3b3b3]">Time</TableHead>
+                <TableHead className="text-[#b3b3b3]">Symbol</TableHead>
+                <TableHead className="text-[#b3b3b3]">Type</TableHead>
+                <TableHead className="text-[#b3b3b3]">Side</TableHead>
+                <TableHead className="text-right text-[#b3b3b3]">Qty</TableHead>
+                <TableHead className="text-right text-[#b3b3b3]">Price</TableHead>
+                <TableHead className="text-right text-[#b3b3b3]">Commission</TableHead>
+                <TableHead className="text-right text-[#b3b3b3]">Net Amount</TableHead>
+                <TableHead className="text-right text-[#b3b3b3]">Realized P/L</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {trades.map(t => (
+                <TableRow key={t.id} className="border-[#2a2a2a] hover:bg-[#222]">
+                  <TableCell className="text-white">{t.time}</TableCell>
+                  <TableCell className="font-semibold text-white">{t.symbol}</TableCell>
+                  <TableCell className="text-[#888]">{t.type}</TableCell>
+                  <TableCell className={t.side === 'BUY' ? 'text-[#3399ff]' : 'text-[#ff4444]'}>{t.side}</TableCell>
+                  <TableCell className="text-right text-white">{t.qty}</TableCell>
+                  <TableCell className="text-right text-white">${t.price.toFixed(2)}</TableCell>
+                  <TableCell className="text-right text-[#ff4444]">${t.commission.toFixed(2)}</TableCell>
+                  <TableCell className="text-right text-white font-mono">
+                    {t.side === 'BUY' ? '-' : '+'}${Math.abs(t.netAmount).toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                  </TableCell>
+                  <TableCell className={`text-right font-bold ${t.realizedPnL > 0 ? 'text-[#00ff00]' : t.realizedPnL < 0 ? 'text-[#ff4444]' : 'text-[#888]'}`}>
+                    {t.realizedPnL === 0 ? '-' : t.realizedPnL > 0 ? `+$${t.realizedPnL.toFixed(2)}` : `-$${Math.abs(t.realizedPnL).toFixed(2)}`}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </CardContent>
       </Card>
     </div>
   );
