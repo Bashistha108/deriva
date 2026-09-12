@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-@Primary
 public class MockMarketDataProvider implements MarketDataProvider {
 
     private final Map<Symbol, MarketQuote> spotPrices = new ConcurrentHashMap<>();
