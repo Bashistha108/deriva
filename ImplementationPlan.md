@@ -3054,7 +3054,7 @@ The empty application builds and starts correctly.
 
 ---
 
-## PHASE 2 — Database foundation
+## PHASE 2 — Database foundation (COMPLETED)
 
 Implement:
 

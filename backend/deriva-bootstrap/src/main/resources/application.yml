@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: deriva
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/deriva
+    username: deriva
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.xml
+    enabled: true
+
+logging:
+  level:
+    root: INFO
+    com.deriva: DEBUG
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
