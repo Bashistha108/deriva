@@ -3212,7 +3212,7 @@ The options chain behaves like a simulated market rather than a static calculato
 
 ---
 
-## PHASE 11 — Trading
+## PHASE 11 — Trading (COMPLETED)
 
 Implement:
 

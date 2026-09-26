@@ -13,5 +13,6 @@
     <include file="db/changelog/006-historical-market-data.xml"/>
     <include file="db/changelog/007-options-contracts.xml"/>
     <include file="db/changelog/008-option-market-simulation.xml"/>
+    <include file="db/changelog/009-trading.xml"/>
 
 </databaseChangeLog>
