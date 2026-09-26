@@ -3246,7 +3246,7 @@ Users cannot spend unavailable simulated funds.
 
 ---
 
-## PHASE 13 — Positions and portfolio
+## PHASE 13 — Positions and portfolio (COMPLETED)
 
 Implement:
 

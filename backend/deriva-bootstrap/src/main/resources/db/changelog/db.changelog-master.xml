@@ -15,5 +15,6 @@
     <include file="db/changelog/008-option-market-simulation.xml"/>
     <include file="db/changelog/009-trading.xml"/>
     <include file="db/changelog/010-cash-accounts.xml"/>
+    <include file="db/changelog/011-positions.xml"/>
 
 </databaseChangeLog>
