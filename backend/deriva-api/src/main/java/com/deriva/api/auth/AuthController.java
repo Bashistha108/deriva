@@ -41,20 +41,24 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request, HttpServletRequest httpRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
 
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        securityContext.setAuthentication(authentication);
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            securityContext.setAuthentication(authentication);
 
-        HttpSession session = httpRequest.getSession(true);
-        session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
+            HttpSession session = httpRequest.getSession(true);
+            session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, securityContext);
 
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        userService.updateLastLogin(userDetails.getId());
+            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+            userService.updateLastLogin(userDetails.getId());
 
-        return ResponseEntity.ok().body("Login successful");
+            return ResponseEntity.ok().body("Login successful");
+        } catch (org.springframework.security.core.AuthenticationException e) {
+            return ResponseEntity.status(401).body("Invalid username or password");
+        }
     }
     @org.springframework.web.bind.annotation.GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {

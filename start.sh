@@ -31,9 +31,13 @@ while true; do
     read DB_USER
     DB_USER=${DB_USER:-${SAVED_DB_USER:-deriva}}
 
-    echo -n "Password: "
-    read -s DB_PASSWORD
-    echo
+    if [ -n "$SAVED_DB_PASSWORD" ]; then
+        DB_PASSWORD="$SAVED_DB_PASSWORD"
+    else
+        echo -n "Password: "
+        read -s DB_PASSWORD
+        echo
+    fi
 
     echo -e "\n⏳ Testing connection to $DB_HOST:$DB_PORT..."
     
