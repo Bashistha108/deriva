@@ -3145,7 +3145,7 @@ The market produces realistic correlated synthetic price behaviour.
 
 ---
 
-## PHASE 7 — Historical market data
+## PHASE 7 — Historical market data (COMPLETED)
 
 Implement:
 
