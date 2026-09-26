@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="1" author="deriva">
+        <createTable tableName="orders">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_orders_user" references="users(id)"/>
+            </column>
+            <column name="instrument_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_orders_inst" references="instruments(id)"/>
+            </column>
+            <column name="option_contract_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_orders_opt" references="option_contracts(id)"/>
+            </column>
+            <column name="side" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="order_type" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="limit_price" type="NUMERIC(19, 4)"/>
+            <column name="idempotency_key" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="submitted_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="filled_at" type="TIMESTAMP"/>
+            <column name="cancelled_at" type="TIMESTAMP"/>
+            <column name="version" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addUniqueConstraint tableName="orders" columnNames="user_id, idempotency_key" constraintName="uq_order_user_idem"/>
+
+        <!-- Ensure exactly one of instrument_id or option_contract_id is populated -->
+        <sql>
+            ALTER TABLE orders ADD CONSTRAINT chk_orders_target 
+            CHECK ((instrument_id IS NOT NULL AND option_contract_id IS NULL) OR (instrument_id IS NULL AND option_contract_id IS NOT NULL));
+        </sql>
+
+        <createTable tableName="trades">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="order_id" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_trades_order" references="orders(id)"/>
+            </column>
+            <column name="user_id" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_trades_user" references="users(id)"/>
+            </column>
+            <column name="instrument_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_trades_inst" references="instruments(id)"/>
+            </column>
+            <column name="option_contract_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_trades_opt" references="option_contracts(id)"/>
+            </column>
+            <column name="side" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="quantity" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="execution_price" type="NUMERIC(19, 4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="fees" type="NUMERIC(19, 4)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="executed_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="market_tick_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_trades_tick" references="market_ticks(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
