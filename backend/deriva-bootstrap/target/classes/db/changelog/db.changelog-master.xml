@@ -6,5 +6,20 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
 
     <include file="db/changelog/001-base-schema.xml"/>
+    <include file="db/changelog/002-market-universe.xml"/>
+    <include file="db/changelog/003-seed-market-universe.xml"/>
+    <include file="db/changelog/004-simulation-infrastructure.xml"/>
+    <include file="db/changelog/005-market-simulation.xml"/>
+    <include file="db/changelog/006-historical-market-data.xml"/>
+    <include file="db/changelog/007-options-contracts.xml"/>
+    <include file="db/changelog/008-option-market-simulation.xml"/>
+    <include file="db/changelog/009-trading.xml"/>
+    <include file="db/changelog/010-cash-accounts.xml"/>
+    <include file="db/changelog/011-positions.xml"/>
+    <include file="db/changelog/012-settlement.xml"/>
+    <include file="db/changelog/013-watchlists.xml"/>
+    <include file="db/changelog/014-learning.xml"/>
+    <include file="db/changelog/015-learning-progress.xml"/>
+    <include file="db/changelog/016-saved-analyses.xml"/>
 
 </databaseChangeLog>
