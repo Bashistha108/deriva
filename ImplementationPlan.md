@@ -3377,7 +3377,7 @@ A complete documented backend API.
 
 ---
 
-## PHASE 21 — WebSockets
+## PHASE 21 — WebSockets (COMPLETED)
 
 Implement:
 

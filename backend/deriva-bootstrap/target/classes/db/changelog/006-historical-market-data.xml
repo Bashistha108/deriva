@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="1" author="deriva">
+        <!-- Index for querying historical prices for an instrument in time order -->
+        <createIndex tableName="market_price_snapshots" indexName="idx_snapshots_instrument_time">
+            <column name="instrument_id"/>
+            <column name="timestamp" descending="true"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
