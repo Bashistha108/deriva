@@ -3107,7 +3107,7 @@ The application contains the fixed simulated universe.
 
 ---
 
-## PHASE 5 — Simulation infrastructure
+## PHASE 5 — Simulation infrastructure (COMPLETED)
 
 Implement:
 
