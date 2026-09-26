@@ -3125,7 +3125,7 @@ The system can start and track a reproducible simulated market.
 
 ---
 
-## PHASE 6 — Market simulation
+## PHASE 6 — Market simulation (COMPLETED)
 
 Implement:
 

@@ -9,5 +9,6 @@
     <include file="db/changelog/002-market-universe.xml"/>
     <include file="db/changelog/003-seed-market-universe.xml"/>
     <include file="db/changelog/004-simulation-infrastructure.xml"/>
+    <include file="db/changelog/005-market-simulation.xml"/>
 
 </databaseChangeLog>
