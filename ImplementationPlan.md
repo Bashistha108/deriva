@@ -3431,7 +3431,7 @@ Administrators can control the platform.
 
 ---
 
-## PHASE 24 — Security hardening
+## PHASE 24 — Security hardening (COMPLETED)
 
 Review:
 
