@@ -6,12 +6,26 @@ export default function Register() {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate register API call
-    console.log("Registering", username);
-    window.location.href = '/dashboard';
+    setError('');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, email, password })
+      });
+      if (res.ok) {
+        window.location.href = '/login';
+      } else {
+        const text = await res.text();
+        setError(text || 'Registration failed');
+      }
+    } catch (err) {
+      setError('Network error');
+    }
   };
 
   return (
@@ -20,6 +34,8 @@ export default function Register() {
         <h2 className="heading-gradient" style={{ fontSize: '32px', marginBottom: '8px', textAlign: 'center' }}>Join Deriva</h2>
         <p style={{ color: '#9ca3af', textAlign: 'center', marginBottom: '32px' }}>Start learning options trading today</p>
         
+        {error && <div style={{ color: 'var(--danger)', marginBottom: '16px', textAlign: 'center' }}>{error}</div>}
+
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
             <label style={{ display: 'block', fontSize: '14px', marginBottom: '8px', color: '#d1d5db' }}>Username</label>

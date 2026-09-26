@@ -22,8 +22,23 @@ spring:
     enabled: true
 
 logging:
+  file:
+    name: app.log
   level:
     root: INFO
     com.deriva: DEBUG
     org.springframework.web: INFO
     org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - [traceId=%X{traceId}] - %msg%n"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true

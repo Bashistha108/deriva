@@ -35,7 +35,7 @@ jobs:
         cache: maven
         
     - name: Build and run tests with Maven
-      run: cd backend && ./mvnw -B verify
+      run: cd backend && mvn -B verify
 
   frontend-build-and-lint:
     runs-on: ubuntu-latest

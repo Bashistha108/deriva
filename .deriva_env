@@ -1,0 +1,4 @@
+SAVED_DB_HOST="localhost"
+SAVED_DB_PORT="5432"
+SAVED_DB_NAME="deriva"
+SAVED_DB_USER="postgres"

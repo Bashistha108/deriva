@@ -3,14 +3,29 @@
 import { useState } from 'react';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulate login API call
-    console.log("Logging in with", email);
-    window.location.href = '/dashboard';
+    setError('');
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ username, password })
+      });
+      if (res.ok) {
+        window.location.href = '/dashboard';
+      } else {
+        const text = await res.text();
+        setError(text || 'Login failed');
+      }
+    } catch (err) {
+      setError('Network error');
+    }
   };
 
   return (
@@ -19,15 +34,17 @@ export default function Login() {
         <h2 className="heading-gradient" style={{ fontSize: '32px', marginBottom: '8px', textAlign: 'center' }}>Welcome Back</h2>
         <p style={{ color: '#9ca3af', textAlign: 'center', marginBottom: '32px' }}>Sign in to continue your trading journey</p>
         
+        {error && <div style={{ color: 'var(--danger)', marginBottom: '16px', textAlign: 'center' }}>{error}</div>}
+
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div>
-            <label style={{ display: 'block', fontSize: '14px', marginBottom: '8px', color: '#d1d5db' }}>Email Address</label>
+            <label style={{ display: 'block', fontSize: '14px', marginBottom: '8px', color: '#d1d5db' }}>Username</label>
             <input 
-              type="email" 
+              type="text" 
               className="input-modern" 
-              placeholder="trader@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="trader123"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>

@@ -56,6 +56,18 @@ public class AuthController {
 
         return ResponseEntity.ok().body("Login successful");
     }
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
+            return ResponseEntity.status(401).body("Not authenticated");
+        }
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return ResponseEntity.ok().body(java.util.Map.of(
+            "id", userDetails.getId(),
+            "username", userDetails.getUsername(),
+            "authorities", userDetails.getAuthorities()
+        ));
+    }
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest request) {
