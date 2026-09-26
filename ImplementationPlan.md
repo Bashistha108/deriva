@@ -3176,7 +3176,7 @@ The system contains an active options universe.
 
 ---
 
-## PHASE 9 — Options mathematics
+## PHASE 9 — Options mathematics (COMPLETED)
 
 Implement:
 
