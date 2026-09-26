@@ -3518,7 +3518,7 @@ The system is restart-safe.
 
 ---
 
-## PHASE 28 — Observability
+## PHASE 28 — Observability (COMPLETED)
 
 Implement:
 
