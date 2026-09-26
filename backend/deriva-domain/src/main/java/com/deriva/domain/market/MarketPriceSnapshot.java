@@ -45,5 +45,26 @@ public class MarketPriceSnapshot {
 
     public MarketPriceSnapshot() {}
 
-    // getters and setters omitted for brevity
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getMarketTickId() { return marketTickId; }
+    public void setMarketTickId(Long marketTickId) { this.marketTickId = marketTickId; }
+    public UUID getSimulationRunId() { return simulationRunId; }
+    public void setSimulationRunId(UUID simulationRunId) { this.simulationRunId = simulationRunId; }
+    public Long getInstrumentId() { return instrumentId; }
+    public void setInstrumentId(Long instrumentId) { this.instrumentId = instrumentId; }
+    public Long getMarketSessionId() { return marketSessionId; }
+    public void setMarketSessionId(Long marketSessionId) { this.marketSessionId = marketSessionId; }
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
+    public BigDecimal getPreviousPrice() { return previousPrice; }
+    public void setPreviousPrice(BigDecimal previousPrice) { this.previousPrice = previousPrice; }
+    public BigDecimal getChange() { return change; }
+    public void setChange(BigDecimal change) { this.change = change; }
+    public BigDecimal getChangePercent() { return changePercent; }
+    public void setChangePercent(BigDecimal changePercent) { this.changePercent = changePercent; }
+    public Long getVolume() { return volume; }
+    public void setVolume(Long volume) { this.volume = volume; }
 }

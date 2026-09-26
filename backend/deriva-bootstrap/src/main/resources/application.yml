@@ -14,8 +14,12 @@ spring:
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          batch_size: 1000
+        order_inserts: true
+        order_updates: true
 
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
@@ -28,7 +32,6 @@ logging:
     root: INFO
     com.deriva: DEBUG
     org.springframework.web: INFO
-    org.hibernate.SQL: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - [traceId=%X{traceId}] - %msg%n"
 

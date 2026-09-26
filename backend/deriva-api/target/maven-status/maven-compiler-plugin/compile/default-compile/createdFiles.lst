@@ -8,6 +8,7 @@ com/deriva/api/market/MarketDataController.class
 com/deriva/api/config/WebSocketConfig.class
 com/deriva/api/config/TraceIdInterceptor.class
 com/deriva/api/watchlist/WatchlistController.class
+com/deriva/api/dto/OptionsChainRowDTO.class
 com/deriva/api/config/WebSocketSecurityConfig$1.class
 com/deriva/api/config/OpenApiConfig.class
 com/deriva/api/auth/RegisterRequest.class
