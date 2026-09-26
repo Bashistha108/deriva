@@ -16,5 +16,6 @@
     <include file="db/changelog/009-trading.xml"/>
     <include file="db/changelog/010-cash-accounts.xml"/>
     <include file="db/changelog/011-positions.xml"/>
+    <include file="db/changelog/012-settlement.xml"/>
 
 </databaseChangeLog>

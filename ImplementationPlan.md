@@ -3264,7 +3264,7 @@ Users have complete portfolio accounting.
 
 ---
 
-## PHASE 14 — Expiration and settlement
+## PHASE 14 — Expiration and settlement (COMPLETED)
 
 Implement:
 
