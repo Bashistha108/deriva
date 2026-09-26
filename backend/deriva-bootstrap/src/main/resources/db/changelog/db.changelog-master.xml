@@ -11,5 +11,6 @@
     <include file="db/changelog/004-simulation-infrastructure.xml"/>
     <include file="db/changelog/005-market-simulation.xml"/>
     <include file="db/changelog/006-historical-market-data.xml"/>
+    <include file="db/changelog/007-options-contracts.xml"/>
 
 </databaseChangeLog>

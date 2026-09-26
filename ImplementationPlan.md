@@ -3161,7 +3161,7 @@ Market history is stored without coupling calculation frequency to persistence f
 
 ---
 
-## PHASE 8 — Options contracts
+## PHASE 8 — Options contracts (COMPLETED)
 
 Implement:
 
