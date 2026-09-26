@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="1" author="deriva">
+        <createTable tableName="settlement_cycles">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="simulation_run_id" type="UUID">
+                <constraints nullable="false" foreignKeyName="fk_setcyc_run" references="simulation_runs(id)"/>
+            </column>
+            <column name="market_session_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_setcyc_session" references="market_sessions(id)"/>
+            </column>
+            <column name="status" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="started_at" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed_at" type="TIMESTAMP"/>
+        </createTable>
+
+        <addUniqueConstraint tableName="settlement_cycles" columnNames="market_session_id" constraintName="uq_settlement_session"/>
+    </changeSet>
+
+</databaseChangeLog>
