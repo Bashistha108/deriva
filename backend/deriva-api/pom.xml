@@ -12,4 +12,20 @@
 
     <artifactId>deriva-api</artifactId>
     <name>Deriva API</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.deriva</groupId>
+            <artifactId>deriva-application</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+    </dependencies>
 </project>

@@ -3072,7 +3072,7 @@ Database starts from an empty environment using Liquibase only.
 
 ---
 
-## PHASE 3 — Authentication and users
+## PHASE 3 — Authentication and users (COMPLETED)
 
 Implement:
 
