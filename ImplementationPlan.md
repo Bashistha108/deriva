@@ -3345,7 +3345,7 @@ Users can analyse hypothetical strategies independently of actual trading.
 
 ---
 
-## PHASE 19 — Risk analysis
+## PHASE 19 — Risk analysis (COMPLETED)
 
 Implement:
 
