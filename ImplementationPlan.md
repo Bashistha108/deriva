@@ -3283,7 +3283,7 @@ Daily option expiration works correctly.
 
 ---
 
-## PHASE 15 — Watchlists
+## PHASE 15 — Watchlists (COMPLETED)
 
 Implement:
 
