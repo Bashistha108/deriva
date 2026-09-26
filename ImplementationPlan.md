@@ -3502,7 +3502,7 @@ End-to-end backend workflows are verified.
 
 ---
 
-## PHASE 27 — Crash recovery
+## PHASE 27 — Crash recovery (COMPLETED)
 
 Test:
 
