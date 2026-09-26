@@ -3315,7 +3315,7 @@ Admins can create educational content.
 
 ---
 
-## PHASE 17 — Learning progress
+## PHASE 17 — Learning progress (COMPLETED)
 
 Implement:
 
