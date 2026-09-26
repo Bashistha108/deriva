@@ -6,5 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
 
     <include file="db/changelog/001-base-schema.xml"/>
+    <include file="db/changelog/002-market-universe.xml"/>
+    <include file="db/changelog/003-seed-market-universe.xml"/>
 
 </databaseChangeLog>
