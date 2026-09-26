@@ -3360,7 +3360,7 @@ Users can understand portfolio-level exposure.
 
 ---
 
-## PHASE 20 — REST API completion
+## PHASE 20 — REST API completion (COMPLETED)
 
 Implement and standardize:
 
