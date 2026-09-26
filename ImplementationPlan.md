@@ -3476,7 +3476,7 @@ Financial correctness is protected by automated tests.
 
 ---
 
-## PHASE 26 — Integration testing
+## PHASE 26 — Integration testing (COMPLETED)
 
 Use Testcontainers.
 
