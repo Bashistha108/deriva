@@ -3657,7 +3657,7 @@ Every dependency and architectural component must have a clear purpose.
 
 ---
 
-# 106. CURSOR EXECUTION RULE
+# 106. EXECUTION RULE
 
 Before beginning implementation, inspect the repository and compare it with this specification.
 
