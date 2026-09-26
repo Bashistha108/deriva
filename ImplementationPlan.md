@@ -3193,7 +3193,7 @@ The application can correctly price and analyse options.
 
 ---
 
-## PHASE 10 — Option market simulation
+## PHASE 10 — Option market simulation (COMPLETED)
 
 Implement:
 
