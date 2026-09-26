@@ -3230,7 +3230,7 @@ Users can execute simulated trades.
 
 ---
 
-## PHASE 12 — Cash and buying power
+## PHASE 12 — Cash and buying power (COMPLETED)
 
 Implement:
 
