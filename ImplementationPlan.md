@@ -3329,7 +3329,7 @@ Users can track their learning.
 
 ---
 
-## PHASE 18 — Analysis/payoff engine
+## PHASE 18 — Analysis/payoff engine (COMPLETED)
 
 Implement:
 

@@ -20,5 +20,6 @@
     <include file="db/changelog/013-watchlists.xml"/>
     <include file="db/changelog/014-learning.xml"/>
     <include file="db/changelog/015-learning-progress.xml"/>
+    <include file="db/changelog/016-saved-analyses.xml"/>
 
 </databaseChangeLog>
