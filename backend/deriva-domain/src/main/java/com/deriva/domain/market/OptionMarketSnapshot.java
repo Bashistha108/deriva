@@ -65,5 +65,40 @@ public class OptionMarketSnapshot {
 
     public OptionMarketSnapshot() {}
 
-    // Getters and setters omitted for brevity...
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Long getMarketTickId() { return marketTickId; }
+    public void setMarketTickId(Long marketTickId) { this.marketTickId = marketTickId; }
+    public Long getOptionContractId() { return optionContractId; }
+    public void setOptionContractId(Long optionContractId) { this.optionContractId = optionContractId; }
+    public Long getMarketSessionId() { return marketSessionId; }
+    public void setMarketSessionId(Long marketSessionId) { this.marketSessionId = marketSessionId; }
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public BigDecimal getUnderlyingPrice() { return underlyingPrice; }
+    public void setUnderlyingPrice(BigDecimal underlyingPrice) { this.underlyingPrice = underlyingPrice; }
+    public BigDecimal getTheoreticalPrice() { return theoreticalPrice; }
+    public void setTheoreticalPrice(BigDecimal theoreticalPrice) { this.theoreticalPrice = theoreticalPrice; }
+    public BigDecimal getBidPrice() { return bidPrice; }
+    public void setBidPrice(BigDecimal bidPrice) { this.bidPrice = bidPrice; }
+    public BigDecimal getAskPrice() { return askPrice; }
+    public void setAskPrice(BigDecimal askPrice) { this.askPrice = askPrice; }
+    public BigDecimal getMidPrice() { return midPrice; }
+    public void setMidPrice(BigDecimal midPrice) { this.midPrice = midPrice; }
+    public BigDecimal getImpliedVolatility() { return impliedVolatility; }
+    public void setImpliedVolatility(BigDecimal impliedVolatility) { this.impliedVolatility = impliedVolatility; }
+    public BigDecimal getDelta() { return delta; }
+    public void setDelta(BigDecimal delta) { this.delta = delta; }
+    public BigDecimal getGamma() { return gamma; }
+    public void setGamma(BigDecimal gamma) { this.gamma = gamma; }
+    public BigDecimal getTheta() { return theta; }
+    public void setTheta(BigDecimal theta) { this.theta = theta; }
+    public BigDecimal getVega() { return vega; }
+    public void setVega(BigDecimal vega) { this.vega = vega; }
+    public BigDecimal getRho() { return rho; }
+    public void setRho(BigDecimal rho) { this.rho = rho; }
+    public Long getVolume() { return volume; }
+    public void setVolume(Long volume) { this.volume = volume; }
+    public Long getOpenInterest() { return openInterest; }
+    public void setOpenInterest(Long openInterest) { this.openInterest = openInterest; }
 }

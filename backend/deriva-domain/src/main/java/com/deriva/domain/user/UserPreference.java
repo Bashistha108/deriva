@@ -12,10 +12,6 @@ public class UserPreference {
     @Column(name = "user_id")
     private UUID userId;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private User user;
-
     @Column(name = "base_currency", nullable = false, length = 10)
     private String baseCurrency = "USD";
 
@@ -33,9 +29,6 @@ public class UserPreference {
 
     public UUID getUserId() { return userId; }
     public void setUserId(UUID userId) { this.userId = userId; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
 
     public String getBaseCurrency() { return baseCurrency; }
     public void setBaseCurrency(String baseCurrency) { this.baseCurrency = baseCurrency; }

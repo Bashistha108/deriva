@@ -50,7 +50,6 @@ public class UserService {
 
         UserPreference pref = new UserPreference();
         pref.setUserId(user.getId());
-        pref.setUser(user);
         pref.setBaseCurrency("USD");
         pref.setTimezone("Europe/Berlin");
         pref.setCreatedAt(now);
