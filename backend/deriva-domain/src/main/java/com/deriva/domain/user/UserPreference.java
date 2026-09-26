@@ -13,8 +13,7 @@ public class UserPreference {
     private UUID userId;
 
     @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
+    @PrimaryKeyJoinColumn
     private User user;
 
     @Column(name = "base_currency", nullable = false, length = 10)

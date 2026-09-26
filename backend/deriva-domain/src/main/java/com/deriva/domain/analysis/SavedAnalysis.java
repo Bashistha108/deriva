@@ -47,5 +47,11 @@ public class SavedAnalysis {
 
     public SavedAnalysis() {}
 
-    // Getters and setters omitted for brevity...
+    public List<SavedAnalysisLeg> getLegs() {
+        return legs;
+    }
+
+    public void setLegs(List<SavedAnalysisLeg> legs) {
+        this.legs = legs;
+    }
 }

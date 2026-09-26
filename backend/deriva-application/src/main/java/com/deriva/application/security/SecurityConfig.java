@@ -31,13 +31,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            // CSRF is disabled here strictly because we are operating as a stateless JSON REST API (Next.js client) using Bearer tokens, not cookie-based sessions.
+            // CSRF is disabled for the REST API
             .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/ws/deriva/**").permitAll() // WebSocket handshake
+                .requestMatchers("/actuator/**").permitAll() // Docker health checks
                 .requestMatchers("/api/admin/**").hasAuthority("ADMIN") // Role-based access control
                 .anyRequest().authenticated()
             );

@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jdk-alpine AS builder
+FROM maven:3.9-eclipse-temurin-21-alpine AS builder
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ COPY . .
 
 # Build the application
 # We skip tests in the Docker build to speed up deployment, tests run in CI
-RUN ./mvnw clean package -DskipTests
+RUN mvn clean package -DskipTests
 
 # Stage 2: Create the runtime image
 FROM eclipse-temurin:21-jre-alpine
@@ -31,4 +31,4 @@ EXPOSE 8080
 COPY --from=builder /app/deriva-bootstrap/target/deriva-bootstrap-*.jar app.jar
 
 # Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "> app.log && java -jar app.jar"]
