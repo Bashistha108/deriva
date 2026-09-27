@@ -16,6 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>com.deriva</groupId>
+            <artifactId>deriva-market</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.deriva</groupId>
             <artifactId>deriva-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
