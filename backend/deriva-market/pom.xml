@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>deriva-market</artifactId>
-    <name>Deriva Market</name>
+    <name>deriva-market</name>
 
     <dependencies>
         <!-- Need domain and risk/options if BlackScholesModel is used (Wait, BlackScholesModel is in domain/options currently, which we haven't moved yet!) -->

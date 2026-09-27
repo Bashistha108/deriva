@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>deriva-api</artifactId>
-    <name>Deriva API</name>
+    <name>deriva-api</name>
 
     <dependencies>
         <dependency>

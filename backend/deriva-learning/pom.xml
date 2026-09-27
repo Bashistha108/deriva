@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>deriva-learning</artifactId>
-    <name>Deriva Learning</name>
+    <name>deriva-learning</name>
 
     <dependencies>
         <dependency>
