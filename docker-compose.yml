@@ -29,8 +29,9 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/deriva
       - SPRING_DATASOURCE_USERNAME=deriva
       - SPRING_DATASOURCE_PASSWORD=password
+      - APP_LOG_PATH=/app/app.log
     volumes:
-      - ./backend/app.log:/app/app.log
+      - ./app.log:/app/app.log
     depends_on:
       postgres:
         condition: service_healthy
@@ -49,9 +50,12 @@ services:
       - "3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8080
+    volumes:
+      - ./app.log:/app/app.log
     depends_on:
       backend:
         condition: service_healthy
+    command: sh -c "npm start 2>&1 | awk '{print \"[FRONTEND]: \" $$0}' >> /app/app.log"
 
 volumes:
   pgdata:
