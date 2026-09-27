@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>deriva-bootstrap</artifactId>
-    <name>Deriva Bootstrap</name>
+    <name>deriva-bootstrap</name>
 
     <dependencies>
         <dependency>

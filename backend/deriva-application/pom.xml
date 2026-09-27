@@ -11,9 +11,14 @@
     </parent>
 
     <artifactId>deriva-application</artifactId>
-    <name>Deriva Application</name>
+    <name>deriva-application</name>
 
     <dependencies>
+        <dependency>
+            <groupId>com.deriva</groupId>
+            <artifactId>deriva-market</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.deriva</groupId>
             <artifactId>deriva-domain</artifactId>

@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>deriva-persistence</artifactId>
-    <name>Deriva Persistence</name>
+    <name>deriva-persistence</name>
 
     <dependencies>
         <dependency>

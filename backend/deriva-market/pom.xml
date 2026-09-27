@@ -11,5 +11,39 @@
     </parent>
 
     <artifactId>deriva-market</artifactId>
-    <name>Deriva Market</name>
+    <name>deriva-market</name>
+
+    <dependencies>
+        <!-- Need domain and risk/options if BlackScholesModel is used (Wait, BlackScholesModel is in domain/options currently, which we haven't moved yet!) -->
+        <dependency>
+            <groupId>com.deriva</groupId>
+            <artifactId>deriva-domain</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.deriva</groupId>
+            <artifactId>deriva-risk</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <!-- Persistence API for @Entity, @Table, @Id etc. -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+
+        <!-- Spring Data JPA for Repositories -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        
+        <!-- Spring Web or Messaging if WebSockets are used in Market Data Services -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+    </dependencies>
 </project>

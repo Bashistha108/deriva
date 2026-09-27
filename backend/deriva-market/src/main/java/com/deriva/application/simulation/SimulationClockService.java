@@ -1,6 +1,7 @@
 package com.deriva.application.simulation;
 
 import com.deriva.domain.market.*;
+import com.deriva.domain.market.values.*;
 import com.deriva.persistence.market.*;
 import com.deriva.domain.simulation.*;
 import com.deriva.persistence.simulation.*;
@@ -147,7 +148,7 @@ public class SimulationClockService {
         List<Instrument> instruments = instrumentRepository.findAll();
         
         // Settings for Black-Scholes
-        double T = 30.0 / 365.0; 
+        double T = 30.0 / 256.0; 
         double r = 0.04;
         
         Map<String, BigDecimal> broadcastUpdates = new HashMap<>();
@@ -206,8 +207,14 @@ public class SimulationClockService {
                     double dist = Math.abs(strike - newPrice) / newPrice;
                     double v = 0.20 + (dist * 0.5); 
                     
-                    BigDecimal price = BlackScholesModel.calculatePrice(contract.getOptionType(), newPrice, strike, T, r, v);
-                    OptionGreeks greeks = BlackScholesModel.calculateGreeks(contract.getOptionType(), newPrice, strike, T, r, v);
+                    Price priceObj = Price.of(newPrice);
+                    Strike strikeObj = Strike.of(strike);
+                    DaysToExpiration dteObj = DaysToExpiration.ofYears(T);
+                    Percent rateObj = Percent.ofDecimal(r);
+                    Volatility volObj = Volatility.ofDecimal(v);
+
+                    BigDecimal price = BlackScholesModel.calculatePrice(contract.getOptionType(), priceObj, strikeObj, dteObj, rateObj, volObj);
+                    OptionGreeks greeks = BlackScholesModel.calculateGreeks(contract.getOptionType(), priceObj, strikeObj, dteObj, rateObj, volObj);
                     
                     Long currentOI = oiMap.getOrDefault(contract.getId(), 1000L);
                     Long currentVol = volMap.getOrDefault(contract.getId(), 0L);

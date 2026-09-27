@@ -48,3 +48,6 @@ hs_err_pid*
 # Project Specific
 ImplementationPlan.md
 app.log
+
+all_java_files.txt
+refactoring_plan.txt
