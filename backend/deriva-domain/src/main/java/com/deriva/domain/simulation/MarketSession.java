@@ -36,6 +36,20 @@ public class MarketSession {
     private LocalDateTime closedAt;
 
     public MarketSession() {}
-    
-    // Getters and setters...
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public UUID getSimulationRunId() { return simulationRunId; }
+    public void setSimulationRunId(UUID simulationRunId) { this.simulationRunId = simulationRunId; }
+    public LocalDate getTradingDate() { return tradingDate; }
+    public void setTradingDate(LocalDate tradingDate) { this.tradingDate = tradingDate; }
+    public LocalDateTime getOpensAt() { return opensAt; }
+    public void setOpensAt(LocalDateTime opensAt) { this.opensAt = opensAt; }
+    public LocalDateTime getClosesAt() { return closesAt; }
+    public void setClosesAt(LocalDateTime closesAt) { this.closesAt = closesAt; }
+    public MarketSessionStatus getStatus() { return status; }
+    public void setStatus(MarketSessionStatus status) { this.status = status; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public LocalDateTime getClosedAt() { return closedAt; }
+    public void setClosedAt(LocalDateTime closedAt) { this.closedAt = closedAt; }
 }
