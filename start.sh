@@ -66,14 +66,14 @@ echo "=========================================="
 
 # Start Backend
 echo "Starting Spring Boot Backend..."
-(cd backend && mvn clean install -DskipTests && cd deriva-bootstrap && mvn spring-boot:run) &
+(cd backend && mvn clean install -DskipTests && cd deriva-bootstrap && APP_LOG_PATH=../../app.log mvn spring-boot:run) &
 
 # Give backend a 3 second head start
 sleep 3
 
 # Start Frontend
 echo "Starting Next.js Frontend..."
-(cd frontend && npm run dev) &
+(cd frontend && npm run dev 2>&1 | awk '{print "[FRONTEND]: " $0}' >> ../app.log) &
 
 echo -e "\n=========================================="
 echo "🎉 Deriva is running locally!"
