@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>deriva-domain</artifactId>
-    <name>Deriva Domain</name>
+    <name>deriva-domain</name>
 
     <dependencies>
         <dependency>

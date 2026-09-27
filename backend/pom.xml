@@ -16,7 +16,7 @@
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Deriva Backend</name>
+    <name>deriva-backend</name>
     <description>Deriva - Options Learning + Simulated Options Trading Platform</description>
 
     <properties>
@@ -36,5 +36,10 @@
         <module>deriva-api</module>
         <module>deriva-bootstrap</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
 
 </project>

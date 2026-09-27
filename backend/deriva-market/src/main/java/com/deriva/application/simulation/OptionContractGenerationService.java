@@ -2,6 +2,7 @@ package com.deriva.application.simulation;
 
 import com.deriva.persistence.market.InstrumentRepository;
 import com.deriva.persistence.market.OptionContractRepository;
+import com.deriva.domain.market.values.Strike;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,25 +33,26 @@ public class OptionContractGenerationService {
             
             for (int i = -6; i <= 6; i++) {
                 double strike = rounded + (i * 5.0);
+                Strike strikeObj = Strike.of(strike);
                 
                 // CALL 30D
-                createContract(instrument.getId(), strike, exp1, com.deriva.domain.market.OptionType.CALL);
+                createContract(instrument.getId(), strikeObj, exp1, com.deriva.domain.market.OptionType.CALL);
                 // PUT 30D
-                createContract(instrument.getId(), strike, exp1, com.deriva.domain.market.OptionType.PUT);
+                createContract(instrument.getId(), strikeObj, exp1, com.deriva.domain.market.OptionType.PUT);
                 
                 // CALL 60D
-                createContract(instrument.getId(), strike, exp2, com.deriva.domain.market.OptionType.CALL);
+                createContract(instrument.getId(), strikeObj, exp2, com.deriva.domain.market.OptionType.CALL);
                 // PUT 60D
-                createContract(instrument.getId(), strike, exp2, com.deriva.domain.market.OptionType.PUT);
+                createContract(instrument.getId(), strikeObj, exp2, com.deriva.domain.market.OptionType.PUT);
             }
         }
     }
     
-    private void createContract(Long instrumentId, double strike, java.time.LocalDate exp, com.deriva.domain.market.OptionType type) {
+    private void createContract(Long instrumentId, Strike strike, java.time.LocalDate exp, com.deriva.domain.market.OptionType type) {
         com.deriva.domain.market.OptionContract contract = new com.deriva.domain.market.OptionContract();
         contract.setUnderlyingInstrumentId(instrumentId);
         contract.setOptionType(type);
-        contract.setStrikePrice(java.math.BigDecimal.valueOf(strike));
+        contract.setStrikePrice(java.math.BigDecimal.valueOf(strike.toDouble()));
         contract.setExpirationDate(exp);
         contract.setContractMultiplier(100);
         contract.setStatus(com.deriva.domain.market.OptionContractStatus.ACTIVE);

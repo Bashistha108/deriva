@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Trap Ctrl+C (SIGINT) to gracefully shut down both backend and frontend
-trap 'echo -e "\n🛑 Stopping Deriva services..."; kill 0; exit 0' SIGINT
+trap 'echo -e "\n🛑 Stopping Deriva services..."; trap "" SIGTERM; kill 0; wait; exit 0' SIGINT
 
 # Load defaults if they exist
 ENV_FILE=".deriva_env"
@@ -51,7 +51,10 @@ while true; do
         echo "SAVED_DB_USER=\"$DB_USER\"" >> "$ENV_FILE"
         break
     else
-        echo -e "❌ Connection failed! Please check your credentials and make sure PostgreSQL is running.\n"
+        echo -e "❌ Connection failed! Please check your credentials and make sure PostgreSQL is running."
+        echo -e "   (Retrying...)\n"
+        unset SAVED_DB_PASSWORD
+        sleep 1
     fi
 done
 

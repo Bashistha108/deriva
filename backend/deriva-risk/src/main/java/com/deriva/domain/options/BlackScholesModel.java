@@ -1,10 +1,15 @@
 package com.deriva.domain.options;
 
 import com.deriva.domain.market.OptionType;
+import com.deriva.domain.market.values.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class BlackScholesModel {
+
+    public static BigDecimal calculatePrice(OptionType type, Price S, Strike K, DaysToExpiration T, Percent r, Volatility v) {
+        return calculatePrice(type, S.toDouble(), K.toDouble(), T.toYears(), r.toDecimal(), v.toDecimal());
+    }
 
     public static BigDecimal calculatePrice(OptionType type, double S, double K, double T, double r, double v) {
         if (T <= 0.0) {
@@ -22,6 +27,10 @@ public class BlackScholesModel {
         }
 
         return BigDecimal.valueOf(price).setScale(4, RoundingMode.HALF_UP);
+    }
+
+    public static OptionGreeks calculateGreeks(OptionType type, Price S, Strike K, DaysToExpiration T, Percent r, Volatility v) {
+        return calculateGreeks(type, S.toDouble(), K.toDouble(), T.toYears(), r.toDecimal(), v.toDecimal());
     }
 
     public static OptionGreeks calculateGreeks(OptionType type, double S, double K, double T, double r, double v) {
@@ -43,7 +52,7 @@ public class BlackScholesModel {
         } else {
             theta = theta1 + r * K * Math.exp(-r * T) * NormalDistribution.cdf(-d2);
         }
-        theta = theta / 365.0;
+        theta = theta / 256.0;
 
         double rho;
         if (type == OptionType.CALL) {
@@ -59,5 +68,35 @@ public class BlackScholesModel {
             BigDecimal.valueOf(vega).setScale(6, RoundingMode.HALF_UP),
             BigDecimal.valueOf(rho).setScale(6, RoundingMode.HALF_UP)
         );
+    }
+
+    /**
+     * Verifies the Black-Scholes put-call parity relationship.
+     *
+     * C - P = S - K * e^(-rT)
+     *
+     * @return difference between the two sides of the parity equation.
+     *         Zero means parity holds.
+     */
+    public static BigDecimal verifyPutCallParity(Price S, Strike K, DaysToExpiration T, Percent r, Volatility v){
+        return verifyPutCallParity(S.toDouble(), K.toDouble(), T.toYears(), r.toDecimal(), v.toDecimal());
+    }
+
+    public static BigDecimal verifyPutCallParity( double S, double K, double T, double r, double v){
+        // 1. Calculate Call and Put prices explicitly (both are required for parity)
+        BigDecimal callPrice = calculatePrice(OptionType.CALL, S, K, T, r, v);
+        BigDecimal putPrice = calculatePrice(OptionType.PUT, S, K, T, r, v);
+
+        // 2. Calculate the present value of the strike price: K * e^(-rT)
+        double presentValueStrike = K * Math.exp(-r * T);
+
+        // 3. Calculate left side of Put-Call Parity: C - P
+        BigDecimal leftSide = callPrice.subtract(putPrice);
+
+        // 4. Calculate right side of Put-Call Parity: S - K * e^(-rT)
+        BigDecimal rightSide = BigDecimal.valueOf(S).subtract(BigDecimal.valueOf(presentValueStrike));
+
+        // 5. Return the parity difference. If parity holds, this will equal exactly 0.
+        return leftSide.subtract(rightSide);
     }
 }
