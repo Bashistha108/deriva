@@ -5,6 +5,7 @@ import com.deriva.domain.market.values.*;
 import com.deriva.persistence.market.*;
 import com.deriva.domain.simulation.*;
 import com.deriva.persistence.simulation.*;
+import com.deriva.persistence.system.SystemSettingRepository;
 import com.deriva.domain.options.*;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -29,6 +30,7 @@ public class SimulationClockService {
     private final SimulationRunRepository simulationRunRepository;
     private final MarketSessionRepository marketSessionRepository;
     private final MarketTickRepository marketTickRepository;
+    private final SystemSettingRepository systemSettingRepository;
     
     private final SimpMessagingTemplate messagingTemplate;
     
@@ -46,6 +48,26 @@ public class SimulationClockService {
     private final Map<Long, MarketPriceSnapshot> pendingStockSnaps = new ConcurrentHashMap<>();
     private final Map<Long, OptionMarketSnapshot> pendingOptionSnaps = new ConcurrentHashMap<>();
 
+    private int priceUpdateMinMs = 1000;
+    private int priceUpdateRangeMs = 9000;
+    private int databaseFlushMs = 60000;
+    private long lastSettingsReload = 0;
+    private long lastFlushTime = 0;
+
+    private boolean isPaused = false;
+
+    public void setPaused(boolean paused) {
+        this.isPaused = paused;
+        com.deriva.domain.system.SystemSetting setting = systemSettingRepository.findById("SIMULATION_PAUSED")
+                .orElse(new com.deriva.domain.system.SystemSetting("SIMULATION_PAUSED", "false"));
+        setting.setValue(String.valueOf(paused));
+        systemSettingRepository.save(setting);
+    }
+
+    public boolean isPaused() {
+        return isPaused;
+    }
+
     public SimulationClockService(
             InstrumentRepository instrumentRepository, 
             OptionContractRepository optionContractRepository,
@@ -54,6 +76,7 @@ public class SimulationClockService {
             SimulationRunRepository simulationRunRepository,
             MarketSessionRepository marketSessionRepository,
             MarketTickRepository marketTickRepository,
+            SystemSettingRepository systemSettingRepository,
             SimpMessagingTemplate messagingTemplate) {
         this.instrumentRepository = instrumentRepository;
         this.optionContractRepository = optionContractRepository;
@@ -62,6 +85,7 @@ public class SimulationClockService {
         this.simulationRunRepository = simulationRunRepository;
         this.marketSessionRepository = marketSessionRepository;
         this.marketTickRepository = marketTickRepository;
+        this.systemSettingRepository = systemSettingRepository;
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -143,6 +167,20 @@ public class SimulationClockService {
         if (currentPrices.isEmpty() || runId == null) return;
 
         long now = System.currentTimeMillis();
+        
+        // Reload settings every 10 seconds
+        if (now - lastSettingsReload > 10000) {
+            try {
+                priceUpdateMinMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_PRICE_UPDATE_MIN_MS").map(s -> s.getValue()).orElse("1000"));
+                priceUpdateRangeMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_PRICE_UPDATE_RANGE_MS").map(s -> s.getValue()).orElse("9000"));
+                databaseFlushMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_DATABASE_FLUSH_MS").map(s -> s.getValue()).orElse("60000"));
+                isPaused = Boolean.parseBoolean(systemSettingRepository.findById("SIMULATION_PAUSED").map(s -> s.getValue()).orElse("false"));
+            } catch (Exception e) {}
+            lastSettingsReload = now;
+        }
+
+        if (isPaused) return;
+
         boolean anyUpdates = false;
         
         List<Instrument> instruments = instrumentRepository.findAll();
@@ -163,8 +201,8 @@ public class SimulationClockService {
             }
             
             anyUpdates = true;
-            // Schedule next update between 1s and 10s from now
-            nextUpdateTimes.put(symbol, now + 1000 + random.nextInt(9000));
+            // Schedule next update based on settings
+            nextUpdateTimes.put(symbol, now + priceUpdateMinMs + random.nextInt(Math.max(1, priceUpdateRangeMs)));
             
             try {
                 BigDecimal bdOldPrice = currentPrices.get(symbol);
@@ -259,9 +297,16 @@ public class SimulationClockService {
         }
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 1000)
     public void flushToDatabase() {
+        long now = System.currentTimeMillis();
+        if (now - lastFlushTime < databaseFlushMs) {
+            return;
+        }
+        
         if (pendingStockSnaps.isEmpty() && pendingOptionSnaps.isEmpty()) return;
+
+        lastFlushTime = now;
 
         // Create Market Tick for this minute's flush
         MarketTick tick = new MarketTick();

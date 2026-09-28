@@ -29,6 +29,11 @@ export default function AdminDashboard() {
         }
       })
       .catch(() => setIsAdmin(false));
+
+    fetch('http://localhost:8080/api/market-data/simulation/status', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => setSimulationState(data.status))
+      .catch(err => console.error("Failed to fetch simulation status", err));
   }, []);
 
   if (isAdmin === null) {
@@ -141,14 +146,22 @@ export default function AdminDashboard() {
               
               <div style={{ display: 'flex', gap: '8px' }}>
                 <button 
-                  onClick={() => setSimulationState('RUNNING')}
+                  onClick={() => {
+                    fetch('http://localhost:8080/api/market-data/simulation/resume', { method: 'POST', credentials: 'include' })
+                      .then(() => setSimulationState('RUNNING'))
+                      .catch(err => console.error("Failed to resume simulation", err));
+                  }}
                   disabled={simulationState === 'RUNNING'}
                   style={{ background: simulationState === 'RUNNING' ? 'transparent' : 'var(--success)', border: simulationState === 'RUNNING' ? '1px solid var(--border)' : 'none', color: simulationState === 'RUNNING' ? '#6b7280' : 'white', padding: '8px 16px', borderRadius: '4px', cursor: simulationState === 'RUNNING' ? 'not-allowed' : 'pointer', fontWeight: 600 }}
                 >
                   Start
                 </button>
                 <button 
-                  onClick={() => setSimulationState('PAUSED')}
+                  onClick={() => {
+                    fetch('http://localhost:8080/api/market-data/simulation/pause', { method: 'POST', credentials: 'include' })
+                      .then(() => setSimulationState('PAUSED'))
+                      .catch(err => console.error("Failed to pause simulation", err));
+                  }}
                   disabled={simulationState === 'PAUSED'}
                   style={{ background: simulationState === 'PAUSED' ? 'transparent' : 'var(--warning)', border: simulationState === 'PAUSED' ? '1px solid var(--border)' : 'none', color: simulationState === 'PAUSED' ? '#6b7280' : 'black', padding: '8px 16px', borderRadius: '4px', cursor: simulationState === 'PAUSED' ? 'not-allowed' : 'pointer', fontWeight: 600 }}
                 >

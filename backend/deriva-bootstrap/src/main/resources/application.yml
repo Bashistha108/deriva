@@ -30,7 +30,7 @@ logging:
     name: ${APP_LOG_PATH:../../app.log}
   level:
     root: INFO
-    com.deriva: DEBUG
+    com.deriva: INFO
     org.springframework.web: INFO
   pattern:
     file: "[BACKEND]: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - [traceId=%X{traceId}] - %msg%n"

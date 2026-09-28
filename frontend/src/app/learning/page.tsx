@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function LearningHub() {
   const [courses, setCourses] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     fetch('http://localhost:8080/api/learning/courses', { credentials: 'include' })
@@ -72,7 +74,10 @@ export default function LearningHub() {
                 </div>
               </div>
               
-              <button className="btn-primary" style={{ width: '100%', background: course.progress === 100 ? 'transparent' : undefined, border: course.progress === 100 ? '1px solid var(--border)' : undefined, color: course.progress === 100 ? 'var(--foreground)' : undefined }}>
+              <button 
+                className="btn-primary" 
+                onClick={() => router.push(`/learning/${course.id}`)}
+                style={{ width: '100%', background: course.progress === 100 ? 'transparent' : undefined, border: course.progress === 100 ? '1px solid var(--border)' : undefined, color: course.progress === 100 ? 'var(--foreground)' : undefined }}>
                 {course.progress === 100 ? 'Review Course' : course.progress > 0 ? 'Continue Learning' : 'Start Course'}
               </button>
             </div>
