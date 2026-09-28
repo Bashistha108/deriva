@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import LearningCms from './LearningCms';
 
 const mockUsers = [
   { id: '1', email: 'trader1@example.com', role: 'USER', balance: 10420.50, active: true },
@@ -11,6 +12,38 @@ const mockUsers = [
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
   const [simulationState, setSimulationState] = useState('RUNNING');
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/auth/me', { credentials: 'include' })
+      .then(res => {
+        if (!res.ok) throw new Error('Not authenticated');
+        return res.json();
+      })
+      .then(user => {
+        const isAdminUser = user.authorities && user.authorities.some((auth: any) => auth.authority === 'ROLE_ADMIN');
+        if (isAdminUser) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
+      })
+      .catch(() => setIsAdmin(false));
+  }, []);
+
+  if (isAdmin === null) {
+    return <div style={{ padding: '40px', textAlign: 'center', color: '#9ca3af' }}>Verifying permissions...</div>;
+  }
+
+  if (isAdmin === false) {
+    return (
+      <div className="container" style={{ padding: '80px 24px', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '32px', color: 'var(--danger)', marginBottom: '16px' }}>Access Denied</h1>
+        <p style={{ color: '#9ca3af' }}>You must have administrator privileges to view this page.</p>
+        <button onClick={() => window.location.href = '/'} className="btn-primary" style={{ marginTop: '24px' }}>Return Home</button>
+      </div>
+    );
+  }
 
   const tabs = [
     { id: 'users', label: 'User Management' },
@@ -137,7 +170,11 @@ export default function AdminDashboard() {
         </div>
       )}
       
-      {(activeTab === 'learning' || activeTab === 'audit') && (
+      {activeTab === 'learning' && (
+        <LearningCms />
+      )}
+      
+      {activeTab === 'audit' && (
         <div className="glass" style={{ padding: '48px', borderRadius: '16px', textAlign: 'center', color: '#9ca3af' }}>
           Interface configuration for {activeTab} goes here.
         </div>

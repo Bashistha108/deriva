@@ -4,8 +4,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/deriva
-    username: deriva
-    password: password
+    username: postgres
+    password: 8582
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -33,8 +33,7 @@ logging:
     com.deriva: DEBUG
     org.springframework.web: INFO
   pattern:
-    console: "[BACKEND]: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger.%M() - [traceId=%X{traceId}] - %msg%n"
-    file: "[BACKEND]: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger.%M() - [traceId=%X{traceId}] - %msg%n"
+    file: "[BACKEND]: %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - [traceId=%X{traceId}] - %msg%n"
 
 management:
   endpoints:

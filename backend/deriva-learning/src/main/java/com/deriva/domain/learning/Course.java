@@ -45,5 +45,33 @@ public class Course {
 
     public Course() {}
 
-    // Getters and setters omitted for brevity...
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getSlug() { return slug; }
+    public void setSlug(String slug) { this.slug = slug; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public ContentStatus getStatus() { return status; }
+    public void setStatus(ContentStatus status) { this.status = status; }
+
+    public UUID getCreatedBy() { return createdBy; }
+    public void setCreatedBy(UUID createdBy) { this.createdBy = createdBy; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public LocalDateTime getPublishedAt() { return publishedAt; }
+    public void setPublishedAt(LocalDateTime publishedAt) { this.publishedAt = publishedAt; }
+
+    public List<CourseSection> getSections() { return sections; }
+    public void setSections(List<CourseSection> sections) { this.sections = sections; }
 }

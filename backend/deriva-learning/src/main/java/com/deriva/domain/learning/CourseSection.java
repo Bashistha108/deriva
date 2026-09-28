@@ -15,6 +15,7 @@ public class CourseSection {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Course course;
 
     @Column(nullable = false)
@@ -32,5 +33,21 @@ public class CourseSection {
 
     public CourseSection() {}
 
-    // Getters and setters omitted for brevity...
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public Course getCourse() { return course; }
+    public void setCourse(Course course) { this.course = course; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public Integer getSortOrder() { return sortOrder; }
+    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
+
+    public List<Lesson> getLessons() { return lessons; }
+    public void setLessons(List<Lesson> lessons) { this.lessons = lessons; }
 }

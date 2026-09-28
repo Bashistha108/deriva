@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 export default function ClientNavbar() {
   const pathname = usePathname();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const isAuthPage = pathname === '/login' || pathname === '/register';
 
@@ -17,11 +18,16 @@ export default function ClientNavbar() {
         });
         if (res.ok) {
           setIsAuthenticated(true);
+          const user = await res.json();
+          const isAdminUser = user.authorities && user.authorities.some((auth: any) => auth.authority === 'ROLE_ADMIN');
+          setIsAdmin(isAdminUser);
         } else {
           setIsAuthenticated(false);
+          setIsAdmin(false);
         }
       } catch (err) {
         setIsAuthenticated(false);
+        setIsAdmin(false);
       }
     };
     checkAuth();
@@ -54,6 +60,9 @@ export default function ClientNavbar() {
               <a href="/portfolio" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Portfolio</a>
               <a href="/chain" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Options Chain</a>
               <a href="/learning" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Learning</a>
+              {isAdmin && (
+                <a href="/admin" style={{ color: 'var(--warning)', textDecoration: 'none', fontWeight: 500 }}>Admin Console</a>
+              )}
             </div>
           )}
         </div>
