@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -66,5 +67,31 @@ public class UserService {
             user.setLastLoginAt(LocalDateTime.now());
             userRepository.save(user);
         });
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    @Transactional
+    public User updateUserRole(UUID userId, Role newRole) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setRole(newRole);
+        user.setUpdatedAt(LocalDateTime.now());
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User updateUserStatus(UUID userId, boolean enabled) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setEnabled(enabled);
+        user.setUpdatedAt(LocalDateTime.now());
+        return userRepository.save(user);
     }
 }

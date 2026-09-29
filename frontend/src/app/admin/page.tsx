@@ -3,16 +3,15 @@
 import { useState, useEffect } from 'react';
 import LearningCms from './LearningCms';
 
-const mockUsers = [
-  { id: '1', email: 'trader1@example.com', role: 'USER', balance: 10420.50, active: true },
-  { id: '2', email: 'trader2@example.com', role: 'USER', balance: 5000.00, active: true },
-  { id: '3', email: 'admin@deriva.com', role: 'ADMIN', balance: 0.00, active: true },
-];
+
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
   const [simulationState, setSimulationState] = useState('RUNNING');
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+
+  const [users, setUsers] = useState<any[]>([]);
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
 
   useEffect(() => {
     fetch('http://localhost:8080/api/auth/me', { credentials: 'include' })
@@ -21,9 +20,25 @@ export default function AdminDashboard() {
         return res.json();
       })
       .then(user => {
+        setCurrentUserId(user.id);
         const isAdminUser = user.authorities && user.authorities.some((auth: any) => auth.authority === 'ROLE_ADMIN');
         if (isAdminUser) {
           setIsAdmin(true);
+          fetch('http://localhost:8080/api/admin/users', { credentials: 'include' })
+            .then(res => {
+              if (!res.ok) {
+                console.error('Failed to fetch users, status:', res.status);
+                return [];
+              }
+              return res.json();
+            })
+            .then(data => {
+              setUsers(Array.isArray(data) ? data : []);
+            })
+            .catch(err => {
+              console.error("Failed to fetch users", err);
+              setUsers([]);
+            });
         } else {
           setIsAdmin(false);
         }
@@ -35,6 +50,40 @@ export default function AdminDashboard() {
       .then(data => setSimulationState(data.status))
       .catch(err => console.error("Failed to fetch simulation status", err));
   }, []);
+
+  const handleRoleChange = (userId: string, newRole: string) => {
+    fetch(`http://localhost:8080/api/admin/users/${userId}/role`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ role: newRole }),
+      credentials: 'include'
+    })
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error('Failed to update role');
+      })
+      .then(updatedUser => {
+        setUsers(users.map(u => u.id === userId ? updatedUser : u));
+      })
+      .catch(err => console.error(err));
+  };
+
+  const handleStatusChange = (userId: string, enabled: boolean) => {
+    fetch(`http://localhost:8080/api/admin/users/${userId}/status`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ enabled }),
+      credentials: 'include'
+    })
+      .then(res => {
+        if (res.ok) return res.json();
+        throw new Error('Failed to update status');
+      })
+      .then(updatedUser => {
+        setUsers(users.map(u => u.id === userId ? updatedUser : u));
+      })
+      .catch(err => console.error(err));
+  };
 
   if (isAdmin === null) {
     return <div style={{ padding: '40px', textAlign: 'center', color: '#9ca3af' }}>Verifying permissions...</div>;
@@ -92,37 +141,69 @@ export default function AdminDashboard() {
           <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
             <thead>
               <tr style={{ background: 'rgba(255, 255, 255, 0.02)', fontSize: '14px', color: '#9ca3af' }}>
+                <th style={{ padding: '16px 24px' }}>Username</th>
                 <th style={{ padding: '16px 24px' }}>Email</th>
                 <th style={{ padding: '16px 24px' }}>Role</th>
                 <th style={{ padding: '16px 24px' }}>Balance</th>
                 <th style={{ padding: '16px 24px' }}>Status</th>
-                <th style={{ padding: '16px 24px' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {mockUsers.map((user) => (
+              {(Array.isArray(users) ? users : []).map((user) => (
                 <tr key={user.id} style={{ borderTop: '1px solid var(--border)' }}>
-                  <td style={{ padding: '16px 24px', fontWeight: 500 }}>{user.email}</td>
+                  <td style={{ padding: '16px 24px', fontWeight: 500 }}>{user.username}</td>
+                  <td style={{ padding: '16px 24px', color: '#9ca3af' }}>{user.email}</td>
                   <td style={{ padding: '16px 24px' }}>
-                    <span style={{ 
-                      padding: '4px 8px', 
-                      background: user.role === 'ADMIN' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(59, 130, 246, 0.1)', 
-                      color: user.role === 'ADMIN' ? 'var(--warning)' : 'var(--primary)', 
-                      borderRadius: '4px', 
-                      fontSize: '12px', 
-                      fontWeight: 600 
-                    }}>
-                      {user.role}
-                    </span>
+                    {currentUserId === user.id ? (
+                      <span style={{ 
+                        padding: '4px 8px', 
+                        background: user.role === 'ADMIN' ? 'rgba(245, 158, 11, 0.1)' : 'rgba(59, 130, 246, 0.1)', 
+                        color: user.role === 'ADMIN' ? 'var(--warning)' : 'var(--primary)', 
+                        borderRadius: '4px', 
+                        fontSize: '12px', 
+                        fontWeight: 600 
+                      }}>
+                        {user.role}
+                      </span>
+                    ) : (
+                      <select 
+                        value={user.role} 
+                        onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                        style={{
+                          background: 'rgba(0,0,0,0.5)',
+                          color: 'white',
+                          border: '1px solid var(--border)',
+                          padding: '4px 8px',
+                          borderRadius: '4px'
+                        }}
+                      >
+                        <option value="USER">USER</option>
+                        <option value="ADMIN">ADMIN</option>
+                      </select>
+                    )}
                   </td>
-                  <td style={{ padding: '16px 24px' }}>${user.balance.toFixed(2)}</td>
+                  <td style={{ padding: '16px 24px' }}>$0.00</td>
                   <td style={{ padding: '16px 24px' }}>
-                    <span style={{ color: user.active ? 'var(--success)' : 'var(--danger)', fontSize: '14px' }}>
-                      {user.active ? 'Active' : 'Suspended'}
-                    </span>
-                  </td>
-                  <td style={{ padding: '16px 24px' }}>
-                    <button style={{ background: 'transparent', border: '1px solid var(--border)', color: 'white', padding: '6px 12px', borderRadius: '4px', cursor: 'pointer' }}>Edit</button>
+                    {currentUserId === user.id ? (
+                      <span style={{ color: user.enabled ? 'var(--success)' : 'var(--danger)', fontSize: '14px' }}>
+                        {user.enabled ? 'Active' : 'Inactive'}
+                      </span>
+                    ) : (
+                      <select 
+                        value={user.enabled ? 'true' : 'false'} 
+                        onChange={(e) => handleStatusChange(user.id, e.target.value === 'true')}
+                        style={{
+                          background: 'rgba(0,0,0,0.5)',
+                          color: user.enabled ? 'var(--success)' : 'var(--danger)',
+                          border: '1px solid var(--border)',
+                          padding: '4px 8px',
+                          borderRadius: '4px'
+                        }}
+                      >
+                        <option value="true" style={{ color: 'var(--success)' }}>Active</option>
+                        <option value="false" style={{ color: 'var(--danger)' }}>Inactive</option>
+                      </select>
+                    )}
                   </td>
                 </tr>
               ))}

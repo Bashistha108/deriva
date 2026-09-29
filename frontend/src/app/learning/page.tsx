@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 export default function LearningHub() {
   const [courses, setCourses] = useState<any[]>([]);
+  const [overallProgress, setOverallProgress] = useState(0);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -12,15 +13,48 @@ export default function LearningHub() {
     fetch('http://localhost:8080/api/learning/courses', { credentials: 'include' })
       .then(res => res.json())
       .then(data => {
+        let globalCompleted = 0;
+        let globalTotal = 0;
+
         // Map backend courses to the UI format
-        const formatted = data.map((c: any) => ({
-          id: c.id,
-          title: c.title,
-          description: c.description,
-          slug: c.slug,
-          progress: 0 // Mock progress for now
-        }));
+        const formatted = data.map((c: any) => {
+          let courseCompleted = 0;
+          let courseTotal = 0;
+
+          if (c.sections) {
+            c.sections.forEach((s: any) => {
+              if (s.lessons) courseTotal += s.lessons.length;
+            });
+          }
+
+          if (courseTotal > 0) {
+            try {
+              const saved = localStorage.getItem(`course_progress_${c.id}`);
+              if (saved) {
+                const completed = JSON.parse(saved);
+                if (Array.isArray(completed)) {
+                  // Make sure we only count valid lessons
+                  courseCompleted = completed.length;
+                }
+              }
+            } catch (e) {}
+          }
+
+          globalTotal += courseTotal;
+          globalCompleted += courseCompleted;
+
+          const progress = courseTotal > 0 ? Math.round((courseCompleted / courseTotal) * 100) : 0;
+
+          return {
+            id: c.id,
+            title: c.title,
+            description: c.description,
+            slug: c.slug,
+            progress: Math.min(progress, 100)
+          };
+        });
         setCourses(formatted);
+        setOverallProgress(globalTotal > 0 ? Math.round((globalCompleted / globalTotal) * 100) : 0);
         setLoading(false);
       })
       .catch(err => {
@@ -39,10 +73,10 @@ export default function LearningHub() {
         <div className="glass" style={{ padding: '16px 24px', borderRadius: '12px', display: 'flex', gap: '24px', alignItems: 'center' }}>
           <div>
             <div style={{ fontSize: '12px', color: '#9ca3af', marginBottom: '4px' }}>Overall Progress</div>
-            <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--foreground)' }}>35%</div>
+            <div style={{ fontSize: '24px', fontWeight: 700, color: 'var(--foreground)' }}>{overallProgress}%</div>
           </div>
           <div style={{ width: '150px', height: '8px', background: 'rgba(255,255,255,0.1)', borderRadius: '4px', overflow: 'hidden' }}>
-            <div style={{ width: '35%', height: '100%', background: 'var(--primary)' }}></div>
+            <div style={{ width: `${overallProgress}%`, height: '100%', background: 'var(--primary)', transition: 'width 0.3s ease' }}></div>
           </div>
         </div>
       </div>

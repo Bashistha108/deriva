@@ -61,16 +61,39 @@ public class AuthController {
         }
     }
     @org.springframework.web.bind.annotation.GetMapping("/me")
-    public ResponseEntity<?> getCurrentUser(Authentication authentication) {
+    public ResponseEntity<?> getCurrentUser(Authentication authentication, HttpServletRequest request) {
         if (authentication == null || !authentication.isAuthenticated() || "anonymousUser".equals(authentication.getPrincipal())) {
             return ResponseEntity.status(401).body("Not authenticated");
         }
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok().body(java.util.Map.of(
-            "id", userDetails.getId(),
-            "username", userDetails.getUsername(),
-            "authorities", userDetails.getAuthorities()
-        ));
+        
+        try {
+            com.deriva.domain.user.User freshUser = userService.getUserById(userDetails.getId());
+            
+            // Create updated authorities from fresh database state
+            java.util.List<org.springframework.security.core.GrantedAuthority> newAuthorities = java.util.Collections.singletonList(
+                new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + freshUser.getRole().name())
+            );
+            
+            // If the authorities don't match, update the active session
+            if (!userDetails.getAuthorities().equals(newAuthorities)) {
+                Authentication newAuth = new UsernamePasswordAuthenticationToken(userDetails, authentication.getCredentials(), newAuthorities);
+                SecurityContextHolder.getContext().setAuthentication(newAuth);
+                
+                HttpSession session = request.getSession(false);
+                if (session != null) {
+                    session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+                }
+            }
+            
+            return ResponseEntity.ok().body(java.util.Map.of(
+                "id", freshUser.getId(),
+                "username", freshUser.getUsername(),
+                "authorities", newAuthorities
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("User not found");
+        }
     }
 
     @PostMapping("/logout")

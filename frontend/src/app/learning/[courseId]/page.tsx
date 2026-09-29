@@ -11,6 +11,26 @@ export default function CoursePage() {
   const [loading, setLoading] = useState(true);
   const [activeLesson, setActiveLesson] = useState<any>(null);
   const [activeSection, setActiveSection] = useState<any>(null);
+  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem(`course_progress_${courseId}`);
+    if (saved) {
+      try {
+        setCompletedLessons(JSON.parse(saved));
+      } catch (e) {}
+    }
+  }, [courseId]);
+
+  const toggleLessonComplete = (lessonId: string) => {
+    setCompletedLessons(prev => {
+      const newCompleted = prev.includes(lessonId) 
+        ? prev.filter(id => id !== lessonId)
+        : [...prev, lessonId];
+      localStorage.setItem(`course_progress_${courseId}`, JSON.stringify(newCompleted));
+      return newCompleted;
+    });
+  };
 
   useEffect(() => {
     fetch(`http://localhost:8080/api/learning/courses/${courseId}`, { credentials: 'include' })
@@ -62,6 +82,10 @@ export default function CoursePage() {
   const prevLessonObj = currentIndex > 0 ? allLessons[currentIndex - 1] : null;
   const nextLessonObj = currentIndex < allLessons.length - 1 ? allLessons[currentIndex + 1] : null;
 
+  const totalLessons = allLessons.length;
+  const completedCount = completedLessons.length;
+  const progressPercentage = totalLessons === 0 ? 0 : Math.round((completedCount / totalLessons) * 100);
+
   const navigateToLesson = (lesson: any, section: any) => {
     setActiveLesson(lesson);
     setActiveSection(section);
@@ -71,7 +95,7 @@ export default function CoursePage() {
   };
 
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 72px)', margin: '-24px', overflow: 'hidden' }}>
+    <div style={{ display: 'flex', height: 'calc(100vh - 72px)', margin: '0', overflow: 'hidden' }}>
       {/* Sidebar Navigation */}
       <div className="glass" style={{ width: '340px', display: 'flex', flexDirection: 'column', borderRight: '1px solid rgba(255,255,255,0.05)', borderRadius: '0', background: 'rgba(0,0,0,0.3)', zIndex: 10 }}>
         <div style={{ padding: '32px 24px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
@@ -81,9 +105,9 @@ export default function CoursePage() {
           </button>
           <h2 style={{ fontSize: '20px', fontWeight: 800, color: 'white', lineHeight: '1.4' }}>{course.title}</h2>
           <div style={{ marginTop: '16px', height: '6px', background: 'rgba(255,255,255,0.1)', borderRadius: '3px', overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: '15%', background: 'linear-gradient(90deg, #3b82f6, #60a5fa)' }}></div> {/* Mock progress */}
+            <div style={{ height: '100%', width: `${progressPercentage}%`, background: 'linear-gradient(90deg, #3b82f6, #60a5fa)', transition: 'width 0.3s ease' }}></div>
           </div>
-          <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '8px', fontWeight: 500 }}>15% Complete</div>
+          <div style={{ fontSize: '12px', color: '#9ca3af', marginTop: '8px', fontWeight: 500 }}>{progressPercentage}% Complete</div>
         </div>
 
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 0' }}>
@@ -96,6 +120,7 @@ export default function CoursePage() {
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {section.lessons?.map((lesson: any, lIndex: number) => {
                   const isActive = activeLesson?.id === lesson.id;
+                  const isCompleted = completedLessons.includes(lesson.id);
                   return (
                     <button
                       key={lesson.id}
@@ -118,8 +143,8 @@ export default function CoursePage() {
                       onMouseOver={e => { if (!isActive) { e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; e.currentTarget.style.color = 'white'; } }}
                       onMouseOut={e => { if (!isActive) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#d1d5db'; } }}
                     >
-                      <div style={{ width: '22px', height: '22px', borderRadius: '50%', border: isActive ? '2px solid #3b82f6' : '2px solid rgba(255,255,255,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: isActive ? 'rgba(59, 130, 246, 0.2)' : 'transparent' }}>
-                        {/* Empty circle for uncompleted, check for completed (mocked) */}
+                      <div style={{ width: '22px', height: '22px', borderRadius: '50%', border: isActive ? '2px solid #3b82f6' : (isCompleted ? '2px solid #10b981' : '2px solid rgba(255,255,255,0.2)'), display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: isActive ? 'rgba(59, 130, 246, 0.2)' : (isCompleted ? 'rgba(16, 185, 129, 0.1)' : 'transparent') }}>
+                        {isCompleted && <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3"><path d="M20 6L9 17l-5-5"/></svg>}
                       </div>
                       <span style={{ lineHeight: '1.4' }}>{lesson.title}</span>
                     </button>
@@ -134,7 +159,7 @@ export default function CoursePage() {
       {/* Main Content Area */}
       <div id="main-content-scroll" style={{ flex: 1, overflowY: 'auto', background: 'radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.05) 0%, transparent 50%)', scrollBehavior: 'smooth' }}>
         {activeLesson ? (
-          <div style={{ maxWidth: '850px', margin: '0 auto', padding: '80px 40px', minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '80px 40px', minHeight: '100%', display: 'flex', flexDirection: 'column' }}>
             <div style={{ fontSize: '14px', color: '#3b82f6', fontWeight: 600, letterSpacing: '0.5px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span>{course.title}</span>
               <span style={{ color: '#6b7280' }}>/</span>
@@ -195,9 +220,30 @@ export default function CoursePage() {
               </div>
               
               <div style={{ flex: 1, display: 'flex', justifyContent: 'center' }}>
-                <button className="btn-primary" style={{ padding: '14px 32px', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '16px', fontWeight: 600, boxShadow: '0 8px 24px rgba(59, 130, 246, 0.3)' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg>
-                  Mark Complete
+                <button 
+                  className={completedLessons.includes(activeLesson.id) ? "" : "btn-primary"} 
+                  onClick={() => toggleLessonComplete(activeLesson.id)}
+                  style={{ 
+                    padding: '14px 32px', 
+                    borderRadius: '12px', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '10px', 
+                    fontSize: '16px', 
+                    fontWeight: 600, 
+                    boxShadow: completedLessons.includes(activeLesson.id) ? 'none' : '0 8px 24px rgba(59, 130, 246, 0.3)',
+                    background: completedLessons.includes(activeLesson.id) ? 'rgba(16, 185, 129, 0.1)' : undefined,
+                    color: completedLessons.includes(activeLesson.id) ? '#10b981' : undefined,
+                    border: completedLessons.includes(activeLesson.id) ? '1px solid rgba(16, 185, 129, 0.3)' : '1px solid transparent',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  {completedLessons.includes(activeLesson.id) ? (
+                    <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg> Completed</>
+                  ) : (
+                    <><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 6L9 17l-5-5"/></svg> Mark Complete</>
+                  )}
                 </button>
               </div>
 
