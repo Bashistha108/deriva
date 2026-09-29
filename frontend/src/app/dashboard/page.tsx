@@ -38,16 +38,16 @@ export default function Dashboard() {
             <div className="card-header" style={{ margin: 0 }}>Net Liquidation</div>
             <div style={{ color: '#888', fontSize: '14px' }}>$</div>
           </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$150,000.00</div>
-          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>+2.5% from last month</div>
+          <div className="card-value" style={{ marginTop: '16px' }}>$0.00</div>
+          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>+0.0% from last month</div>
         </div>
         
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="card-header" style={{ margin: 0 }}>Day P/L</div>
-            <div style={{ color: 'var(--success)', fontSize: '14px' }}>↗</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>-</div>
           </div>
-          <div className="card-value" style={{ color: 'var(--success)', marginTop: '16px' }}>$1,250.50</div>
+          <div className="card-value" style={{ color: 'var(--foreground)', marginTop: '16px' }}>$0.00</div>
         </div>
 
         <div className="card">
@@ -55,7 +55,7 @@ export default function Dashboard() {
             <div className="card-header" style={{ margin: 0 }}>Buying Power</div>
             <div style={{ color: '#888', fontSize: '14px' }}>~</div>
           </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$50,000.00</div>
+          <div className="card-value" style={{ marginTop: '16px' }}>$0.00</div>
         </div>
 
         <div className="card">
@@ -63,7 +63,7 @@ export default function Dashboard() {
             <div className="card-header" style={{ margin: 0 }}>Margin Usage</div>
             <div style={{ color: '#888', fontSize: '14px' }}>❖</div>
           </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$100,000.00</div>
+          <div className="card-value" style={{ marginTop: '16px' }}>$0.00</div>
         </div>
       </div>
 
@@ -80,19 +80,19 @@ export default function Dashboard() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Delta (Δ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>150.5</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Gamma (Γ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>-25.4</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Theta (Θ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>-10.2</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Vega (ν)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>40.1</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
             </div>
           </div>
         </div>
@@ -121,10 +121,7 @@ export default function Dashboard() {
             </thead>
             <tbody>
               <tr>
-                <td style={{ padding: '16px 0', color: '#fff' }}>MSFT</td>
-                <td style={{ padding: '16px 0', color: 'var(--primary)' }}>BUY</td>
-                <td style={{ padding: '16px 0' }}>200</td>
-                <td style={{ padding: '16px 0', color: '#888' }}>WORKING</td>
+                <td colSpan={4} style={{ padding: '16px 0', color: '#888', textAlign: 'center' }}>No open orders</td>
               </tr>
             </tbody>
           </table>
@@ -143,10 +140,7 @@ export default function Dashboard() {
             </thead>
             <tbody>
               <tr>
-                <td style={{ padding: '16px 0', color: '#fff' }}>AAPL</td>
-                <td style={{ padding: '16px 0', color: 'var(--primary)' }}>BUY</td>
-                <td style={{ padding: '16px 0' }}>$149.50</td>
-                <td style={{ padding: '16px 0', color: '#888' }}>10:30 AM</td>
+                <td colSpan={4} style={{ padding: '16px 0', color: '#888', textAlign: 'center' }}>No recent trades</td>
               </tr>
             </tbody>
           </table>

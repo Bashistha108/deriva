@@ -67,6 +67,10 @@ echo "=========================================="
 echo "🛠️  Starting up services..."
 echo "=========================================="
 
+# Clear app.log before starting
+> app.log
+
+
 # Start Backend
 echo "Starting Spring Boot Backend..."
 (cd backend && mvn clean install -DskipTests && cd deriva-bootstrap && APP_LOG_PATH=../../app.log mvn spring-boot:run) &

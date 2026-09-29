@@ -9,6 +9,10 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@excalidraw/excalidraw": "^0.18.1",
+    "@uiw/react-md-editor": "^4.1.2",
+    "jodit": "^4.15.16",
+    "jodit-react": "^5.5.22",
     "next": "16.3.6",
     "react": "19.2.8",
     "react-dom": "19.2.8"

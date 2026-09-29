@@ -1,10 +1,6 @@
 'use client';
 
-const mockPositions = [
-  { id: '1', instrument: 'SPY', type: 'Call', side: 'Long', strike: 420, expiration: '2026-10-16', qty: 2, avgPrice: 5.40, currentPrice: 6.45, pnl: 210.00, pnlPct: 19.4, delta: 0.52, theta: -0.15 },
-  { id: '2', instrument: 'SPY', type: 'Put', side: 'Short', strike: 410, expiration: '2026-10-16', qty: 1, avgPrice: 1.80, currentPrice: 1.15, pnl: 65.00, pnlPct: 36.1, delta: 0.18, theta: 0.08 },
-  { id: '3', instrument: 'QQQ', type: 'Call', side: 'Long', strike: 350, expiration: '2026-11-20', qty: 5, avgPrice: 12.10, currentPrice: 10.50, pnl: -800.00, pnlPct: -13.2, delta: 0.45, theta: -0.12 },
-];
+const mockPositions: any[] = [];
 
 export default function Portfolio() {
   return (
@@ -14,19 +10,19 @@ export default function Portfolio() {
       <div className="glass" style={{ borderRadius: '16px', padding: '24px', marginBottom: '32px', display: 'flex', gap: '48px' }}>
         <div>
           <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Net Liquidation</div>
-          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>$12,845.50</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>$0.00</div>
         </div>
         <div>
           <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Day P&L</div>
-          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--success)' }}>+$342.10</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>$0.00</div>
         </div>
         <div>
           <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Portfolio Delta</div>
-          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>1.22</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>0.00</div>
         </div>
         <div>
           <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Portfolio Theta</div>
-          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--danger)' }}>-0.22</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>0.00</div>
         </div>
       </div>
 

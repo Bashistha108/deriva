@@ -7,7 +7,6 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -39,7 +38,9 @@ public class SecurityConfig {
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers("/ws/deriva/**").permitAll() // WebSocket handshake
                 .requestMatchers("/actuator/**").permitAll() // Docker health checks
-                .requestMatchers("/api/admin/**").hasAuthority("ADMIN") // Role-based access control
+                .requestMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN") // Role-based access control
+                .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/learning/**").authenticated()
+                .requestMatchers("/api/learning/**").hasAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
             );
             

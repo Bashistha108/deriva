@@ -112,4 +112,21 @@ public class MarketDataController {
         List<MarketPriceSnapshot> history = marketDataService.getHistoricalPrices(instrumentId, start, end);
         return ResponseEntity.ok(history);
     }
+
+    @PostMapping("/simulation/pause")
+    public ResponseEntity<Void> pauseSimulation() {
+        simulationClockService.setPaused(true);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/simulation/resume")
+    public ResponseEntity<Void> resumeSimulation() {
+        simulationClockService.setPaused(false);
+        return ResponseEntity.ok().build();
+    }
+    
+    @GetMapping("/simulation/status")
+    public ResponseEntity<java.util.Map<String, String>> getSimulationStatus() {
+        return ResponseEntity.ok(java.util.Map.of("status", simulationClockService.isPaused() ? "PAUSED" : "RUNNING"));
+    }
 }
