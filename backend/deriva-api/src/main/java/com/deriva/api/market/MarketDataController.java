@@ -55,11 +55,13 @@ public class MarketDataController {
         for (com.deriva.domain.market.OptionContract contract : contracts) {
             String expDate = contract.getExpirationDate().toString();
             
-            java.util.List<com.deriva.domain.market.OptionMarketSnapshot> snaps = optionMarketSnapshotRepository
-                    .findTop100ByOptionContractIdOrderByTimestampDesc(contract.getId());
-            if (snaps.isEmpty()) continue;
-            
-            com.deriva.domain.market.OptionMarketSnapshot snap = snaps.get(0);
+            com.deriva.domain.market.OptionMarketSnapshot snap = simulationClockService.getLiveOptionSnapshot(contract.getId());
+            if (snap == null) {
+                java.util.List<com.deriva.domain.market.OptionMarketSnapshot> snaps = optionMarketSnapshotRepository
+                        .findTop100ByOptionContractIdOrderByTimestampDesc(contract.getId());
+                if (snaps.isEmpty()) continue;
+                snap = snaps.get(0);
+            }
             double strike = contract.getStrikePrice().doubleValue();
             
             java.util.Map<Double, com.deriva.api.dto.OptionsChainRowDTO> rows = grouped.computeIfAbsent(expDate, k -> new java.util.HashMap<>());

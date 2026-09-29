@@ -9,6 +9,7 @@ export default function OptionsChain() {
   
   // Selected option leg for the right panel
   const [selectedLegs, setSelectedLegs] = useState<any[]>([]);
+  const [isProfileCollapsed, setIsProfileCollapsed] = useState<boolean>(false);
 
   useEffect(() => {
     setMounted(true);
@@ -126,9 +127,9 @@ export default function OptionsChain() {
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - 72px)', overflow: 'hidden' }}>
       {/* LEFT SIDEBAR: WATCHLIST */}
-      <div style={{ width: '280px', borderRight: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', overflowY: 'auto' }}>
+      <div className="watchlist-panel" style={{ borderRight: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', overflowY: 'auto' }}>
         <div style={{ padding: '16px', borderBottom: '1px solid rgba(255,255,255,0.1)', position: 'sticky', top: 0, background: 'rgba(10,10,15,0.95)', backdropFilter: 'blur(10px)', zIndex: 10 }}>
-          <h3 style={{ margin: 0, fontSize: '13px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Watchlist</h3>
+          <h3 className="watchlist-title" style={{ margin: 0, fontSize: '13px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Watchlist</h3>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           {Object.entries(prices).map(([symbol, price]) => {
@@ -160,7 +161,7 @@ export default function OptionsChain() {
                 className="row-hover"
               >
                 <span style={{ fontWeight: 600, color: '#e5e7eb' }}>{symbol}</span>
-                <span style={{ color: color, fontWeight: 500, fontFamily: 'monospace', fontSize: '14px' }}>${Number(price).toFixed(2)}</span>
+                <span className="watchlist-price" style={{ color: color, fontWeight: 500, fontFamily: 'monospace', fontSize: '14px' }}>${Number(price).toFixed(2)}</span>
               </div>
             );
           })}
@@ -172,7 +173,7 @@ export default function OptionsChain() {
 
       {/* CENTER: OPTIONS CHAIN */}
       <div style={{ flex: 1, padding: '24px', overflowY: 'auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '24px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginBottom: '24px', gap: '16px' }}>
           <div>
             <h1 style={{ fontSize: '28px', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '12px' }}>
               {selectedSymbol} Options
@@ -181,7 +182,7 @@ export default function OptionsChain() {
             <div style={{ color: '#d1d5db', fontSize: '16px' }}>Current Price: <span style={{ color: 'var(--success)', fontWeight: 600 }}>${currentPrice.toFixed(2)}</span></div>
           </div>
           
-          <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', maxWidth: '500px' }}>
+          <div style={{ display: 'flex', gap: '4px', overflowX: 'auto', width: '100%' }}>
             {availableExps.map(exp => (
               <button 
                 key={exp}
@@ -290,12 +291,18 @@ export default function OptionsChain() {
       </div>
 
       {/* RIGHT SIDEBAR: PERFORMANCE PROFILE */}
-      <div style={{ width: '320px', borderLeft: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', padding: '24px', display: 'flex', flexDirection: 'column', zIndex: 5 }}>
-        <h3 style={{ margin: '0 0 24px 0', fontSize: '13px', textTransform: 'uppercase', color: '#d1d5db', letterSpacing: '1px' }}>Performance Profile</h3>
+      <div style={{ width: isProfileCollapsed ? '40px' : '320px', borderLeft: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', padding: isProfileCollapsed ? '24px 8px' : '24px', display: 'flex', flexDirection: 'column', zIndex: 5, transition: 'width 0.3s, padding 0.3s' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
+          {!isProfileCollapsed && <h3 style={{ margin: 0, fontSize: '13px', textTransform: 'uppercase', color: '#d1d5db', letterSpacing: '1px', whiteSpace: 'nowrap' }}>Performance Profile</h3>}
+          <button onClick={() => setIsProfileCollapsed(!isProfileCollapsed)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: isProfileCollapsed ? '100%' : 'auto' }}>
+            {isProfileCollapsed ? '◀' : '▶'}
+          </button>
+        </div>
         
-        {selectedLegs.length > 0 ? (
-          <div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
+        {!isProfileCollapsed && (
+          selectedLegs.length > 0 ? (
+            <div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
               {selectedLegs.map((leg, idx) => (
                 <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
@@ -334,10 +341,11 @@ export default function OptionsChain() {
               </button>
             </div>
           </div>
-        ) : (
-          <div style={{ color: '#9ca3af', textAlign: 'center', marginTop: '40px', fontSize: '14px', padding: '24px', border: '1px dashed rgba(255,255,255,0.2)', borderRadius: '8px' }}>
-            Select any Bid or Ask price from the options chain to build a multi-leg strategy.
-          </div>
+          ) : (
+            <div style={{ color: '#9ca3af', textAlign: 'center', marginTop: '40px', fontSize: '14px', padding: '24px', border: '1px dashed rgba(255,255,255,0.2)', borderRadius: '8px' }}>
+              Select any Bid or Ask price from the options chain to build a multi-leg strategy.
+            </div>
+          )
         )}
       </div>
 
@@ -345,6 +353,13 @@ export default function OptionsChain() {
         .row-hover:hover { background: rgba(255,255,255,0.05) !important; }
         .trade-cell:hover { background: rgba(59, 130, 246, 0.2) !important; box-shadow: inset 0 0 0 1px var(--primary); }
         .selected-leg { background: rgba(59, 130, 246, 0.3) !important; box-shadow: inset 0 0 0 2px var(--primary) !important; }
+        /* Watchlist responsive */
+        .watchlist-panel { width: 280px; transition: width 0.3s; }
+        @media (max-width: 1024px) {
+          .watchlist-panel { width: 80px !important; }
+          .watchlist-price { display: none !important; }
+          .watchlist-title { display: none !important; }
+        }
         /* Custom scrollbar for left panel */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }

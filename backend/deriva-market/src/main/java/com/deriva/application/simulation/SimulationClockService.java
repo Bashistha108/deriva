@@ -31,10 +31,12 @@ public class SimulationClockService {
     private final MarketSessionRepository marketSessionRepository;
     private final MarketTickRepository marketTickRepository;
     private final SystemSettingRepository systemSettingRepository;
-    
+    private final InstrumentSimulationParameterRepository simulationParameterRepository;
+
     private final SimpMessagingTemplate messagingTemplate;
-    
+
     // In-memory state
+    private final Map<Long, InstrumentSimulationParameter> simParamsMap = new ConcurrentHashMap<>();
     private final Map<String, BigDecimal> currentPrices = new ConcurrentHashMap<>();
     private final Map<Long, Long> oiMap = new ConcurrentHashMap<>();
     private final Map<Long, Long> volMap = new ConcurrentHashMap<>();
@@ -69,7 +71,7 @@ public class SimulationClockService {
     }
 
     public SimulationClockService(
-            InstrumentRepository instrumentRepository, 
+            InstrumentRepository instrumentRepository,
             OptionContractRepository optionContractRepository,
             MarketPriceSnapshotRepository marketPriceSnapshotRepository,
             OptionMarketSnapshotRepository optionMarketSnapshotRepository,
@@ -77,6 +79,7 @@ public class SimulationClockService {
             MarketSessionRepository marketSessionRepository,
             MarketTickRepository marketTickRepository,
             SystemSettingRepository systemSettingRepository,
+            InstrumentSimulationParameterRepository simulationParameterRepository,
             SimpMessagingTemplate messagingTemplate) {
         this.instrumentRepository = instrumentRepository;
         this.optionContractRepository = optionContractRepository;
@@ -86,6 +89,7 @@ public class SimulationClockService {
         this.marketSessionRepository = marketSessionRepository;
         this.marketTickRepository = marketTickRepository;
         this.systemSettingRepository = systemSettingRepository;
+        this.simulationParameterRepository = simulationParameterRepository;
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -112,6 +116,11 @@ public class SimulationClockService {
         session = marketSessionRepository.save(session);
         this.sessionId = session.getId();
 
+        // Load simulation parameters into memory
+        for (InstrumentSimulationParameter param : simulationParameterRepository.findAll()) {
+            simParamsMap.put(param.getInstrumentId(), param);
+        }
+
         // Load initial prices
         long now = System.currentTimeMillis();
         for (Instrument instrument : instrumentRepository.findAll()) {
@@ -121,20 +130,21 @@ public class SimulationClockService {
                 nextUpdateTimes.put(instrument.getSymbol(), now + random.nextInt(5000));
             }
         }
-        
+
         // Initialize OI and Vol mappings for all contracts, and seed contracts if empty
         List<OptionContract> allContracts = optionContractRepository.findAll();
         if (allContracts.isEmpty()) {
             System.out.println("No OptionContracts found. Generating options chain for all instruments...");
-            int[] dteOffsets = {7, 15, 30, 45, 60, 90};
+            int[] dteOffsets = { 0, 1, 7, 15, 30, 45, 60, 90 };
             List<OptionContract> newContracts = new ArrayList<>();
             for (Instrument instrument : instrumentRepository.findAll()) {
-                if (!instrument.isActive()) continue;
+                if (!instrument.isActive())
+                    continue;
                 double basePrice = instrument.getInitialPrice().doubleValue();
                 double strikeStep = Math.max(1.0, Math.round(basePrice * 0.02)); // 2% step
                 double minStrike = Math.max(strikeStep, Math.round(basePrice * 0.8 / strikeStep) * strikeStep);
                 double maxStrike = Math.round(basePrice * 1.2 / strikeStep) * strikeStep;
-                
+
                 for (int dte : dteOffsets) {
                     LocalDate expiry = LocalDate.now().plusDays(dte);
                     for (double strike = minStrike; strike <= maxStrike; strike += strikeStep) {
@@ -157,70 +167,114 @@ public class SimulationClockService {
         }
 
         for (OptionContract contract : allContracts) {
-            oiMap.put(contract.getId(), (long) (1000 + random.nextInt(5000)));
-            volMap.put(contract.getId(), (long) random.nextInt(500));
+            InstrumentSimulationParameter param = simParamsMap.get(contract.getUnderlyingInstrumentId());
+            long avgVol = param != null ? param.getAverageVolume() : 100000L;
+            long baseOI = Math.max(1000, avgVol / 100);
+            oiMap.put(contract.getId(), baseOI + random.nextInt((int) Math.max(1, baseOI / 2)));
+            volMap.put(contract.getId(), (long) random.nextInt((int) Math.max(1, baseOI / 10)));
         }
     }
 
     @Scheduled(fixedRate = 1000)
     public void advanceTick() {
-        if (currentPrices.isEmpty() || runId == null) return;
+        if (currentPrices.isEmpty() || runId == null)
+            return;
 
         long now = System.currentTimeMillis();
-        
+
         // Reload settings every 10 seconds
         if (now - lastSettingsReload > 10000) {
             try {
-                priceUpdateMinMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_PRICE_UPDATE_MIN_MS").map(s -> s.getValue()).orElse("1000"));
-                priceUpdateRangeMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_PRICE_UPDATE_RANGE_MS").map(s -> s.getValue()).orElse("9000"));
-                databaseFlushMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_DATABASE_FLUSH_MS").map(s -> s.getValue()).orElse("60000"));
-                isPaused = Boolean.parseBoolean(systemSettingRepository.findById("SIMULATION_PAUSED").map(s -> s.getValue()).orElse("false"));
-            } catch (Exception e) {}
+                priceUpdateMinMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_PRICE_UPDATE_MIN_MS")
+                        .map(s -> s.getValue()).orElse("1000"));
+                priceUpdateRangeMs = Integer.parseInt(systemSettingRepository
+                        .findById("SIMULATION_PRICE_UPDATE_RANGE_MS").map(s -> s.getValue()).orElse("9000"));
+                databaseFlushMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_DATABASE_FLUSH_MS")
+                        .map(s -> s.getValue()).orElse("60000"));
+                isPaused = Boolean.parseBoolean(
+                        systemSettingRepository.findById("SIMULATION_PAUSED").map(s -> s.getValue()).orElse("false"));
+            } catch (Exception e) {
+            }
             lastSettingsReload = now;
         }
 
-        if (isPaused) return;
+        if (isPaused)
+            return;
 
         boolean anyUpdates = false;
-        
+
         List<Instrument> instruments = instrumentRepository.findAll();
-        
+
         // Settings for Black-Scholes
-        double T = 30.0 / 256.0; 
+        double T = 30.0 / 256.0;
         double r = 0.04;
-        
+
         Map<String, BigDecimal> broadcastUpdates = new HashMap<>();
 
         for (Instrument instrument : instruments) {
-            if (!instrument.isActive()) continue;
+            if (!instrument.isActive())
+                continue;
             String symbol = instrument.getSymbol();
-            
+
             Long nextUpdate = nextUpdateTimes.getOrDefault(symbol, 0L);
             if (now < nextUpdate) {
                 continue; // Not time to update this stock yet
             }
-            
+
             anyUpdates = true;
             // Schedule next update based on settings
             nextUpdateTimes.put(symbol, now + priceUpdateMinMs + random.nextInt(Math.max(1, priceUpdateRangeMs)));
-            
+
             try {
                 BigDecimal bdOldPrice = currentPrices.get(symbol);
-                if (bdOldPrice == null) continue;
+                if (bdOldPrice == null)
+                    continue;
                 double oldPrice = bdOldPrice.doubleValue();
-                
-                // GBM simulation
-                double vol = 0.001;
-                double drift = 0.00002;
-                double z = random.nextGaussian();
-                double jump = 0;
-                if (random.nextDouble() < 0.02) {
-                    jump = vol * (2.0 + random.nextDouble()) * (random.nextBoolean() ? 1.0 : -1.0);
+
+                BigDecimal roundedPrice;
+                double newPrice;
+
+                if (instrument.getInstrumentType() == InstrumentType.STOCK) {
+                    InstrumentSimulationParameter param = simParamsMap.get(instrument.getId());
+                    double paramVol = param != null ? param.getBaseVolatility().doubleValue() : 0.15;
+                    double paramDrift = param != null ? param.getDrift().doubleValue() : 0.00002;
+                    double jumpProb = param != null ? param.getJumpProbability().doubleValue() : 0.02;
+                    double jumpSize = param != null ? param.getJumpSizeFactor().doubleValue() : 2.0;
+
+                    // GBM simulation
+                    double vol = paramVol * 0.01;
+                    double drift = paramDrift * 0.001;
+                    double z = random.nextGaussian();
+                    double jump = 0;
+                    if (random.nextDouble() < jumpProb) {
+                        jump = vol * (jumpSize + random.nextDouble()) * (random.nextBoolean() ? 1.0 : -1.0);
+                    }
+                    double returnPct = drift + (vol * z) + jump;
+                    newPrice = Math.max(1.0, oldPrice * (1.0 + returnPct));
+                    roundedPrice = BigDecimal.valueOf(newPrice).setScale(4, RoundingMode.HALF_UP);
+                } else {
+                    // ETF/Index price is sum of stock prices at the moment
+                    Long sectorId = instrument.getSector() != null ? instrument.getSector().getId() : null;
+                    BigDecimal sum = BigDecimal.ZERO;
+                    for (Instrument s : instruments) {
+                        if (s.isActive() && s.getInstrumentType() == InstrumentType.STOCK) {
+                            Long sSectorId = s.getSector() != null ? s.getSector().getId() : null;
+                            if (sectorId == null || sectorId.equals(sSectorId)) {
+                                sum = sum.add(currentPrices.getOrDefault(s.getSymbol(), s.getInitialPrice()));
+                            }
+                        }
+                    }
+                    if (sectorId == null) {
+                        // Broad market (e.g. SPY)
+                        sum = sum.divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP);
+                    } else {
+                        // Sector ETFs
+                        sum = sum.divide(BigDecimal.valueOf(10), 4, RoundingMode.HALF_UP);
+                    }
+                    roundedPrice = sum.setScale(4, RoundingMode.HALF_UP);
+                    newPrice = roundedPrice.doubleValue();
                 }
-                double returnPct = drift + (vol * z) + jump;
-                double newPrice = Math.max(1.0, oldPrice * (1.0 + returnPct));
-                BigDecimal roundedPrice = BigDecimal.valueOf(newPrice).setScale(4, RoundingMode.HALF_UP);
-                
+
                 currentPrices.put(symbol, roundedPrice);
                 broadcastUpdates.put(symbol, roundedPrice);
 
@@ -238,33 +292,45 @@ public class SimulationClockService {
 
                 // Compute and Save Option Snapshots in memory
                 List<OptionContract> contracts = optionContractRepository
-                    .findByUnderlyingInstrumentIdAndExpirationDateGreaterThanEqual(instrument.getId(), LocalDate.now());
-                
+                        .findByUnderlyingInstrumentIdAndExpirationDateGreaterThanEqual(instrument.getId(),
+                                LocalDate.now());
+
                 for (OptionContract contract : contracts) {
                     double strike = contract.getStrikePrice().doubleValue();
                     double dist = Math.abs(strike - newPrice) / newPrice;
-                    double v = 0.20 + (dist * 0.5); 
-                    
-                    Price priceObj = Price.of(newPrice);
-                    Strike strikeObj = Strike.of(strike);
-                    DaysToExpiration dteObj = DaysToExpiration.ofYears(T);
-                    Percent rateObj = Percent.ofDecimal(r);
-                    Volatility volObj = Volatility.ofDecimal(v);
 
-                    BigDecimal price = BlackScholesModel.calculatePrice(contract.getOptionType(), priceObj, strikeObj, dteObj, rateObj, volObj);
-                    OptionGreeks greeks = BlackScholesModel.calculateGreeks(contract.getOptionType(), priceObj, strikeObj, dteObj, rateObj, volObj);
-                    
                     Long currentOI = oiMap.getOrDefault(contract.getId(), 1000L);
                     Long currentVol = volMap.getOrDefault(contract.getId(), 0L);
-                    
-                    long addedVol = random.nextInt(20);
+
+                    InstrumentSimulationParameter param = simParamsMap.get(instrument.getId());
+                    long addedVol = random.nextInt((int) Math.max(2, (param != null ? param.getAverageVolume() : 100000L) / 50000));
                     currentVol += addedVol;
                     if (currentVol > currentOI) {
                         currentOI = currentVol + random.nextInt(100);
                     }
-                    
+
                     oiMap.put(contract.getId(), currentOI);
                     volMap.put(contract.getId(), currentVol);
+
+                    double paramVol = param != null ? param.getBaseVolatility().doubleValue() : 0.20;
+                    double baseV = paramVol + (dist * 0.5);
+                    double demandFactor = 1.0 + Math.min(0.5, ((double) currentVol / Math.max(1, currentOI)) * 0.2);
+                    double v = baseV * demandFactor;
+
+                    long daysBetween = java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(),
+                            contract.getExpirationDate());
+                    double actualT = Math.max(1.0, daysBetween) / 365.0;
+
+                    Price priceObj = Price.of(newPrice);
+                    Strike strikeObj = Strike.of(strike);
+                    DaysToExpiration dteObj = DaysToExpiration.ofYears(actualT);
+                    Percent rateObj = Percent.ofDecimal(r);
+                    Volatility volObj = Volatility.ofDecimal(v);
+
+                    BigDecimal price = BlackScholesModel.calculatePrice(contract.getOptionType(), priceObj, strikeObj,
+                            dteObj, rateObj, volObj);
+                    OptionGreeks greeks = BlackScholesModel.calculateGreeks(contract.getOptionType(), priceObj,
+                            strikeObj, dteObj, rateObj, volObj);
 
                     OptionMarketSnapshot os = new OptionMarketSnapshot();
                     os.setOptionContractId(contract.getId());
@@ -283,16 +349,16 @@ public class SimulationClockService {
                     os.setRho(greeks.getRho());
                     os.setVolume(currentVol);
                     os.setOpenInterest(currentOI);
-                    
-                pendingOptionSnaps.put(contract.getId(), os);
-            }
-        } catch (Exception e) {
-            System.err.println("Error simulating tick for " + symbol + ": " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
-    if (anyUpdates && !broadcastUpdates.isEmpty()) {
+                    pendingOptionSnaps.put(contract.getId(), os);
+                }
+            } catch (Exception e) {
+                System.err.println("Error simulating tick for " + symbol + ": " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        if (anyUpdates && !broadcastUpdates.isEmpty()) {
             messagingTemplate.convertAndSend("/topic/market", broadcastUpdates);
         }
     }
@@ -303,8 +369,9 @@ public class SimulationClockService {
         if (now - lastFlushTime < databaseFlushMs) {
             return;
         }
-        
-        if (pendingStockSnaps.isEmpty() && pendingOptionSnaps.isEmpty()) return;
+
+        if (pendingStockSnaps.isEmpty() && pendingOptionSnaps.isEmpty())
+            return;
 
         lastFlushTime = now;
 
@@ -322,7 +389,7 @@ public class SimulationClockService {
         for (MarketPriceSnapshot snap : stockSnaps) {
             snap.setMarketTickId(tickId);
         }
-        
+
         List<OptionMarketSnapshot> optionSnaps = new ArrayList<>(pendingOptionSnaps.values());
         for (OptionMarketSnapshot snap : optionSnaps) {
             snap.setMarketTickId(tickId);
@@ -334,5 +401,9 @@ public class SimulationClockService {
 
     public Map<String, BigDecimal> getCurrentPrices() {
         return new ConcurrentHashMap<>(currentPrices);
+    }
+
+    public OptionMarketSnapshot getLiveOptionSnapshot(Long contractId) {
+        return pendingOptionSnaps.get(contractId);
     }
 }
