@@ -338,8 +338,22 @@ public class SimulationClockService {
                     os.setTimestamp(LocalDateTime.now());
                     os.setUnderlyingPrice(roundedPrice);
                     os.setTheoreticalPrice(price);
-                    os.setBidPrice(price.multiply(BigDecimal.valueOf(0.98)).setScale(2, RoundingMode.HALF_UP));
-                    os.setAskPrice(price.multiply(BigDecimal.valueOf(1.02)).setScale(2, RoundingMode.HALF_UP));
+                    
+                    BigDecimal bid = price.multiply(BigDecimal.valueOf(0.98)).setScale(2, RoundingMode.HALF_UP);
+                    BigDecimal ask = price.multiply(BigDecimal.valueOf(1.02)).setScale(2, RoundingMode.HALF_UP);
+                    
+                    if (ask.compareTo(BigDecimal.valueOf(0.01)) < 0) {
+                        ask = BigDecimal.valueOf(0.01);
+                    }
+                    if (bid.compareTo(BigDecimal.ZERO) < 0) {
+                        bid = BigDecimal.ZERO;
+                    }
+                    if (ask.subtract(bid).compareTo(BigDecimal.valueOf(0.01)) < 0) {
+                        ask = bid.add(BigDecimal.valueOf(0.01));
+                    }
+                    
+                    os.setBidPrice(bid);
+                    os.setAskPrice(ask);
                     os.setMidPrice(price);
                     os.setImpliedVolatility(BigDecimal.valueOf(v).setScale(6, RoundingMode.HALF_UP));
                     os.setDelta(greeks.getDelta());

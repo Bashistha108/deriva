@@ -37,6 +37,11 @@ public class MarketDataController {
         return ResponseEntity.ok(simulationClockService.getCurrentPrices());
     }
 
+    @GetMapping("/instruments")
+    public ResponseEntity<java.util.List<com.deriva.domain.market.Instrument>> getInstruments() {
+        return ResponseEntity.ok(instrumentRepository.findAll());
+    }
+
     @GetMapping("/options/{symbol}")
     public ResponseEntity<java.util.Map<String, java.util.List<com.deriva.api.dto.OptionsChainRowDTO>>> getOptionsChain(@PathVariable String symbol) {
         com.deriva.domain.market.Instrument instrument = instrumentRepository.findAll().stream()

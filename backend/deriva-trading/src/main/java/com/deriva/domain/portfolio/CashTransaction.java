@@ -40,5 +40,32 @@ public class CashTransaction {
 
     public CashTransaction() {}
 
-    // Getters and Setters omitted for brevity...
+    
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public UUID getCashAccountId() { return cashAccountId; }
+    public void setCashAccountId(UUID cashAccountId) { this.cashAccountId = cashAccountId; }
+
+    public CashTransactionType getType() { return type; }
+    public void setType(CashTransactionType type) { this.type = type; }
+
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public String getCurrency() { return currency; }
+    public void setCurrency(String currency) { this.currency = currency; }
+
+    public String getReferenceType() { return referenceType; }
+    public void setReferenceType(String referenceType) { this.referenceType = referenceType; }
+
+    public UUID getReferenceId() { return referenceId; }
+    public void setReferenceId(UUID referenceId) { this.referenceId = referenceId; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
 }

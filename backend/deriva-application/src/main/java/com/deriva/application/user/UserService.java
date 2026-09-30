@@ -3,8 +3,10 @@ package com.deriva.application.user;
 import com.deriva.domain.user.Role;
 import com.deriva.domain.user.User;
 import com.deriva.domain.user.UserPreference;
+import com.deriva.domain.user.UserRegisteredEvent;
 import com.deriva.persistence.user.UserPreferenceRepository;
 import com.deriva.persistence.user.UserRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +21,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserPreferenceRepository userPreferenceRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserService(UserRepository userRepository, UserPreferenceRepository userPreferenceRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserPreferenceRepository userPreferenceRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.userPreferenceRepository = userPreferenceRepository;
         this.passwordEncoder = passwordEncoder;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -57,6 +61,8 @@ public class UserService {
         pref.setUpdatedAt(now);
 
         userPreferenceRepository.save(pref);
+
+        eventPublisher.publishEvent(new UserRegisteredEvent(user.getId()));
 
         return user;
     }

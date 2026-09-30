@@ -13,9 +13,11 @@
     "@uiw/react-md-editor": "^4.1.2",
     "jodit": "^4.15.16",
     "jodit-react": "^5.5.22",
+    "lucide-react": "^1.49.0",
     "next": "16.3.6",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

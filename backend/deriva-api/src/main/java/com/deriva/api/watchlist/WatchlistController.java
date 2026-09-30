@@ -5,7 +5,7 @@ import com.deriva.domain.watchlist.Watchlist;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import com.deriva.domain.user.User;
+import com.deriva.application.security.CustomUserDetails;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,22 +21,27 @@ public class WatchlistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Watchlist>> getWatchlists(@AuthenticationPrincipal User user) {
+    public ResponseEntity<List<Watchlist>> getWatchlists(@AuthenticationPrincipal CustomUserDetails user) {
         return ResponseEntity.ok(watchlistService.getUserWatchlists(user.getId()));
     }
 
     @PostMapping
-    public ResponseEntity<Watchlist> createWatchlist(@AuthenticationPrincipal User user, @RequestBody String name) {
+    public ResponseEntity<Watchlist> createWatchlist(@AuthenticationPrincipal CustomUserDetails user, @RequestBody String name) {
         return ResponseEntity.ok(watchlistService.createWatchlist(user.getId(), name));
     }
 
     @PostMapping("/{watchlistId}/items")
-    public ResponseEntity<Watchlist> addItem(@AuthenticationPrincipal User user, @PathVariable UUID watchlistId, @RequestBody Long instrumentId) {
+    public ResponseEntity<Watchlist> addItem(@AuthenticationPrincipal CustomUserDetails user, @PathVariable UUID watchlistId, @RequestBody Long instrumentId) {
         return ResponseEntity.ok(watchlistService.addItemToWatchlist(user.getId(), watchlistId, instrumentId));
     }
 
+    @DeleteMapping("/{watchlistId}/items/{instrumentId}")
+    public ResponseEntity<Watchlist> removeItem(@AuthenticationPrincipal CustomUserDetails user, @PathVariable UUID watchlistId, @PathVariable Long instrumentId) {
+        return ResponseEntity.ok(watchlistService.removeItemFromWatchlist(user.getId(), watchlistId, instrumentId));
+    }
+
     @DeleteMapping("/{watchlistId}")
-    public ResponseEntity<Void> deleteWatchlist(@AuthenticationPrincipal User user, @PathVariable UUID watchlistId) {
+    public ResponseEntity<Void> deleteWatchlist(@AuthenticationPrincipal CustomUserDetails user, @PathVariable UUID watchlistId) {
         watchlistService.removeWatchlist(user.getId(), watchlistId);
         return ResponseEntity.noContent().build();
     }

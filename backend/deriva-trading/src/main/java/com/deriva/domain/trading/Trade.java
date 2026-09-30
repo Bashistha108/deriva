@@ -46,5 +46,38 @@ public class Trade {
 
     public Trade() {}
 
-    // Getters and Setters omitted for brevity...
+    
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public UUID getOrderId() { return orderId; }
+    public void setOrderId(UUID orderId) { this.orderId = orderId; }
+
+    public UUID getUserId() { return userId; }
+    public void setUserId(UUID userId) { this.userId = userId; }
+
+    public Long getInstrumentId() { return instrumentId; }
+    public void setInstrumentId(Long instrumentId) { this.instrumentId = instrumentId; }
+
+    public Long getOptionContractId() { return optionContractId; }
+    public void setOptionContractId(Long optionContractId) { this.optionContractId = optionContractId; }
+
+    public OrderSide getSide() { return side; }
+    public void setSide(OrderSide side) { this.side = side; }
+
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+
+    public BigDecimal getExecutionPrice() { return executionPrice; }
+    public void setExecutionPrice(BigDecimal executionPrice) { this.executionPrice = executionPrice; }
+
+    public BigDecimal getFees() { return fees; }
+    public void setFees(BigDecimal fees) { this.fees = fees; }
+
+    public LocalDateTime getExecutedAt() { return executedAt; }
+    public void setExecutedAt(LocalDateTime executedAt) { this.executedAt = executedAt; }
+
+    public Long getMarketTickId() { return marketTickId; }
+    public void setMarketTickId(Long marketTickId) { this.marketTickId = marketTickId; }
+
 }

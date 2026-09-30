@@ -1,9 +1,15 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import PositionTable from '@/components/PositionTable';
 
 export default function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [cashBalance, setCashBalance] = useState<number | null>(null);
+  const [isEditingBalance, setIsEditingBalance] = useState(false);
+  const [newBalanceInput, setNewBalanceInput] = useState('');
+
+  const [positions, setPositions] = useState<any[]>([]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -13,6 +19,8 @@ export default function Dashboard() {
         });
         if (res.ok) {
           setIsAuthenticated(true);
+          fetchCashBalance();
+          fetchPositions();
         } else {
           window.location.href = '/login';
         }
@@ -20,10 +28,61 @@ export default function Dashboard() {
         window.location.href = '/login';
       }
     };
+
+    const fetchCashBalance = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/cash`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setCashBalance(data.balance);
+        }
+      } catch (err) {}
+    };
+
+    const fetchPositions = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/positions`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setPositions(data);
+        }
+      } catch (err) {}
+    };
+
     checkAuth();
   }, []);
 
+  const handleUpdateBalance = async () => {
+    if (!newBalanceInput || isNaN(Number(newBalanceInput))) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/cash/balance`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ amount: Number(newBalanceInput) })
+      });
+      if (res.ok) {
+        setCashBalance(Number(newBalanceInput));
+        setIsEditingBalance(false);
+        setNewBalanceInput('');
+      }
+    } catch (err) {}
+  };
+
   if (!isAuthenticated) return null; // or loading
+
+  // Calculate portfolio metrics
+  let totalCostBasis = 0;
+  let totalRealizedPnl = 0;
+  positions.forEach(p => {
+      const multiplier = p.type === 'OPTION' ? (p.contractMultiplier || 100) : (p.contractMultiplier || 1);
+      totalCostBasis += (p.averageEntryPrice || 0) * Math.abs(p.quantity) * multiplier;
+      totalRealizedPnl += (p.realizedPnl || 0);
+  });
 
   return (
     <div className="container" style={{ padding: '32px 24px', maxWidth: '1400px' }}>
@@ -35,19 +94,32 @@ export default function Dashboard() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '24px' }}>
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="card-header" style={{ margin: 0 }}>Net Liquidation</div>
-            <div style={{ color: '#888', fontSize: '14px' }}>$</div>
+            <div className="card-header" style={{ margin: 0 }}>Cash Balance</div>
+            {isEditingBalance ? (
+               <div style={{ display: 'flex', gap: '4px' }}>
+                 <button onClick={handleUpdateBalance} style={{ background: 'var(--success)', border: 'none', borderRadius: '4px', padding: '2px 8px', color: '#fff', cursor: 'pointer', fontSize: '12px' }}>Save</button>
+                 <button onClick={() => setIsEditingBalance(false)} style={{ background: '#333', border: 'none', borderRadius: '4px', padding: '2px 8px', color: '#fff', cursor: 'pointer', fontSize: '12px' }}>Cancel</button>
+               </div>
+            ) : (
+               <button onClick={() => { setIsEditingBalance(true); setNewBalanceInput(cashBalance?.toString() || '0'); }} style={{ background: 'transparent', border: '1px solid #333', borderRadius: '4px', padding: '2px 8px', color: '#888', cursor: 'pointer', fontSize: '12px' }}>Edit</button>
+            )}
           </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$0.00</div>
-          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>+0.0% from last month</div>
+          {isEditingBalance ? (
+             <input type="number" value={newBalanceInput} onChange={e => setNewBalanceInput(e.target.value)} style={{ marginTop: '16px', background: '#141414', border: '1px solid #333', color: '#fff', padding: '4px 8px', borderRadius: '4px', width: '100%', boxSizing: 'border-box' }} autoFocus />
+          ) : (
+             <div className="card-value" style={{ marginTop: '16px' }}>{cashBalance !== null ? `$${cashBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '...'}</div>
+          )}
+          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>Paper Trading Funds</div>
         </div>
         
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="card-header" style={{ margin: 0 }}>Day P/L</div>
+            <div className="card-header" style={{ margin: 0 }}>Realized P/L</div>
             <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>-</div>
           </div>
-          <div className="card-value" style={{ color: 'var(--foreground)', marginTop: '16px' }}>$0.00</div>
+          <div className="card-value" style={{ color: totalRealizedPnl > 0 ? 'var(--success)' : totalRealizedPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
+            {totalRealizedPnl > 0 ? '+' : ''}${totalRealizedPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
         </div>
 
         <div className="card">
@@ -108,23 +180,11 @@ export default function Dashboard() {
         <div className="card">
           <div className="card-header" style={{ marginBottom: '16px' }}>Activity</div>
           <div style={{ fontSize: '12px', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ opacity: 0.7 }}>🕒</span> Open Orders
+            <span style={{ opacity: 0.7 }}>💼</span> Positions
           </div>
-          <table style={{ width: '100%', fontSize: '13px', textAlign: 'left', borderCollapse: 'collapse', marginBottom: '32px' }}>
-            <thead>
-              <tr style={{ color: '#888', borderBottom: '1px solid var(--border)' }}>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Symbol</th>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Side</th>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Qty</th>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colSpan={4} style={{ padding: '16px 0', color: '#888', textAlign: 'center' }}>No open orders</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style={{ marginBottom: '32px' }}>
+            <PositionTable positions={positions} />
+          </div>
 
           <div style={{ fontSize: '12px', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ opacity: 0.7 }}>⚯</span> Recent Trades

@@ -122,6 +122,54 @@ export default function OptionsChain() {
   const availableExps = Object.keys(chainData).sort();
   const strikes = chainData[selectedExp] || [];
 
+  const detectStrategy = (legs: any[]) => {
+    if (legs.length === 1) {
+      return legs[0].side === 'Buy' ? `Long ${legs[0].type}` : `Short ${legs[0].type}`;
+    }
+    
+    const sorted = [...legs].sort((a, b) => a.strike - b.strike);
+    
+    if (legs.length === 2) {
+      const [l1, l2] = sorted;
+      const isSameType = l1.type === l2.type;
+      const q1 = l1.side === 'Buy' ? 1 : -1;
+      const q2 = l2.side === 'Buy' ? 1 : -1;
+      
+      if (isSameType) {
+        if (q1 !== q2) {
+           if (l1.type === 'Call') {
+             if (q1 > 0 && q2 < 0) return "Bull Call Spread";
+             if (q1 < 0 && q2 > 0) return "Bear Call Spread";
+           } else {
+             if (q1 > 0 && q2 < 0) return "Bull Put Spread";
+             if (q1 < 0 && q2 > 0) return "Bear Put Spread";
+           }
+           return "Spread";
+        }
+      } else {
+        if (l1.strike === l2.strike) {
+          if (q1 > 0 && q2 > 0) return "Long Straddle";
+          if (q1 < 0 && q2 < 0) return "Short Straddle";
+        } else {
+          if (q1 > 0 && q2 > 0) return "Long Strangle";
+          if (q1 < 0 && q2 < 0) return "Short Strangle";
+        }
+      }
+    } else if (legs.length === 4) {
+       const puts = sorted.filter(l => l.type === 'Put');
+       const calls = sorted.filter(l => l.type === 'Call');
+       if (puts.length === 2 && calls.length === 2) {
+          const outerLong = (puts[0].side === 'Buy' && calls[1].side === 'Buy' && puts[1].side === 'Sell' && calls[0].side === 'Sell');
+          const innerLong = (puts[0].side === 'Sell' && calls[1].side === 'Sell' && puts[1].side === 'Buy' && calls[0].side === 'Buy');
+          if (outerLong) return "Short Iron Condor";
+          if (innerLong) return "Long Iron Condor";
+       }
+       return "Iron Condor";
+    }
+    
+    return "Custom Strategy";
+  };
+
   if (!mounted) return null;
 
   return (
@@ -302,6 +350,9 @@ export default function OptionsChain() {
         {!isProfileCollapsed && (
           selectedLegs.length > 0 ? (
             <div>
+              <div style={{ marginBottom: '16px' }}>
+                <h4 style={{ margin: 0, fontSize: '18px', color: '#fff' }}>{detectStrategy(selectedLegs)}</h4>
+              </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
               {selectedLegs.map((leg, idx) => (
                 <div key={idx} style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)' }}>
