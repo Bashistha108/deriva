@@ -484,6 +484,10 @@ public class SimulationClockService {
         return new ConcurrentHashMap<>(currentPrices);
     }
 
+    public void updateSimulationParameter(InstrumentSimulationParameter param) {
+        simParamsMap.put(param.getInstrumentId(), param);
+    }
+
     public OptionMarketSnapshot getLiveOptionSnapshot(Long contractId) {
         return pendingOptionSnaps.get(contractId);
     }

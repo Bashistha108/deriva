@@ -9,6 +9,8 @@ export default function WatchlistPage() {
   const [loading, setLoading] = useState(true);
   const [prices, setPrices] = useState<Record<string, number>>({});
   const [flashes, setFlashes] = useState<Record<string, 'up' | 'down'>>({});
+  const [sortCol, setSortCol] = useState<string | null>(null);
+  const [sortAsc, setSortAsc] = useState<boolean>(true);
   const prevPrices = useRef<Record<string, number>>({});
   const flashTimeouts = useRef<Record<string, NodeJS.Timeout>>({});
   const router = useRouter();
@@ -139,6 +141,32 @@ export default function WatchlistPage() {
       return `${val > 0 ? '+' : ''}${val.toFixed(2)}%`;
   };
 
+  const handleSort = (col: string) => {
+    if (sortCol === col) {
+      setSortAsc(!sortAsc);
+    } else {
+      setSortCol(col);
+      setSortAsc(false); // default to descending for these metrics
+    }
+  };
+
+  const sortedInstruments = [...instruments].sort((a, b) => {
+    if (!sortCol) return 0;
+    let valA = 0;
+    let valB = 0;
+    if (sortCol === 'iv') {
+      valA = a.iv || 0;
+      valB = b.iv || 0;
+    } else if (sortCol === 'ivPercentile') {
+      valA = a.ivPercentile || 0;
+      valB = b.ivPercentile || 0;
+    } else if (sortCol === 'ivRank') {
+      valA = a.ivRank || 0;
+      valB = b.ivRank || 0;
+    }
+    return sortAsc ? valA - valB : valB - valA;
+  });
+
   return (
     <div style={{ padding: '40px', background: 'var(--background)', minHeight: '100vh', color: '#fff' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
@@ -159,14 +187,29 @@ export default function WatchlistPage() {
               <th style={{ padding: '16px' }}>Price</th>
               <th style={{ padding: '16px' }}>Change</th>
               <th style={{ padding: '16px' }}>Change %</th>
-              <th style={{ padding: '16px' }}>IV</th>
-              <th style={{ padding: '16px' }}>IV-Percentile</th>
-              <th style={{ padding: '16px' }}>IV-Rank</th>
+              <th 
+                style={{ padding: '16px', cursor: 'pointer', userSelect: 'none' }}
+                onClick={() => handleSort('iv')}
+              >
+                IV {sortCol === 'iv' ? (sortAsc ? '▲' : '▼') : ''}
+              </th>
+              <th 
+                style={{ padding: '16px', cursor: 'pointer', userSelect: 'none' }}
+                onClick={() => handleSort('ivPercentile')}
+              >
+                IV-Percentile {sortCol === 'ivPercentile' ? (sortAsc ? '▲' : '▼') : ''}
+              </th>
+              <th 
+                style={{ padding: '16px', cursor: 'pointer', userSelect: 'none' }}
+                onClick={() => handleSort('ivRank')}
+              >
+                IV-Rank {sortCol === 'ivRank' ? (sortAsc ? '▲' : '▼') : ''}
+              </th>
               <th style={{ padding: '16px' }}>Watchlist Status</th>
             </tr>
           </thead>
           <tbody>
-            {instruments.map(inst => {
+            {sortedInstruments.map(inst => {
               const isWatched = watchedIds.has(inst.id);
               const curPrice = prices[inst.symbol] || inst.price;
               

@@ -10,7 +10,7 @@ export default function Dashboard() {
   const [newBalanceInput, setNewBalanceInput] = useState('');
 
   const [positions, setPositions] = useState<any[]>([]);
-
+  const [closedPositions, setClosedPositions] = useState<any[]>([]);
   const [history, setHistory] = useState<any[]>([]);
 
   useEffect(() => {
@@ -23,6 +23,7 @@ export default function Dashboard() {
           setIsAuthenticated(true);
           fetchCashBalance();
           fetchPositions();
+          fetchClosedPositions();
           fetchHistory();
         } else {
           window.location.href = '/login';
@@ -56,6 +57,18 @@ export default function Dashboard() {
       } catch (err) {}
     };
 
+    const fetchClosedPositions = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/closed-positions`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setClosedPositions(data);
+        }
+      } catch (err) {}
+    };
+
     const fetchHistory = async () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/history`, {
@@ -74,6 +87,7 @@ export default function Dashboard() {
       if (isAuthenticated) {
         fetchCashBalance();
         fetchPositions();
+        fetchClosedPositions();
         fetchHistory();
       }
     }, 5000);
@@ -121,8 +135,13 @@ export default function Dashboard() {
       portVega += (p.vega || 0) * p.quantity * multiplier;
   });
 
+  closedPositions.forEach(p => {
+      totalRealizedPnl += (p.realizedPnl || 0);
+  });
+
   const portfolioValue = totalCostBasis + totalUnrealizedPnl;
   const netLiquidation = (cashBalance || 0) + portfolioValue;
+  const totalPnl = totalRealizedPnl + totalUnrealizedPnl;
 
   return (
     <div className="container" style={{ padding: '32px 24px', maxWidth: '1400px' }}>
@@ -131,7 +150,7 @@ export default function Dashboard() {
       </h1>
       
       {/* Top Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '24px', marginBottom: '24px' }}>
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="card-header" style={{ margin: 0 }}>Net Liquidation</div>
@@ -180,6 +199,16 @@ export default function Dashboard() {
           </div>
           <div className="card-value" style={{ color: totalRealizedPnl > 0 ? 'var(--success)' : totalRealizedPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
             {totalRealizedPnl > 0 ? '+' : ''}${totalRealizedPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="card-header" style={{ margin: 0 }}>Total P/L</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>Σ</div>
+          </div>
+          <div className="card-value" style={{ color: totalPnl > 0 ? 'var(--success)' : totalPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
+            {totalPnl > 0 ? '+' : ''}${totalPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
           </div>
         </div>
       </div>
@@ -244,9 +273,18 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td colSpan={4} style={{ padding: '16px 0', color: '#888', textAlign: 'center' }}>No recent trades</td>
-              </tr>
+              {closedPositions.length > 0 ? closedPositions.slice(0, 5).map(pos => (
+                <tr key={pos.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <td style={{ padding: '12px 0' }}>{pos.type === 'OPTION' ? `${pos.symbol} ${pos.strikePrice} ${pos.optionType}` : pos.symbol}</td>
+                  <td style={{ padding: '12px 0' }}>CLOSE</td>
+                  <td style={{ padding: '12px 0' }}>${pos.averageEntryPrice?.toFixed(2)}</td>
+                  <td style={{ padding: '12px 0' }}>-</td>
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan={4} style={{ padding: '16px 0', color: '#888', textAlign: 'center' }}>No recent trades</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ResponsiveContainer } from 'recharts';
 
 export default function OptionsChain() {
   const [mounted, setMounted] = useState(false);
@@ -134,14 +135,48 @@ export default function OptionsChain() {
 
   const currentPrice = prices[selectedSymbol] || 420.00;
 
-  const handleLegClick = (strike: number, type: 'Call'|'Put', price: number, side: 'Buy'|'Sell') => {
+  const handleLegClick = (strike: number, type: 'Call'|'Put', price: number, side: 'Buy'|'Sell', delta: number = 0, gamma: number = 0, theta: number = 0, vega: number = 0) => {
     setSelectedLegs(prev => {
       const existingIndex = prev.findIndex(l => l.strike === strike && l.type === type && l.side === side);
       if (existingIndex >= 0) {
         return prev.filter((_, i) => i !== existingIndex); // Deselect if already selected
       }
-      return [...prev, { strike, type, price, side, symbol: selectedSymbol }];
+      return [...prev, { strike, type, price, side, symbol: selectedSymbol, delta, gamma, theta, vega }];
     });
+  };
+
+  const handleSubmitOrder = async () => {
+    if (selectedLegs.length === 0) return;
+    
+    const requests = selectedLegs.map(leg => ({
+      symbol: selectedSymbol,
+      strike: leg.strike,
+      expiration: selectedExp,
+      optionType: leg.type.toUpperCase(),
+      side: leg.side.toUpperCase(),
+      type: 'MARKET',
+      quantity: 1,
+      limitPrice: null
+    }));
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/trading/orders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(requests)
+      });
+      
+      if (res.ok) {
+        alert('Order submitted successfully!');
+        setSelectedLegs([]);
+      } else {
+        alert('Failed to submit order. Please check if you are logged in.');
+      }
+    } catch (e) {
+      console.error('Error submitting order', e);
+      alert('Error submitting order.');
+    }
   };
   
   const isLegSelected = (strike: number, type: 'Call'|'Put', side: 'Buy'|'Sell') => {
@@ -200,6 +235,86 @@ export default function OptionsChain() {
     
     return "Custom Strategy";
   };
+
+  const generatePayoffData = () => {
+    if (selectedLegs.length === 0) return [];
+    
+    const strikesArray = selectedLegs.map(l => l.strike);
+    const minStrike = Math.min(...strikesArray, currentPrice);
+    const maxStrike = Math.max(...strikesArray, currentPrice);
+    
+    const range = Math.max(maxStrike - minStrike, currentPrice * 0.15);
+    const startPrice = Math.max(0, minStrike - range);
+    const endPrice = maxStrike + range;
+    
+    const data = [];
+    const step = (endPrice - startPrice) / 100;
+    
+    for (let p = startPrice; p <= endPrice; p += step) {
+      let profit = 0;
+      selectedLegs.forEach(leg => {
+        let legPayoff = 0;
+        if (leg.type === 'Call') {
+          legPayoff = Math.max(0, p - leg.strike);
+        } else {
+          legPayoff = Math.max(0, leg.strike - p);
+        }
+        
+        const netPremium = leg.price || 0;
+        const pnl = legPayoff - netPremium;
+        profit += pnl * (leg.side === 'Buy' ? 1 : -1) * 100;
+      });
+      data.push({ price: p, profit: profit });
+    }
+    return data;
+  };
+
+  const payoffData = generatePayoffData();
+  const breakevens: number[] = [];
+  if (payoffData.length > 1) {
+    for (let i = 1; i < payoffData.length; i++) {
+      if ((payoffData[i-1].profit <= 0 && payoffData[i].profit >= 0) || (payoffData[i-1].profit >= 0 && payoffData[i].profit <= 0)) {
+         const p1 = payoffData[i-1].price;
+         const p2 = payoffData[i].price;
+         const y1 = payoffData[i-1].profit;
+         const y2 = payoffData[i].profit;
+         if (y1 === y2) {
+            breakevens.push(p1);
+         } else {
+            const be = p1 - y1 * (p2 - p1) / (y2 - y1);
+            if (breakevens.length === 0 || Math.abs(breakevens[breakevens.length - 1] - be) > 0.01) {
+              breakevens.push(be);
+            }
+         }
+      }
+    }
+  }
+
+  let maxProfitVal = 0;
+  let maxLossVal = 0;
+  let isMaxProfitInfinite = false;
+  let isMaxLossInfinite = false;
+
+  if (payoffData.length > 1) {
+    const profitArr = payoffData.map(d => d.profit);
+    maxProfitVal = Math.max(...profitArr);
+    maxLossVal = Math.min(...profitArr);
+
+    const firstDiff = payoffData[0].profit - payoffData[1].profit;
+    const lastDiff = payoffData[payoffData.length - 1].profit - payoffData[payoffData.length - 2].profit;
+
+    if (firstDiff > 1 || lastDiff > 1) isMaxProfitInfinite = true;
+    if (firstDiff < -1 || lastDiff < -1) isMaxLossInfinite = true;
+  }
+
+  const positionGreeks = selectedLegs.reduce((acc, leg) => {
+    const mult = leg.side === 'Buy' ? 1 : -1;
+    acc.delta += (leg.delta || 0) * mult;
+    acc.gamma += (leg.gamma || 0) * mult;
+    acc.theta += (leg.theta || 0) * mult;
+    acc.vega += (leg.vega || 0) * mult;
+    return acc;
+  }, { delta: 0, gamma: 0, theta: 0, vega: 0 });
 
   if (!mounted) return null;
 
@@ -291,11 +406,11 @@ export default function OptionsChain() {
           <table style={{ width: '100%', minWidth: '1000px', borderCollapse: 'collapse', textAlign: 'center', fontSize: '13px' }}>
             <thead>
               <tr style={{ background: 'var(--surface)' }}>
-                <th colSpan={7} className="serif-heading" style={{ padding: '16px', borderBottom: '1px solid var(--border)', borderRight: '1px solid var(--border)' }}>Calls</th>
+                <th colSpan={9} className="serif-heading" style={{ padding: '16px', borderBottom: '1px solid var(--border)', borderRight: '1px solid var(--border)' }}>Calls</th>
                 <th onClick={() => setStrikeSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')} className="serif-heading" style={{ padding: '16px', width: '100px', borderBottom: '1px solid var(--border)', cursor: 'pointer', userSelect: 'none' }}>
                   Strike {strikeSortDirection === 'asc' ? '▲' : '▼'}
                 </th>
-                <th colSpan={7} className="serif-heading" style={{ padding: '16px', borderBottom: '1px solid var(--border)', borderLeft: '1px solid var(--border)' }}>Puts</th>
+                <th colSpan={9} className="serif-heading" style={{ padding: '16px', borderBottom: '1px solid var(--border)', borderLeft: '1px solid var(--border)' }}>Puts</th>
               </tr>
               <tr style={{ borderBottom: '1px solid var(--border)', color: '#888', background: 'var(--surface)' }}>
                 {/* Calls */}
@@ -305,6 +420,8 @@ export default function OptionsChain() {
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>OI</th>
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>IV</th>
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>Delta</th>
+                <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>Gamma</th>
+                <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>Theta</th>
                 <th style={{ padding: '12px 8px', fontWeight: 'normal', borderRight: '1px solid var(--border)' }}>Vega</th>
                 {/* Strike */}
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}></th>
@@ -315,6 +432,8 @@ export default function OptionsChain() {
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>OI</th>
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>IV</th>
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>Delta</th>
+                <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>Gamma</th>
+                <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>Theta</th>
                 <th style={{ padding: '12px 8px', fontWeight: 'normal' }}>Vega</th>
               </tr>
             </thead>
@@ -327,14 +446,14 @@ export default function OptionsChain() {
                   <tr key={row.strike} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }} className="row-hover">
                     {/* CALL GREEKS & DATA */}
                     <td 
-                      onClick={() => handleLegClick(row.strike, 'Call', row.callBid, 'Sell')}
-                      className={`trade-cell ${isLegSelected(row.strike, 'Call', 'Sell') ? 'selected-leg' : ''}`}
+                      onClick={() => handleLegClick(row.strike, 'Call', row.callBid, 'Sell', row.callDelta, row.callGamma, row.callTheta, row.callVega)}
+                      className={`trade-cell trade-cell-sell ${isLegSelected(row.strike, 'Call', 'Sell') ? 'selected-leg-sell' : ''}`}
                       style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#fff', cursor: 'pointer', fontFamily: 'monospace' }}
                     >{row.callBid?.toFixed(2) || '0.00'}</td>
                     
                     <td 
-                      onClick={() => handleLegClick(row.strike, 'Call', row.callAsk, 'Buy')}
-                      className={`trade-cell ${isLegSelected(row.strike, 'Call', 'Buy') ? 'selected-leg' : ''}`}
+                      onClick={() => handleLegClick(row.strike, 'Call', row.callAsk, 'Buy', row.callDelta, row.callGamma, row.callTheta, row.callVega)}
+                      className={`trade-cell trade-cell-buy ${isLegSelected(row.strike, 'Call', 'Buy') ? 'selected-leg-buy' : ''}`}
                       style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#fff', cursor: 'pointer', fontFamily: 'monospace' }}
                     >{row.callAsk?.toFixed(2) || '0.00'}</td>
 
@@ -342,6 +461,8 @@ export default function OptionsChain() {
                     <td style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#9ca3af' }}>{row.callOI || 0}</td>
                     <td style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#9ca3af' }}>{row.callIV || '0%'}</td>
                     <td style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#999' }}>{row.callDelta?.toFixed(4) || '0.0000'}</td>
+                    <td style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#999' }}>{row.callGamma?.toFixed(4) || '0.0000'}</td>
+                    <td style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#999' }}>{row.callTheta?.toFixed(4) || '0.0000'}</td>
                     <td style={{ padding: '12px 8px', background: isITMCall ? 'rgba(59, 130, 246, 0.05)' : 'transparent', color: '#999', borderRight: '1px solid var(--border)' }}>{row.callVega?.toFixed(4) || '0.0000'}</td>
                     
                     {/* STRIKE */}
@@ -349,14 +470,14 @@ export default function OptionsChain() {
                     
                     {/* PUT GREEKS & DATA */}
                     <td 
-                      onClick={() => handleLegClick(row.strike, 'Put', row.putBid, 'Sell')}
-                      className={`trade-cell ${isLegSelected(row.strike, 'Put', 'Sell') ? 'selected-leg' : ''}`}
+                      onClick={() => handleLegClick(row.strike, 'Put', row.putBid, 'Sell', row.putDelta, row.putGamma, row.putTheta, row.putVega)}
+                      className={`trade-cell trade-cell-sell ${isLegSelected(row.strike, 'Put', 'Sell') ? 'selected-leg-sell' : ''}`}
                       style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#fff', cursor: 'pointer', fontFamily: 'monospace', borderLeft: '1px solid var(--border)' }}
                     >{row.putBid?.toFixed(2) || '0.00'}</td>
                     
                     <td 
-                      onClick={() => handleLegClick(row.strike, 'Put', row.putAsk, 'Buy')}
-                      className={`trade-cell ${isLegSelected(row.strike, 'Put', 'Buy') ? 'selected-leg' : ''}`}
+                      onClick={() => handleLegClick(row.strike, 'Put', row.putAsk, 'Buy', row.putDelta, row.putGamma, row.putTheta, row.putVega)}
+                      className={`trade-cell trade-cell-buy ${isLegSelected(row.strike, 'Put', 'Buy') ? 'selected-leg-buy' : ''}`}
                       style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#fff', cursor: 'pointer', fontFamily: 'monospace' }}
                     >{row.putAsk?.toFixed(2) || '0.00'}</td>
                     
@@ -364,6 +485,8 @@ export default function OptionsChain() {
                     <td style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#9ca3af' }}>{row.putOI || 0}</td>
                     <td style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#9ca3af' }}>{row.putIV || '0%'}</td>
                     <td style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#999' }}>{row.putDelta?.toFixed(4) || '0.0000'}</td>
+                    <td style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#999' }}>{row.putGamma?.toFixed(4) || '0.0000'}</td>
+                    <td style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#999' }}>{row.putTheta?.toFixed(4) || '0.0000'}</td>
                     <td style={{ padding: '12px 8px', background: isITMPut ? 'rgba(167, 139, 250, 0.05)' : 'transparent', color: '#999' }}>{row.putVega?.toFixed(4) || '0.0000'}</td>
                   </tr>
                 );
@@ -374,7 +497,7 @@ export default function OptionsChain() {
       </div>
 
       {/* RIGHT SIDEBAR: PERFORMANCE PROFILE */}
-      <div style={{ width: isProfileCollapsed ? '40px' : '320px', borderLeft: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', padding: isProfileCollapsed ? '24px 8px' : '24px', display: 'flex', flexDirection: 'column', zIndex: 5, transition: 'width 0.3s, padding 0.3s' }}>
+      <div style={{ width: isProfileCollapsed ? '40px' : '320px', borderLeft: '1px solid rgba(255,255,255,0.1)', background: 'rgba(0,0,0,0.3)', padding: isProfileCollapsed ? '24px 8px' : '24px', display: 'flex', flexDirection: 'column', zIndex: 5, transition: 'width 0.3s, padding 0.3s', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
           {!isProfileCollapsed && <h3 style={{ margin: 0, fontSize: '13px', textTransform: 'uppercase', color: '#d1d5db', letterSpacing: '1px', whiteSpace: 'nowrap' }}>Performance Profile</h3>}
           <button onClick={() => setIsProfileCollapsed(!isProfileCollapsed)} style={{ background: 'transparent', border: 'none', color: '#9ca3af', cursor: 'pointer', padding: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', width: isProfileCollapsed ? '100%' : 'auto' }}>
@@ -403,6 +526,53 @@ export default function OptionsChain() {
               ))}
             </div>
 
+            {/* PAYOFF GRAPH */}
+            <div style={{ height: '180px', marginBottom: '24px', background: 'rgba(0,0,0,0.2)', borderRadius: '8px', padding: '8px', overflow: 'hidden' }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={payoffData} margin={{ top: 5, right: 5, left: -25, bottom: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
+                  <XAxis dataKey="price" stroke="#888" tickFormatter={(val) => `$${val}`} style={{ fontSize: '11px' }} />
+                  <YAxis stroke="#888" tickFormatter={(val) => `$${val}`} style={{ fontSize: '11px' }} />
+                  <Tooltip 
+                    contentStyle={{ backgroundColor: 'rgba(15,23,42,0.9)', border: '1px solid rgba(255,255,255,0.1)' }}
+                    itemStyle={{ color: '#fff' }}
+                    labelFormatter={(label) => `Price: $${Number(label).toFixed(2)}`}
+                    formatter={(value: number) => [`$${value.toFixed(2)}`, 'P/L']}
+                  />
+                  <ReferenceLine y={0} stroke="#888" strokeDasharray="3 3" />
+                  <ReferenceLine x={currentPrice} stroke="rgba(59, 130, 246, 0.5)" strokeDasharray="3 3" />
+                  <Line type="monotone" dataKey="profit" stroke="var(--primary)" strokeWidth={2} dot={false} />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+
+            {/* BREAKEVENS & MAX PROFIT / LOSS */}
+            <div style={{ marginBottom: '8px', fontSize: '13px', display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: '#9ca3af' }}>Breakeven(s):</span>
+              <span style={{ fontWeight: 600 }}>{breakevens.length > 0 ? breakevens.map(b => `$${b.toFixed(2)}`).join(', ') : 'N/A'}</span>
+            </div>
+            
+            <div style={{ marginBottom: '8px', fontSize: '13px', display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: '#9ca3af' }}>Max Profit:</span>
+              <span style={{ fontWeight: 600, color: 'var(--success)' }}>
+                {isMaxProfitInfinite ? 'Infinite' : `$${maxProfitVal.toFixed(2)}`}
+              </span>
+            </div>
+            <div style={{ marginBottom: '16px', fontSize: '13px', display: 'flex', justifyContent: 'space-between' }}>
+              <span style={{ color: '#9ca3af' }}>Max Loss:</span>
+              <span style={{ fontWeight: 600, color: 'var(--danger)' }}>
+                {isMaxLossInfinite ? 'Infinite' : `$${Math.abs(maxLossVal).toFixed(2)}`}
+              </span>
+            </div>
+
+            {/* GREEKS */}
+            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '12px', borderRadius: '8px', marginBottom: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+              <div><span style={{ color: '#9ca3af', fontSize: '12px', display: 'block' }}>Delta</span><span style={{ fontWeight: 600, fontFamily: 'monospace' }}>{positionGreeks.delta.toFixed(4)}</span></div>
+              <div><span style={{ color: '#9ca3af', fontSize: '12px', display: 'block' }}>Gamma</span><span style={{ fontWeight: 600, fontFamily: 'monospace' }}>{positionGreeks.gamma.toFixed(4)}</span></div>
+              <div><span style={{ color: '#9ca3af', fontSize: '12px', display: 'block' }}>Theta</span><span style={{ fontWeight: 600, fontFamily: 'monospace' }}>{positionGreeks.theta.toFixed(4)}</span></div>
+              <div><span style={{ color: '#9ca3af', fontSize: '12px', display: 'block' }}>Vega</span><span style={{ fontWeight: 600, fontFamily: 'monospace' }}>{positionGreeks.vega.toFixed(4)}</span></div>
+            </div>
+
             <div style={{ background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '8px', marginBottom: '24px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', color: '#9ca3af', fontSize: '14px' }}>
                 <span>Net Premium</span>
@@ -422,7 +592,11 @@ export default function OptionsChain() {
               >
                 Clear
               </button>
-              <button className="btn-primary" style={{ flex: 2, padding: '12px', fontSize: '14px', fontWeight: 600, borderRadius: '8px' }}>
+              <button 
+                onClick={handleSubmitOrder}
+                className="btn-primary" 
+                style={{ flex: 2, padding: '12px', fontSize: '14px', fontWeight: 600, borderRadius: '8px' }}
+              >
                 Submit Order
               </button>
             </div>
@@ -437,8 +611,10 @@ export default function OptionsChain() {
 
       <style dangerouslySetInnerHTML={{__html: `
         .row-hover:hover { background: rgba(255,255,255,0.05) !important; }
-        .trade-cell:hover { background: rgba(59, 130, 246, 0.2) !important; box-shadow: inset 0 0 0 1px var(--primary); }
-        .selected-leg { background: rgba(59, 130, 246, 0.3) !important; box-shadow: inset 0 0 0 2px var(--primary) !important; }
+        .trade-cell-buy:hover { background: rgba(59, 130, 246, 0.2) !important; box-shadow: inset 0 0 0 1px var(--primary); }
+        .trade-cell-sell:hover { background: rgba(239, 68, 68, 0.2) !important; box-shadow: inset 0 0 0 1px var(--danger); }
+        .selected-leg-buy { background: rgba(59, 130, 246, 0.3) !important; box-shadow: inset 0 0 0 2px var(--primary) !important; }
+        .selected-leg-sell { background: rgba(239, 68, 68, 0.2) !important; box-shadow: inset 0 0 0 2px var(--danger) !important; }
         /* Watchlist responsive */
         .watchlist-panel { width: 280px; transition: width 0.3s; }
         @media (max-width: 1024px) {

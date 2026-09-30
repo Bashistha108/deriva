@@ -224,7 +224,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
              totalUnrealized += (p.unrealizedPnl || 0);
           });
           
-          const totalPnlPct = totalCost > 0 ? ((totalUnrealized + totalRealized) / totalCost) * 100 : 0;
+          const totalPnlPct = totalCost > 0 ? (totalUnrealized / totalCost) * 100 : 0;
 
           return (
             <React.Fragment key={symbol}>
@@ -256,7 +256,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                     const unrealizedColor = (pos.unrealizedPnl || 0) > 0 ? 'var(--success)' : (pos.unrealizedPnl || 0) < 0 ? 'var(--danger)' : '#fff';
                     const realizedColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
                     const costBasis = pos.averageEntryPrice * Math.abs(pos.quantity) * (pos.contractMultiplier || 1);
-                    const pnlPct = costBasis > 0 ? (((pos.unrealizedPnl || 0) + pos.realizedPnl) / costBasis) * 100 : 0;
+                    const pnlPct = costBasis > 0 ? ((pos.unrealizedPnl || 0) / costBasis) * 100 : 0;
                     const pnlPctColor = pnlPct > 0 ? 'var(--success)' : pnlPct < 0 ? 'var(--danger)' : '#fff';
                     
                     return (
@@ -310,7 +310,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                         expVega += (p.vega || 0) * p.quantity * m;
                     });
                     
-                    const expPnlPct = expTotalCost > 0 ? ((expTotalUnrealized + expTotalRealized) / expTotalCost) * 100 : 0;
+                    const expPnlPct = expTotalCost > 0 ? (expTotalUnrealized / expTotalCost) * 100 : 0;
 
                     return (
                       <React.Fragment key={expKey}>
@@ -351,7 +351,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                           const unrealizedColor = (pos.unrealizedPnl || 0) > 0 ? 'var(--success)' : (pos.unrealizedPnl || 0) < 0 ? 'var(--danger)' : '#fff';
                           const realizedColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
                           const costBasis = pos.averageEntryPrice * Math.abs(pos.quantity) * (pos.contractMultiplier || 100);
-                          const pnlPct = costBasis > 0 ? (((pos.unrealizedPnl || 0) + pos.realizedPnl) / costBasis) * 100 : 0;
+                          const pnlPct = costBasis > 0 ? ((pos.unrealizedPnl || 0) / costBasis) * 100 : 0;
                           const pnlPctColor = pnlPct > 0 ? 'var(--success)' : pnlPct < 0 ? 'var(--danger)' : '#fff';
                           
                           return (
