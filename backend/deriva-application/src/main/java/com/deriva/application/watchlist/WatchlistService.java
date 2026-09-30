@@ -53,6 +53,18 @@ public class WatchlistService {
         return watchlistRepository.save(watchlist);
     }
 
+    public Watchlist removeItemFromWatchlist(UUID userId, UUID watchlistId, Long instrumentId) {
+        Watchlist watchlist = watchlistRepository.findById(watchlistId)
+            .orElseThrow(() -> new IllegalArgumentException("Watchlist not found"));
+
+        if (!watchlist.getUserId().equals(userId)) {
+            throw new SecurityException("Unauthorized access to watchlist");
+        }
+
+        watchlist.getItems().removeIf(item -> item.getInstrumentId().equals(instrumentId));
+        return watchlistRepository.save(watchlist);
+    }
+
     public void removeWatchlist(UUID userId, UUID watchlistId) {
         Watchlist watchlist = watchlistRepository.findById(watchlistId)
             .orElseThrow(() -> new IllegalArgumentException("Watchlist not found"));

@@ -1,27 +1,106 @@
 'use client';
 
-const mockPositions: any[] = [];
+import { useEffect, useState } from 'react';
+import PositionTable from '@/components/PositionTable';
 
 export default function Portfolio() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [cashBalance, setCashBalance] = useState<number | null>(null);
+  const [positions, setPositions] = useState<any[]>([]);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/auth/me`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          setIsAuthenticated(true);
+          fetchCashBalance();
+          fetchPositions();
+        } else {
+          window.location.href = '/login';
+        }
+      } catch (err) {
+        window.location.href = '/login';
+      }
+    };
+
+    const fetchCashBalance = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/cash`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setCashBalance(data.balance);
+        }
+      } catch (err) {}
+    };
+
+    const fetchPositions = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/positions`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setPositions(data);
+        }
+      } catch (err) {}
+    };
+
+    checkAuth();
+  }, []);
+
+  if (!isAuthenticated) return null;
+
+  // Calculate portfolio metrics
+  let totalCostBasis = 0;
+  let totalRealizedPnl = 0;
+  positions.forEach(p => {
+      const multiplier = p.type === 'OPTION' ? (p.contractMultiplier || 100) : (p.contractMultiplier || 1);
+      totalCostBasis += (p.averageEntryPrice || 0) * Math.abs(p.quantity) * multiplier;
+      totalRealizedPnl += (p.realizedPnl || 0);
+  });
+
   return (
     <div className="container" style={{ padding: '40px 24px' }}>
       <h1 className="heading-gradient" style={{ fontSize: '36px', marginBottom: '32px' }}>Your Portfolio</h1>
       
-      <div className="glass" style={{ borderRadius: '16px', padding: '24px', marginBottom: '32px', display: 'flex', gap: '48px' }}>
+      <div className="glass" style={{ borderRadius: '16px', padding: '24px', marginBottom: '32px', display: 'flex', gap: '48px', flexWrap: 'wrap' }}>
         <div>
-          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Net Liquidation</div>
-          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>$0.00</div>
+          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Net Liquidation (Cash)</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>
+            {cashBalance !== null ? `$${cashBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '...'}
+          </div>
         </div>
         <div>
-          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Day P&L</div>
-          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>$0.00</div>
+          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Total Cost Basis</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>
+            ${totalCostBasis.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+        </div>
+        <div>
+          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Realized P&L</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: totalRealizedPnl > 0 ? 'var(--success)' : totalRealizedPnl < 0 ? 'var(--danger)' : 'var(--foreground)' }}>
+            {totalRealizedPnl > 0 ? '+' : ''}${totalRealizedPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
         </div>
         <div>
           <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Portfolio Delta</div>
           <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>0.00</div>
         </div>
         <div>
+          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Portfolio Gamma</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>0.00</div>
+        </div>
+        <div>
           <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Portfolio Theta</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>0.00</div>
+        </div>
+        <div>
+          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Portfolio Vega</div>
           <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>0.00</div>
         </div>
       </div>
@@ -29,58 +108,7 @@ export default function Portfolio() {
       <h2 style={{ fontSize: '24px', marginBottom: '16px', fontWeight: 600 }}>Active Positions</h2>
       
       <div className="glass" style={{ borderRadius: '16px', overflow: 'hidden' }}>
-        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-          <thead>
-            <tr style={{ background: 'rgba(255, 255, 255, 0.05)', borderBottom: '1px solid var(--border)', fontSize: '14px', color: '#9ca3af' }}>
-              <th style={{ padding: '16px' }}>Position</th>
-              <th style={{ padding: '16px' }}>Qty</th>
-              <th style={{ padding: '16px' }}>Avg Price</th>
-              <th style={{ padding: '16px' }}>Mark</th>
-              <th style={{ padding: '16px' }}>P&L</th>
-              <th style={{ padding: '16px' }}>Delta</th>
-              <th style={{ padding: '16px' }}>Theta</th>
-              <th style={{ padding: '16px' }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {mockPositions.map((pos) => {
-              const pnlColor = pos.pnl >= 0 ? 'var(--success)' : 'var(--danger)';
-              const isLong = pos.side === 'Long';
-              const sideColor = isLong ? 'var(--success)' : 'var(--danger)';
-              
-              return (
-                <tr key={pos.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <td style={{ padding: '16px' }}>
-                    <div style={{ fontWeight: 600 }}>{pos.instrument} {pos.strike} {pos.type}</div>
-                    <div style={{ fontSize: '12px', color: '#9ca3af' }}>Exp: {pos.expiration}</div>
-                  </td>
-                  <td style={{ padding: '16px', fontWeight: 600 }}>
-                    <span style={{ color: sideColor }}>{isLong ? '+' : '-'}{pos.qty}</span>
-                  </td>
-                  <td style={{ padding: '16px' }}>${pos.avgPrice.toFixed(2)}</td>
-                  <td style={{ padding: '16px' }}>${pos.currentPrice.toFixed(2)}</td>
-                  <td style={{ padding: '16px', fontWeight: 600, color: pnlColor }}>
-                    {pos.pnl > 0 ? '+' : ''}${pos.pnl.toFixed(2)} ({pos.pnlPct}%)
-                  </td>
-                  <td style={{ padding: '16px' }}>{pos.delta}</td>
-                  <td style={{ padding: '16px' }}>{pos.theta}</td>
-                  <td style={{ padding: '16px' }}>
-                    <button style={{ 
-                      padding: '6px 12px', 
-                      background: 'rgba(255,255,255,0.1)', 
-                      border: 'none', 
-                      borderRadius: '4px',
-                      color: 'white',
-                      cursor: 'pointer'
-                    }}>
-                      Close
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <PositionTable positions={positions} />
       </div>
     </div>
   );

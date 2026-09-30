@@ -52,13 +52,14 @@ export default function ClientNavbar() {
         
         {/* Left side: Logo + Navigation Links */}
         <div style={{ display: 'flex', gap: '32px', alignItems: 'center' }}>
-          <a href="/" className="heading-gradient" style={{ fontSize: '24px', textDecoration: 'none' }}>Deriva</a>
+          <a href="/dashboard" className="heading-gradient" style={{ fontSize: '24px', textDecoration: 'none' }}>Deriva</a>
           
           {isAuthenticated && (
             <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
               <a href="/dashboard" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Dashboard</a>
               <a href="/portfolio" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Portfolio</a>
               <a href="/chain" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Options Chain</a>
+              <a href="/watchlist" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Watchlist</a>
               <a href="/learning" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Learning</a>
               {isAdmin && (
                 <a href="/admin" style={{ color: 'var(--warning)', textDecoration: 'none', fontWeight: 500 }}>Admin Console</a>

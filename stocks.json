@@ -1,0 +1,130 @@
+{
+    "T": {
+        "stocks": [
+            "NVDA",
+            "AAPL",
+            "MSFT",
+            "AVGO",
+            "MU",
+            "ORCL",
+            "CRM",
+            "AMD",
+            "CSCO",
+            "ACN",
+            "ADBE",
+            "INTU",
+            "QCOM",
+            "TXN",
+            "AMAT",
+            "LRCX",
+            "KLAC",
+            "ADI",
+            "NOW",
+            "PANW",
+            "PLTR",
+            "IBM",
+            "ANET",
+            "APP",
+            "VRT"
+        ],
+        "etf": [
+            "XLK"
+        ]
+    },
+    "H": {
+        "stocks": [
+            "LLY",
+            "JNJ",
+            "UNH",
+            "ABBV",
+            "MRK",
+            "AMGN",
+            "ABT",
+            "TMO",
+            "DHR",
+            "ISRG",
+            "MDT",
+            "BMY",
+            "GILD",
+            "PFE",
+            "SYK",
+            "BSX",
+            "ELV",
+            "CVS",
+            "CI",
+            "REGN",
+            "VRTX",
+            "HCA",
+            "MCK",
+            "COR",
+            "DXCM"
+        ],
+        "etf": [
+            "XLV"
+        ]
+    },
+    "C": {
+        "stocks": [
+            "AMZN",
+            "TSLA",
+            "HD",
+            "MCD",
+            "NKE",
+            "LOW",
+            "TJX",
+            "BKNG",
+            "SBUX",
+            "TGT",
+            "ORLY",
+            "AZO",
+            "ROST",
+            "CMG",
+            "MAR",
+            "WMT",
+            "COST",
+            "PG",
+            "KO",
+            "PEP",
+            "PM",
+            "MO",
+            "CL",
+            "MDLZ",
+            "KHC"
+        ],
+        "etf": [
+            "XLY"
+        ]
+    },
+    "E": {
+        "stocks": [
+            "BRK.B",
+            "JPM",
+            "V",
+            "MA",
+            "BAC",
+            "WFC",
+            "GS",
+            "MS",
+            "BLK",
+            "AXP",
+            "META",
+            "GOOGL",
+            "GOOG",
+            "NFLX",
+            "DIS",
+            "CAT",
+            "GE",
+            "HON",
+            "RTX",
+            "UPS",
+            "XOM",
+            "CVX",
+            "COP",
+            "NEE",
+            "LIN"
+        ],
+        "etf": [
+            "XLB"
+        ]
+    }
+}

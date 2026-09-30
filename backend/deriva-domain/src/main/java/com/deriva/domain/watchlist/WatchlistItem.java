@@ -11,6 +11,7 @@ public class WatchlistItem {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "watchlist_id", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonIgnore
     private Watchlist watchlist;
 
     @Id

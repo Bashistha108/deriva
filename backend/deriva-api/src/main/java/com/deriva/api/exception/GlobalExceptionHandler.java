@@ -59,6 +59,7 @@ public class GlobalExceptionHandler {
         body.put("error", "Internal Server Error");
         body.put("message", "An unexpected error occurred");
         // Log the actual exception details securely here
+        ex.printStackTrace();
         return new ResponseEntity<>(body, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

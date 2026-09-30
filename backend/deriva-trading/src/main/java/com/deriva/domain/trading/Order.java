@@ -68,5 +68,47 @@ public class Order {
 
     public Order() {}
 
-    // Getters and Setters omitted for brevity...
+    
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public UUID getUserId() { return userId; }
+    public void setUserId(UUID userId) { this.userId = userId; }
+
+    public Long getInstrumentId() { return instrumentId; }
+    public void setInstrumentId(Long instrumentId) { this.instrumentId = instrumentId; }
+
+    public Long getOptionContractId() { return optionContractId; }
+    public void setOptionContractId(Long optionContractId) { this.optionContractId = optionContractId; }
+
+    public OrderSide getSide() { return side; }
+    public void setSide(OrderSide side) { this.side = side; }
+
+    public OrderType getOrderType() { return orderType; }
+    public void setOrderType(OrderType orderType) { this.orderType = orderType; }
+
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+
+    public BigDecimal getLimitPrice() { return limitPrice; }
+    public void setLimitPrice(BigDecimal limitPrice) { this.limitPrice = limitPrice; }
+
+    public String getIdempotencyKey() { return idempotencyKey; }
+    public void setIdempotencyKey(String idempotencyKey) { this.idempotencyKey = idempotencyKey; }
+
+    public OrderStatus getStatus() { return status; }
+    public void setStatus(OrderStatus status) { this.status = status; }
+
+    public LocalDateTime getSubmittedAt() { return submittedAt; }
+    public void setSubmittedAt(LocalDateTime submittedAt) { this.submittedAt = submittedAt; }
+
+    public LocalDateTime getFilledAt() { return filledAt; }
+    public void setFilledAt(LocalDateTime filledAt) { this.filledAt = filledAt; }
+
+    public LocalDateTime getCancelledAt() { return cancelledAt; }
+    public void setCancelledAt(LocalDateTime cancelledAt) { this.cancelledAt = cancelledAt; }
+
+    public Integer getVersion() { return version; }
+    public void setVersion(Integer version) { this.version = version; }
+
 }

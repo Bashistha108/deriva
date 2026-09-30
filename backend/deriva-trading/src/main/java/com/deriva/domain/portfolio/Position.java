@@ -51,5 +51,35 @@ public class Position {
 
     public Position() {}
 
-    // Getters and setters omitted for brevity...
+    
+    public UUID getId() { return id; }
+    public void setId(UUID id) { this.id = id; }
+
+    public UUID getUserId() { return userId; }
+    public void setUserId(UUID userId) { this.userId = userId; }
+
+    public Long getInstrumentId() { return instrumentId; }
+    public void setInstrumentId(Long instrumentId) { this.instrumentId = instrumentId; }
+
+    public Long getOptionContractId() { return optionContractId; }
+    public void setOptionContractId(Long optionContractId) { this.optionContractId = optionContractId; }
+
+    public Integer getQuantity() { return quantity; }
+    public void setQuantity(Integer quantity) { this.quantity = quantity; }
+
+    public BigDecimal getAverageEntryPrice() { return averageEntryPrice; }
+    public void setAverageEntryPrice(BigDecimal averageEntryPrice) { this.averageEntryPrice = averageEntryPrice; }
+
+    public BigDecimal getRealizedPnl() { return realizedPnl; }
+    public void setRealizedPnl(BigDecimal realizedPnl) { this.realizedPnl = realizedPnl; }
+
+    public LocalDateTime getOpenedAt() { return openedAt; }
+    public void setOpenedAt(LocalDateTime openedAt) { this.openedAt = openedAt; }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
+
+    public Integer getVersion() { return version; }
+    public void setVersion(Integer version) { this.version = version; }
+
 }
