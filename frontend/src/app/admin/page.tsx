@@ -8,6 +8,7 @@ import LearningCms from './LearningCms';
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('users');
   const [simulationState, setSimulationState] = useState('RUNNING');
+  const [simulationParams, setSimulationParams] = useState<any[]>([]);
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
 
   const [users, setUsers] = useState<any[]>([]);
@@ -49,6 +50,11 @@ export default function AdminDashboard() {
       .then(res => res.json())
       .then(data => setSimulationState(data.status))
       .catch(err => console.error("Failed to fetch simulation status", err));
+
+    fetch('http://localhost:8080/api/admin/simulation/parameters', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => setSimulationParams(Array.isArray(data) ? data : []))
+      .catch(err => console.error("Failed to fetch simulation parameters", err));
   }, []);
 
   const handleRoleChange = (userId: string, newRole: string) => {
@@ -213,9 +219,9 @@ export default function AdminDashboard() {
       )}
       
       {activeTab === 'simulation' && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '24px' }}>
           <div className="glass" style={{ padding: '24px', borderRadius: '16px' }}>
-            <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px' }}>Simulation Engine</h2>
+            <h2 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '24px' }}>Simulation Engine Controls</h2>
             
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', border: '1px solid var(--border)', marginBottom: '24px' }}>
               <div>
@@ -250,16 +256,57 @@ export default function AdminDashboard() {
                 </button>
               </div>
             </div>
-            
-            <div style={{ marginBottom: '16px' }}>
-              <label style={{ display: 'block', fontSize: '14px', color: '#9ca3af', marginBottom: '8px' }}>Tick Interval (ms)</label>
-              <input type="number" className="input-modern" defaultValue={500} />
-            </div>
-            <div>
-              <label style={{ display: 'block', fontSize: '14px', color: '#9ca3af', marginBottom: '8px' }}>Global Volatility Multiplier</label>
-              <input type="number" className="input-modern" defaultValue={1.0} step={0.1} />
-            </div>
-            <button className="btn-primary" style={{ marginTop: '24px', width: '100%' }}>Update Parameters</button>
+
+            <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Instrument Volatility Settings</h3>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ background: 'rgba(255, 255, 255, 0.02)', fontSize: '14px', color: '#9ca3af' }}>
+                  <th style={{ padding: '12px 16px' }}>Symbol</th>
+                  <th style={{ padding: '12px 16px' }}>Base Volatility</th>
+                  <th style={{ padding: '12px 16px' }}>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {simulationParams.map(param => (
+                  <tr key={param.instrumentId} style={{ borderTop: '1px solid var(--border)' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: 500 }}>{param.symbol}</td>
+                    <td style={{ padding: '12px 16px' }}>
+                      <input 
+                        type="number" 
+                        step="0.01"
+                        value={param.baseVolatility}
+                        onChange={(e) => {
+                          const newParams = [...simulationParams];
+                          const idx = newParams.findIndex(p => p.instrumentId === param.instrumentId);
+                          newParams[idx].baseVolatility = e.target.value === '' ? '' : parseFloat(e.target.value);
+                          setSimulationParams(newParams);
+                        }}
+                        style={{ background: 'rgba(0,0,0,0.5)', color: 'white', border: '1px solid var(--border)', padding: '4px 8px', borderRadius: '4px', width: '100px' }}
+                      />
+                    </td>
+                    <td style={{ padding: '12px 16px' }}>
+                      <button 
+                        className="btn-primary" 
+                        style={{ padding: '4px 12px', fontSize: '12px' }}
+                        onClick={() => {
+                          fetch(`http://localhost:8080/api/admin/simulation/parameters/${param.instrumentId}/volatility`, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ baseVolatility: param.baseVolatility }),
+                            credentials: 'include'
+                          })
+                          .then(res => {
+                            if (!res.ok) alert('Failed to update volatility');
+                          });
+                        }}
+                      >
+                        Save
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}

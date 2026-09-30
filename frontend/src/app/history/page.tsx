@@ -40,6 +40,8 @@ export default function HistoryPage() {
 
   if (!isAuthenticated) return null;
 
+  const totalRealized = closedPositions.reduce((sum, pos) => sum + (pos.realizedPnl || 0), 0);
+
   return (
     <div className="container" style={{ padding: '32px 24px', maxWidth: '1400px' }}>
       <h1 className="serif-heading" style={{ fontSize: '32px', marginBottom: '32px' }}>
@@ -47,7 +49,12 @@ export default function HistoryPage() {
       </h1>
 
       <div className="card" style={{ marginBottom: '24px' }}>
-        <div className="card-header" style={{ marginBottom: '16px' }}>Closed Positions</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+          <div className="card-header" style={{ margin: 0 }}>Closed Positions</div>
+          <div style={{ fontSize: '18px', fontWeight: 600, color: totalRealized > 0 ? 'var(--success)' : totalRealized < 0 ? 'var(--danger)' : '#fff' }}>
+            Total P/L: {totalRealized > 0 ? '+' : ''}${totalRealized.toFixed(2)}
+          </div>
+        </div>
         
         {closedPositions.length === 0 ? (
           <div style={{ padding: '32px', textAlign: 'center', color: '#888' }}>
