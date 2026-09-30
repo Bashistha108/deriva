@@ -61,4 +61,29 @@ public class PositionDTO {
 
     public Integer getContractMultiplier() { return contractMultiplier; }
     public void setContractMultiplier(Integer contractMultiplier) { this.contractMultiplier = contractMultiplier; }
+
+    private BigDecimal currentPrice;
+    private BigDecimal unrealizedPnl;
+    private BigDecimal delta;
+    private BigDecimal gamma;
+    private BigDecimal theta;
+    private BigDecimal vega;
+
+    public BigDecimal getCurrentPrice() { return currentPrice; }
+    public void setCurrentPrice(BigDecimal currentPrice) { this.currentPrice = currentPrice; }
+    
+    public BigDecimal getUnrealizedPnl() { return unrealizedPnl; }
+    public void setUnrealizedPnl(BigDecimal unrealizedPnl) { this.unrealizedPnl = unrealizedPnl; }
+    
+    public BigDecimal getDelta() { return delta; }
+    public void setDelta(BigDecimal delta) { this.delta = delta; }
+    
+    public BigDecimal getGamma() { return gamma; }
+    public void setGamma(BigDecimal gamma) { this.gamma = gamma; }
+    
+    public BigDecimal getTheta() { return theta; }
+    public void setTheta(BigDecimal theta) { this.theta = theta; }
+    
+    public BigDecimal getVega() { return vega; }
+    public void setVega(BigDecimal vega) { this.vega = vega; }
 }

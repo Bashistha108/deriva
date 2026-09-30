@@ -23,5 +23,6 @@
     <include file="db/changelog/016-saved-analyses.xml"/>
     <include file="db/changelog/017-settings.xml"/>
     <include file="db/changelog/018-settings-pause.xml"/>
+    <include file="db/changelog/019-daily-instrument-snapshots.xml"/>
 
 </databaseChangeLog>

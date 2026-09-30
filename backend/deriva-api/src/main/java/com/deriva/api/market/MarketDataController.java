@@ -18,18 +18,21 @@ public class MarketDataController {
     private final com.deriva.persistence.market.InstrumentRepository instrumentRepository;
     private final com.deriva.persistence.market.OptionContractRepository optionContractRepository;
     private final com.deriva.persistence.market.OptionMarketSnapshotRepository optionMarketSnapshotRepository;
+    private final com.deriva.persistence.market.DailyInstrumentSnapshotRepository dailyInstrumentSnapshotRepository;
 
     public MarketDataController(
             MarketDataService marketDataService, 
             com.deriva.application.simulation.SimulationClockService simulationClockService,
             com.deriva.persistence.market.InstrumentRepository instrumentRepository,
             com.deriva.persistence.market.OptionContractRepository optionContractRepository,
-            com.deriva.persistence.market.OptionMarketSnapshotRepository optionMarketSnapshotRepository) {
+            com.deriva.persistence.market.OptionMarketSnapshotRepository optionMarketSnapshotRepository,
+            com.deriva.persistence.market.DailyInstrumentSnapshotRepository dailyInstrumentSnapshotRepository) {
         this.marketDataService = marketDataService;
         this.simulationClockService = simulationClockService;
         this.instrumentRepository = instrumentRepository;
         this.optionContractRepository = optionContractRepository;
         this.optionMarketSnapshotRepository = optionMarketSnapshotRepository;
+        this.dailyInstrumentSnapshotRepository = dailyInstrumentSnapshotRepository;
     }
 
     @GetMapping("/current")
@@ -118,6 +121,78 @@ public class MarketDataController {
         
         List<MarketPriceSnapshot> history = marketDataService.getHistoricalPrices(instrumentId, start, end);
         return ResponseEntity.ok(history);
+    }
+
+    @GetMapping("/watchlist-metrics")
+    public ResponseEntity<List<com.deriva.api.dto.WatchlistInstrumentDTO>> getWatchlistMetrics() {
+        List<com.deriva.api.dto.WatchlistInstrumentDTO> result = new java.util.ArrayList<>();
+        List<com.deriva.domain.market.Instrument> instruments = instrumentRepository.findAll();
+        java.util.Map<String, java.math.BigDecimal> currentPrices = simulationClockService.getCurrentPrices();
+        
+        for (com.deriva.domain.market.Instrument instrument : instruments) {
+            if (!instrument.isActive()) continue;
+            
+            com.deriva.api.dto.WatchlistInstrumentDTO dto = new com.deriva.api.dto.WatchlistInstrumentDTO();
+            dto.setId(instrument.getId());
+            dto.setSymbol(instrument.getSymbol());
+            dto.setName(instrument.getName());
+            
+            java.math.BigDecimal currentPrice = currentPrices.get(instrument.getSymbol());
+            if (currentPrice == null) {
+                currentPrice = instrument.getInitialPrice();
+            }
+            dto.setPrice(currentPrice);
+            
+            java.util.List<com.deriva.domain.market.DailyInstrumentSnapshot> history = 
+                dailyInstrumentSnapshotRepository.findByInstrumentIdOrderByTradeDateAsc(instrument.getId());
+            
+            if (history.isEmpty()) {
+                dto.setChange(java.math.BigDecimal.ZERO);
+                dto.setChangePercent(java.math.BigDecimal.ZERO);
+                dto.setIv(java.math.BigDecimal.ZERO);
+                dto.setIvPercentile(java.math.BigDecimal.ZERO);
+                dto.setIvRank(java.math.BigDecimal.ZERO);
+            } else {
+                com.deriva.domain.market.DailyInstrumentSnapshot lastSnap = history.get(history.size() - 1);
+                
+                java.math.BigDecimal prevClose = lastSnap.getClosePrice();
+                java.math.BigDecimal change = currentPrice.subtract(prevClose);
+                java.math.BigDecimal changePct = java.math.BigDecimal.ZERO;
+                if (prevClose.compareTo(java.math.BigDecimal.ZERO) != 0) {
+                    changePct = change.divide(prevClose, 4, java.math.RoundingMode.HALF_UP).multiply(java.math.BigDecimal.valueOf(100));
+                }
+                
+                dto.setChange(change);
+                dto.setChangePercent(changePct);
+                
+                java.math.BigDecimal currentIv = lastSnap.getImpliedVolatility();
+                dto.setIv(currentIv);
+                
+                java.math.BigDecimal minIv = currentIv;
+                java.math.BigDecimal maxIv = currentIv;
+                int daysBelow = 0;
+                
+                for (com.deriva.domain.market.DailyInstrumentSnapshot snap : history) {
+                    java.math.BigDecimal snapIv = snap.getImpliedVolatility();
+                    if (snapIv.compareTo(minIv) < 0) minIv = snapIv;
+                    if (snapIv.compareTo(maxIv) > 0) maxIv = snapIv;
+                    if (snapIv.compareTo(currentIv) < 0) daysBelow++;
+                }
+                
+                java.math.BigDecimal ivRange = maxIv.subtract(minIv);
+                if (ivRange.compareTo(java.math.BigDecimal.ZERO) == 0) {
+                    dto.setIvRank(java.math.BigDecimal.ZERO);
+                } else {
+                    dto.setIvRank(currentIv.subtract(minIv).divide(ivRange, 4, java.math.RoundingMode.HALF_UP).multiply(java.math.BigDecimal.valueOf(100)));
+                }
+                
+                dto.setIvPercentile(java.math.BigDecimal.valueOf(daysBelow).divide(java.math.BigDecimal.valueOf(history.size()), 4, java.math.RoundingMode.HALF_UP).multiply(java.math.BigDecimal.valueOf(100)));
+            }
+            
+            result.add(dto);
+        }
+        
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/simulation/pause")

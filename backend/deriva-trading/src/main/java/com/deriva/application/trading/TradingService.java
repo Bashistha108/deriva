@@ -25,12 +25,16 @@ public class TradingService {
     private final TradeRepository tradeRepository;
     private final CashAccountService cashAccountService;
     private final PortfolioService portfolioService;
+    private final com.deriva.application.simulation.SimulationClockService simulationClockService;
+    private final com.deriva.persistence.market.InstrumentRepository instrumentRepository;
 
-    public TradingService(OrderRepository orderRepository, TradeRepository tradeRepository, CashAccountService cashAccountService, PortfolioService portfolioService) {
+    public TradingService(OrderRepository orderRepository, TradeRepository tradeRepository, CashAccountService cashAccountService, PortfolioService portfolioService, com.deriva.application.simulation.SimulationClockService simulationClockService, com.deriva.persistence.market.InstrumentRepository instrumentRepository) {
         this.orderRepository = orderRepository;
         this.tradeRepository = tradeRepository;
         this.cashAccountService = cashAccountService;
         this.portfolioService = portfolioService;
+        this.simulationClockService = simulationClockService;
+        this.instrumentRepository = instrumentRepository;
     }
 
     @Transactional
@@ -60,9 +64,22 @@ public class TradingService {
                 .toList();
 
         for (Order order : pending) {
-            // For now, assume MARKET orders fill immediately at $10.0 for simulation
-            // A real system would use MarketDataService to get the exact bid/ask price
             BigDecimal fillPrice = new BigDecimal("10.00");
+            int multiplier = 1;
+            
+            if (order.getOptionContractId() != null) {
+                com.deriva.domain.market.OptionMarketSnapshot snap = simulationClockService.getLiveOptionSnapshot(order.getOptionContractId());
+                if (snap != null && snap.getMidPrice() != null) {
+                    fillPrice = snap.getMidPrice();
+                }
+                multiplier = 100;
+            } else if (order.getInstrumentId() != null) {
+                com.deriva.domain.market.Instrument inst = instrumentRepository.findById(order.getInstrumentId()).orElse(null);
+                if (inst != null) {
+                    fillPrice = simulationClockService.getCurrentPrices().getOrDefault(inst.getSymbol(), inst.getInitialPrice());
+                }
+                multiplier = 1;
+            }
             
             order.setStatus(OrderStatus.FILLED);
             order.setFilledAt(LocalDateTime.now());
@@ -81,7 +98,7 @@ public class TradingService {
             trade.setMarketTickId(1L); // Placeholder for mock execution
             trade = tradeRepository.save(trade);
             
-            BigDecimal notional = fillPrice.multiply(BigDecimal.valueOf(order.getQuantity())).multiply(BigDecimal.valueOf(100));
+            BigDecimal notional = fillPrice.multiply(BigDecimal.valueOf(order.getQuantity())).multiply(BigDecimal.valueOf(multiplier));
             BigDecimal cashImpact = order.getSide() == OrderSide.BUY ? notional.negate() : notional;
             
             cashAccountService.settleTrade(order.getUserId(), cashImpact, trade.getId());

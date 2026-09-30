@@ -15,6 +15,12 @@ type Position = {
   quantity: number;
   averageEntryPrice: number;
   realizedPnl: number;
+  currentPrice?: number;
+  unrealizedPnl?: number;
+  delta?: number;
+  gamma?: number;
+  theta?: number;
+  vega?: number;
 };
 
 const detectStrategy = (legs: Position[]) => {
@@ -43,7 +49,13 @@ const detectStrategy = (legs: Position[]) => {
           }
           return "Spread";
         } else {
-          return "Ratio Spread";
+          const longQty = q1 > 0 ? q1 : q2;
+          const shortQty = q1 < 0 ? Math.abs(q1) : Math.abs(q2);
+          if (longQty > shortQty) {
+              return "Long Ratio Spread";
+          } else {
+              return "Short Ratio Spread";
+          }
         }
       }
     } else {
@@ -68,15 +80,24 @@ const detectStrategy = (legs: Position[]) => {
      const puts = sorted.filter(l => l.optionType === 'PUT');
      const calls = sorted.filter(l => l.optionType === 'CALL');
      if (puts.length === 2 && calls.length === 2) {
-        const outerLong = (puts[0].quantity > 0 && calls[1].quantity > 0 && puts[1].quantity < 0 && calls[0].quantity < 0);
-        const innerLong = (puts[0].quantity < 0 && calls[1].quantity < 0 && puts[1].quantity > 0 && calls[0].quantity > 0);
-        if (outerLong) return "Short Iron Condor";
-        if (innerLong) return "Long Iron Condor";
+        const pSorted = [...puts].sort((a,b) => (a.strikePrice||0) - (b.strikePrice||0));
+        const cSorted = [...calls].sort((a,b) => (a.strikePrice||0) - (b.strikePrice||0));
+        
+        const outerLong = (pSorted[0].quantity > 0 && cSorted[1].quantity > 0 && pSorted[1].quantity < 0 && cSorted[0].quantity < 0);
+        const innerLong = (pSorted[0].quantity < 0 && cSorted[1].quantity < 0 && pSorted[1].quantity > 0 && cSorted[0].quantity > 0);
+        if (outerLong) return "Long Iron Condor";
+        if (innerLong) return "Short Iron Condor";
      }
      return "Iron Condor";
   }
   
   return "Options";
+};
+
+const getDte = (dateStr?: string) => {
+    if (!dateStr) return '-';
+    const diff = new Date(dateStr).getTime() - new Date().getTime();
+    return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24))) + 'd';
 };
 
 export default function PositionTable({ positions }: { positions: Position[] }) {
@@ -91,7 +112,6 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
     setExpandedExpiries(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Grouping
   const grouped: Record<string, { stocks: Position[], options: Record<string, Position[]> }> = {};
 
   positions.forEach(pos => {
@@ -114,21 +134,55 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
     return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(val);
   };
 
+  const handleClosePosition = async (legs: Position[]) => {
+      try {
+          const requests = legs.map(pos => {
+              const side = pos.quantity > 0 ? 'SELL' : 'BUY';
+              return {
+                  symbol: pos.symbol,
+                  strike: pos.strikePrice,
+                  expiration: pos.expirationDate,
+                  optionType: pos.optionType,
+                  side: side,
+                  type: 'MARKET',
+                  quantity: Math.abs(pos.quantity)
+              };
+          });
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/trading/orders`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+              body: JSON.stringify(requests)
+          });
+          if (res.ok) {
+              window.location.reload();
+          } else {
+              alert('Failed to close position.');
+          }
+      } catch (e) {
+          alert('Error closing position.');
+      }
+  };
+
   if (positions.length === 0) {
     return (
       <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
         <thead>
           <tr style={{ background: 'rgba(255, 255, 255, 0.05)', borderBottom: '1px solid var(--border)', fontSize: '14px', color: '#9ca3af' }}>
             <th style={{ padding: '16px' }}>Position</th>
+            <th style={{ padding: '16px' }}>DTE</th>
             <th style={{ padding: '16px' }}>Qty</th>
             <th style={{ padding: '16px' }}>Avg Price</th>
-            <th style={{ padding: '16px' }}>Cost Basis</th>
-            <th style={{ padding: '16px' }}>P&L</th>
+            <th style={{ padding: '16px' }}>Live Price</th>
+            <th style={{ padding: '16px' }}>Unrealized P&L</th>
+            <th style={{ padding: '16px' }}>Realized P&L</th>
+            <th style={{ padding: '16px' }}>P&L %</th>
+            <th style={{ padding: '16px' }}>Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td colSpan={5} style={{ padding: '24px 16px', color: '#888', textAlign: 'center' }}>No active positions found.</td>
+            <td colSpan={9} style={{ padding: '24px 16px', color: '#888', textAlign: 'center' }}>No active positions found.</td>
           </tr>
         </tbody>
       </table>
@@ -139,11 +193,15 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
     <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
       <thead>
         <tr style={{ background: 'rgba(255, 255, 255, 0.05)', borderBottom: '1px solid var(--border)', fontSize: '14px', color: '#9ca3af' }}>
-          <th style={{ padding: '16px' }}>Position</th>
-          <th style={{ padding: '16px' }}>Qty</th>
-          <th style={{ padding: '16px' }}>Avg Price</th>
-          <th style={{ padding: '16px' }}>Cost Basis</th>
-          <th style={{ padding: '16px' }}>Realized P&L</th>
+            <th style={{ padding: '16px' }}>Position</th>
+            <th style={{ padding: '16px' }}>DTE</th>
+            <th style={{ padding: '16px' }}>Qty</th>
+            <th style={{ padding: '16px' }}>Avg Price</th>
+            <th style={{ padding: '16px' }}>Live Price</th>
+            <th style={{ padding: '16px' }}>Unrealized P&L</th>
+            <th style={{ padding: '16px' }}>Realized P&L</th>
+            <th style={{ padding: '16px' }}>P&L %</th>
+            <th style={{ padding: '16px' }}>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -152,19 +210,24 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
           const isSymbolExpanded = expandedSymbols[symbol];
           
           let totalCost = 0;
-          let totalPnl = 0;
+          let totalRealized = 0;
+          let totalUnrealized = 0;
+          
           group.stocks.forEach(p => {
              totalCost += p.averageEntryPrice * Math.abs(p.quantity) * (p.contractMultiplier || 1);
-             totalPnl += p.realizedPnl;
+             totalRealized += p.realizedPnl;
+             totalUnrealized += (p.unrealizedPnl || 0);
           });
           Object.values(group.options).flat().forEach(p => {
              totalCost += p.averageEntryPrice * Math.abs(p.quantity) * (p.contractMultiplier || 100);
-             totalPnl += p.realizedPnl;
+             totalRealized += p.realizedPnl;
+             totalUnrealized += (p.unrealizedPnl || 0);
           });
+          
+          const totalPnlPct = totalCost > 0 ? ((totalUnrealized + totalRealized) / totalCost) * 100 : 0;
 
           return (
             <React.Fragment key={symbol}>
-              {/* Symbol Header */}
               <tr 
                 style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', cursor: 'pointer', background: 'rgba(255, 255, 255, 0.02)' }}
                 onClick={() => toggleSymbol(symbol)}
@@ -173,38 +236,54 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                   {isSymbolExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                   {symbol}
                 </td>
-                <td style={{ padding: '16px' }}></td>
-                <td style={{ padding: '16px' }}></td>
-                <td style={{ padding: '16px', fontWeight: 600 }}>{formatMoney(totalCost)}</td>
-                <td style={{ padding: '16px', fontWeight: 600, color: totalPnl > 0 ? 'var(--success)' : totalPnl < 0 ? 'var(--danger)' : '#fff' }}>
-                  {totalPnl > 0 ? '+' : ''}{formatMoney(totalPnl)}
+                <td colSpan={4}></td>
+                <td style={{ padding: '16px', fontWeight: 600, color: totalUnrealized > 0 ? 'var(--success)' : totalUnrealized < 0 ? 'var(--danger)' : '#fff' }}>
+                  {totalUnrealized > 0 ? '+' : ''}{formatMoney(totalUnrealized)}
                 </td>
+                <td style={{ padding: '16px', fontWeight: 600, color: totalRealized > 0 ? 'var(--success)' : totalRealized < 0 ? 'var(--danger)' : '#fff' }}>
+                  {totalRealized > 0 ? '+' : ''}{formatMoney(totalRealized)}
+                </td>
+                <td style={{ padding: '16px', fontWeight: 600, color: totalPnlPct > 0 ? 'var(--success)' : totalPnlPct < 0 ? 'var(--danger)' : '#fff' }}>
+                  {totalPnlPct > 0 ? '+' : ''}{totalPnlPct.toFixed(2)}%
+                </td>
+                <td style={{ padding: '16px' }}></td>
               </tr>
 
-              {/* Expanded Symbol View */}
               {isSymbolExpanded && (
                 <>
-                  {/* Stocks */}
                   {group.stocks.map(pos => {
                     const sideColor = pos.quantity > 0 ? 'var(--success)' : 'var(--danger)';
-                    const pnlColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
+                    const unrealizedColor = (pos.unrealizedPnl || 0) > 0 ? 'var(--success)' : (pos.unrealizedPnl || 0) < 0 ? 'var(--danger)' : '#fff';
+                    const realizedColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
                     const costBasis = pos.averageEntryPrice * Math.abs(pos.quantity) * (pos.contractMultiplier || 1);
+                    const pnlPct = costBasis > 0 ? (((pos.unrealizedPnl || 0) + pos.realizedPnl) / costBasis) * 100 : 0;
+                    const pnlPctColor = pnlPct > 0 ? 'var(--success)' : pnlPct < 0 ? 'var(--danger)' : '#fff';
+                    
                     return (
                       <tr key={pos.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                         <td style={{ padding: '12px 16px 12px 48px', color: '#ccc' }}>Stock</td>
+                        <td style={{ padding: '12px 16px' }}>-</td>
                         <td style={{ padding: '12px 16px', fontWeight: 600 }}>
                           <span style={{ color: sideColor }}>{pos.quantity > 0 ? '+' : ''}{pos.quantity}</span>
                         </td>
                         <td style={{ padding: '12px 16px' }}>{formatMoney(pos.averageEntryPrice)}</td>
-                        <td style={{ padding: '12px 16px' }}>{formatMoney(costBasis)}</td>
-                        <td style={{ padding: '12px 16px', fontWeight: 600, color: pnlColor }}>
+                        <td style={{ padding: '12px 16px' }}>{formatMoney(pos.currentPrice || 0)}</td>
+                        <td style={{ padding: '12px 16px', fontWeight: 600, color: unrealizedColor }}>
+                          {(pos.unrealizedPnl || 0) > 0 ? '+' : ''}{formatMoney(pos.unrealizedPnl || 0)}
+                        </td>
+                        <td style={{ padding: '12px 16px', fontWeight: 600, color: realizedColor }}>
                           {pos.realizedPnl > 0 ? '+' : ''}{formatMoney(pos.realizedPnl)}
+                        </td>
+                        <td style={{ padding: '12px 16px', color: pnlPctColor }}>
+                           {pnlPct > 0 ? '+' : ''}{pnlPct.toFixed(2)}%
+                        </td>
+                        <td style={{ padding: '12px 16px' }}>
+                            <button onClick={(e) => { e.stopPropagation(); handleClosePosition([pos]); }} style={{ padding: '4px 8px', fontSize: '12px', background: 'var(--danger)', color: 'white', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Close</button>
                         </td>
                       </tr>
                     );
                   })}
 
-                  {/* Options */}
                   {Object.keys(group.options).sort().map(expiry => {
                     const expKey = `${symbol}-${expiry}`;
                     const isExpExpanded = expandedExpiries[expKey];
@@ -213,46 +292,91 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                     const strategyName = detectStrategy(expLegs);
 
                     let expTotalCost = 0;
-                    let expTotalPnl = 0;
+                    let expTotalRealized = 0;
+                    let expTotalUnrealized = 0;
+                    let expDelta = 0;
+                    let expGamma = 0;
+                    let expTheta = 0;
+                    let expVega = 0;
+                    
                     expLegs.forEach(p => {
-                        expTotalCost += p.averageEntryPrice * Math.abs(p.quantity) * (p.contractMultiplier || 100);
-                        expTotalPnl += p.realizedPnl;
+                        const m = p.contractMultiplier || 100;
+                        expTotalCost += p.averageEntryPrice * Math.abs(p.quantity) * m;
+                        expTotalRealized += p.realizedPnl;
+                        expTotalUnrealized += (p.unrealizedPnl || 0);
+                        expDelta += (p.delta || 0) * p.quantity * m;
+                        expGamma += (p.gamma || 0) * p.quantity * m;
+                        expTheta += (p.theta || 0) * p.quantity * m;
+                        expVega += (p.vega || 0) * p.quantity * m;
                     });
+                    
+                    const expPnlPct = expTotalCost > 0 ? ((expTotalUnrealized + expTotalRealized) / expTotalCost) * 100 : 0;
 
                     return (
                       <React.Fragment key={expKey}>
                         <tr 
-                          style={{ borderBottom: '1px solid rgba(255,255,255,0.02)', cursor: 'pointer' }}
+                          style={{ borderBottom: '1px solid rgba(255,255,255,0.02)', cursor: 'pointer', background: 'rgba(255,255,255,0.01)' }}
                           onClick={() => toggleExpiry(expKey)}
                         >
                           <td style={{ padding: '12px 16px 12px 40px', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '8px' }}>
                             {isExpExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                            {expiry} ({strategyName})
+                            <div>
+                                <div>{expiry} ({strategyName})</div>
+                                {isExpExpanded && (
+                                   <div style={{ fontSize: '11px', color: '#888', marginTop: '4px' }}>
+                                      Δ: {expDelta.toFixed(2)} | Γ: {expGamma.toFixed(2)} | Θ: {expTheta.toFixed(2)} | V: {expVega.toFixed(2)}
+                                   </div>
+                                )}
+                            </div>
                           </td>
-                          <td style={{ padding: '12px 16px' }}></td>
-                          <td style={{ padding: '12px 16px' }}></td>
-                          <td style={{ padding: '12px 16px' }}>{formatMoney(expTotalCost)}</td>
-                          <td style={{ padding: '12px 16px', color: expTotalPnl > 0 ? 'var(--success)' : expTotalPnl < 0 ? 'var(--danger)' : '#fff' }}>
-                            {expTotalPnl > 0 ? '+' : ''}{formatMoney(expTotalPnl)}
+                          <td style={{ padding: '12px 16px' }}>{getDte(expiry)}</td>
+                          <td colSpan={3}></td>
+                          <td style={{ padding: '12px 16px', color: expTotalUnrealized > 0 ? 'var(--success)' : expTotalUnrealized < 0 ? 'var(--danger)' : '#fff' }}>
+                            {expTotalUnrealized > 0 ? '+' : ''}{formatMoney(expTotalUnrealized)}
+                          </td>
+                          <td style={{ padding: '12px 16px', color: expTotalRealized > 0 ? 'var(--success)' : expTotalRealized < 0 ? 'var(--danger)' : '#fff' }}>
+                            {expTotalRealized > 0 ? '+' : ''}{formatMoney(expTotalRealized)}
+                          </td>
+                          <td style={{ padding: '12px 16px', color: expPnlPct > 0 ? 'var(--success)' : expPnlPct < 0 ? 'var(--danger)' : '#fff' }}>
+                            {expPnlPct > 0 ? '+' : ''}{expPnlPct.toFixed(2)}%
+                          </td>
+                          <td style={{ padding: '12px 16px', display: 'flex', gap: '4px' }}>
+                             <button onClick={(e) => { e.stopPropagation(); handleClosePosition(expLegs); }} style={{ padding: '4px 8px', fontSize: '12px', background: 'var(--danger)', color: 'white', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Close All</button>
+                             <button style={{ padding: '4px 8px', fontSize: '12px', background: 'var(--primary)', color: 'white', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Roll</button>
                           </td>
                         </tr>
 
                         {isExpExpanded && expLegs.map(pos => {
                           const sideColor = pos.quantity > 0 ? 'var(--success)' : 'var(--danger)';
-                          const pnlColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
+                          const unrealizedColor = (pos.unrealizedPnl || 0) > 0 ? 'var(--success)' : (pos.unrealizedPnl || 0) < 0 ? 'var(--danger)' : '#fff';
+                          const realizedColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
                           const costBasis = pos.averageEntryPrice * Math.abs(pos.quantity) * (pos.contractMultiplier || 100);
+                          const pnlPct = costBasis > 0 ? (((pos.unrealizedPnl || 0) + pos.realizedPnl) / costBasis) * 100 : 0;
+                          const pnlPctColor = pnlPct > 0 ? 'var(--success)' : pnlPct < 0 ? 'var(--danger)' : '#fff';
+                          
                           return (
                             <tr key={pos.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.02)' }}>
                               <td style={{ padding: '12px 16px 12px 64px', color: '#ccc' }}>
                                 {pos.strikePrice} {pos.optionType}
                               </td>
+                              <td style={{ padding: '12px 16px' }}>{getDte(pos.expirationDate)}</td>
                               <td style={{ padding: '12px 16px', fontWeight: 600 }}>
                                 <span style={{ color: sideColor }}>{pos.quantity > 0 ? '+' : ''}{pos.quantity}</span>
                               </td>
                               <td style={{ padding: '12px 16px' }}>{formatMoney(pos.averageEntryPrice)}</td>
-                              <td style={{ padding: '12px 16px' }}>{formatMoney(costBasis)}</td>
-                              <td style={{ padding: '12px 16px', color: pnlColor }}>
+                              <td style={{ padding: '12px 16px' }}>{formatMoney(pos.currentPrice || 0)}</td>
+                              <td style={{ padding: '12px 16px', color: unrealizedColor }}>
+                                {(pos.unrealizedPnl || 0) > 0 ? '+' : ''}{formatMoney(pos.unrealizedPnl || 0)}
+                              </td>
+                              <td style={{ padding: '12px 16px', color: realizedColor }}>
                                 {pos.realizedPnl > 0 ? '+' : ''}{formatMoney(pos.realizedPnl)}
+                              </td>
+                              <td style={{ padding: '12px 16px', color: pnlPctColor }}>
+                                {pnlPct > 0 ? '+' : ''}{pnlPct.toFixed(2)}%
+                              </td>
+                              <td style={{ padding: '12px 16px', display: 'flex', gap: '4px' }}>
+                                <button onClick={(e) => { e.stopPropagation(); handleClosePosition([pos]); }} style={{ padding: '4px 8px', fontSize: '12px', background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Close</button>
+                                <button style={{ padding: '4px 8px', fontSize: '12px', background: 'rgba(255,255,255,0.1)', color: 'white', borderRadius: '4px', border: 'none', cursor: 'pointer' }}>Roll</button>
                               </td>
                             </tr>
                           );

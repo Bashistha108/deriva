@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="019-daily-instrument-snapshots" author="deriva">
+        <createTable tableName="daily_instrument_snapshots">
+            <column name="id" type="BIGSERIAL" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="instrument_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="trade_date" type="DATE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="close_price" type="DECIMAL(19, 4)"/>
+            <column name="implied_volatility" type="DECIMAL(19, 4)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="instrument_id"
+                                 baseTableName="daily_instrument_snapshots"
+                                 constraintName="fk_daily_instrument_snapshots_instrument"
+                                 referencedColumnNames="id"
+                                 referencedTableName="instruments"/>
+    </changeSet>
+
+</databaseChangeLog>

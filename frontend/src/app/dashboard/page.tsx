@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import PositionTable from '@/components/PositionTable';
-
+import PortfolioChart from '@/components/PortfolioChart';
 export default function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [cashBalance, setCashBalance] = useState<number | null>(null);
@@ -10,6 +10,8 @@ export default function Dashboard() {
   const [newBalanceInput, setNewBalanceInput] = useState('');
 
   const [positions, setPositions] = useState<any[]>([]);
+
+  const [history, setHistory] = useState<any[]>([]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -21,6 +23,7 @@ export default function Dashboard() {
           setIsAuthenticated(true);
           fetchCashBalance();
           fetchPositions();
+          fetchHistory();
         } else {
           window.location.href = '/login';
         }
@@ -53,8 +56,30 @@ export default function Dashboard() {
       } catch (err) {}
     };
 
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/history`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setHistory(data);
+        }
+      } catch (err) {}
+    };
+
     checkAuth();
-  }, []);
+
+    const interval = setInterval(() => {
+      if (isAuthenticated) {
+        fetchCashBalance();
+        fetchPositions();
+        fetchHistory();
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
 
   const handleUpdateBalance = async () => {
     if (!newBalanceInput || isNaN(Number(newBalanceInput))) return;
@@ -78,11 +103,26 @@ export default function Dashboard() {
   // Calculate portfolio metrics
   let totalCostBasis = 0;
   let totalRealizedPnl = 0;
+  let totalUnrealizedPnl = 0;
+  let portDelta = 0;
+  let portGamma = 0;
+  let portTheta = 0;
+  let portVega = 0;
+
   positions.forEach(p => {
       const multiplier = p.type === 'OPTION' ? (p.contractMultiplier || 100) : (p.contractMultiplier || 1);
-      totalCostBasis += (p.averageEntryPrice || 0) * Math.abs(p.quantity) * multiplier;
+      const cost = (p.averageEntryPrice || 0) * Math.abs(p.quantity) * multiplier;
+      totalCostBasis += p.quantity > 0 ? cost : -cost; // For net liquidation logic
       totalRealizedPnl += (p.realizedPnl || 0);
+      totalUnrealizedPnl += (p.unrealizedPnl || 0);
+      portDelta += (p.delta || 0) * p.quantity * multiplier;
+      portGamma += (p.gamma || 0) * p.quantity * multiplier;
+      portTheta += (p.theta || 0) * p.quantity * multiplier;
+      portVega += (p.vega || 0) * p.quantity * multiplier;
   });
+
+  const portfolioValue = totalCostBasis + totalUnrealizedPnl;
+  const netLiquidation = (cashBalance || 0) + portfolioValue;
 
   return (
     <div className="container" style={{ padding: '32px 24px', maxWidth: '1400px' }}>
@@ -92,6 +132,17 @@ export default function Dashboard() {
       
       {/* Top Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '24px' }}>
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="card-header" style={{ margin: 0 }}>Net Liquidation</div>
+            <div style={{ color: '#888', fontSize: '14px' }}>$</div>
+          </div>
+          <div className="card-value" style={{ marginTop: '16px' }}>
+            ${netLiquidation.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>Total Account Value</div>
+        </div>
+
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="card-header" style={{ margin: 0 }}>Cash Balance</div>
@@ -109,9 +160,19 @@ export default function Dashboard() {
           ) : (
              <div className="card-value" style={{ marginTop: '16px' }}>{cashBalance !== null ? `$${cashBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '...'}</div>
           )}
-          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>Paper Trading Funds</div>
+          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>Available Funds</div>
         </div>
         
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="card-header" style={{ margin: 0 }}>Unrealized P/L</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>~</div>
+          </div>
+          <div className="card-value" style={{ color: totalUnrealizedPnl > 0 ? 'var(--success)' : totalUnrealizedPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
+            {totalUnrealizedPnl > 0 ? '+' : ''}${totalUnrealizedPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+        </div>
+
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="card-header" style={{ margin: 0 }}>Realized P/L</div>
@@ -121,30 +182,14 @@ export default function Dashboard() {
             {totalRealizedPnl > 0 ? '+' : ''}${totalRealizedPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
           </div>
         </div>
-
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="card-header" style={{ margin: 0 }}>Buying Power</div>
-            <div style={{ color: '#888', fontSize: '14px' }}>~</div>
-          </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$0.00</div>
-        </div>
-
-        <div className="card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="card-header" style={{ margin: 0 }}>Margin Usage</div>
-            <div style={{ color: '#888', fontSize: '14px' }}>❖</div>
-          </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$0.00</div>
-        </div>
       </div>
 
       {/* Middle Row */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginBottom: '24px' }}>
         <div className="card" style={{ minHeight: '350px', display: 'flex', flexDirection: 'column' }}>
-          <div className="card-header">P/L Chart</div>
-          <div style={{ flex: 1, border: '1px dashed var(--border)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', background: '#141414' }}>
-            ↗ [P/L Chart Visualization Area]
+          <div className="card-header" style={{ marginBottom: '16px' }}>Equity Curve</div>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <PortfolioChart history={history} />
           </div>
         </div>
         <div className="card">
@@ -152,19 +197,19 @@ export default function Dashboard() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Delta (Δ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portDelta.toFixed(2)}</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Gamma (Γ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portGamma.toFixed(2)}</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Theta (Θ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portTheta.toFixed(2)}</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Vega (ν)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>0.0</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portVega.toFixed(2)}</div>
             </div>
           </div>
         </div>

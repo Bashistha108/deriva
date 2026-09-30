@@ -17,6 +17,7 @@ export default function OptionsChain() {
 
   const [chainData, setChainData] = useState<Record<string, any[]>>({});
   const [selectedExp, setSelectedExp] = useState<string>('');
+  const [strikeSortDirection, setStrikeSortDirection] = useState<'asc' | 'desc'>('asc');
   
   const [flashes, setFlashes] = useState<Record<string, 'up' | 'down'>>({});
   const prevPrices = useRef<Record<string, number>>({});
@@ -79,6 +80,34 @@ export default function OptionsChain() {
     };
   }, []);
 
+  const [watchedSymbols, setWatchedSymbols] = useState<Set<string>>(new Set());
+  
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      try {
+        const [instRes, watchRes] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/market-data/instruments`, { credentials: 'include' }),
+          fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/watchlists`, { credentials: 'include' })
+        ]);
+        
+        if (instRes.ok && watchRes.ok) {
+          const instruments = await instRes.json();
+          const watchlists = await watchRes.json();
+          
+          let activeWatchlist = Array.isArray(watchlists) ? watchlists[0] : null;
+          if (activeWatchlist && activeWatchlist.items) {
+             const watchedIds = new Set(activeWatchlist.items.map((i: any) => i.instrumentId));
+             const watchedSyms = instruments.filter((inst: any) => watchedIds.has(inst.id)).map((inst: any) => inst.symbol);
+             setWatchedSymbols(new Set(watchedSyms));
+          }
+        }
+      } catch (e) {
+        console.error("Failed to fetch watchlist", e);
+      }
+    };
+    fetchWatchlist();
+  }, []);
+
   // Fetch options chain from backend
   useEffect(() => {
     const fetchChain = async () => {
@@ -120,7 +149,9 @@ export default function OptionsChain() {
   };
   
   const availableExps = Object.keys(chainData).sort();
-  const strikes = chainData[selectedExp] || [];
+  const strikes = [...(chainData[selectedExp] || [])].sort((a, b) => {
+    return strikeSortDirection === 'asc' ? a.strike - b.strike : b.strike - a.strike;
+  });
 
   const detectStrategy = (legs: any[]) => {
     if (legs.length === 1) {
@@ -180,7 +211,9 @@ export default function OptionsChain() {
           <h3 className="watchlist-title" style={{ margin: 0, fontSize: '13px', color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '1px' }}>Live Watchlist</h3>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          {Object.entries(prices).map(([symbol, price]) => {
+          {Object.entries(prices)
+            .filter(([symbol]) => watchedSymbols.has(symbol))
+            .map(([symbol, price]) => {
             const flash = flashes[symbol];
             let bgColor = selectedSymbol === symbol ? 'rgba(59, 130, 246, 0.15)' : 'transparent';
             let color = 'var(--success)';
@@ -259,7 +292,9 @@ export default function OptionsChain() {
             <thead>
               <tr style={{ background: 'var(--surface)' }}>
                 <th colSpan={7} className="serif-heading" style={{ padding: '16px', borderBottom: '1px solid var(--border)', borderRight: '1px solid var(--border)' }}>Calls</th>
-                <th className="serif-heading" style={{ padding: '16px', width: '100px', borderBottom: '1px solid var(--border)' }}>Strike</th>
+                <th onClick={() => setStrikeSortDirection(prev => prev === 'asc' ? 'desc' : 'asc')} className="serif-heading" style={{ padding: '16px', width: '100px', borderBottom: '1px solid var(--border)', cursor: 'pointer', userSelect: 'none' }}>
+                  Strike {strikeSortDirection === 'asc' ? '▲' : '▼'}
+                </th>
                 <th colSpan={7} className="serif-heading" style={{ padding: '16px', borderBottom: '1px solid var(--border)', borderLeft: '1px solid var(--border)' }}>Puts</th>
               </tr>
               <tr style={{ borderBottom: '1px solid var(--border)', color: '#888', background: 'var(--surface)' }}>
