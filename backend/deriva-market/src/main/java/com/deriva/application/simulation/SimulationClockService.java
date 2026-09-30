@@ -32,6 +32,7 @@ public class SimulationClockService {
     private final MarketTickRepository marketTickRepository;
     private final SystemSettingRepository systemSettingRepository;
     private final InstrumentSimulationParameterRepository simulationParameterRepository;
+    private final com.deriva.persistence.market.DailyInstrumentSnapshotRepository dailyInstrumentSnapshotRepository;
 
     private final SimpMessagingTemplate messagingTemplate;
 
@@ -80,6 +81,7 @@ public class SimulationClockService {
             MarketTickRepository marketTickRepository,
             SystemSettingRepository systemSettingRepository,
             InstrumentSimulationParameterRepository simulationParameterRepository,
+            com.deriva.persistence.market.DailyInstrumentSnapshotRepository dailyInstrumentSnapshotRepository,
             SimpMessagingTemplate messagingTemplate) {
         this.instrumentRepository = instrumentRepository;
         this.optionContractRepository = optionContractRepository;
@@ -90,6 +92,7 @@ public class SimulationClockService {
         this.marketTickRepository = marketTickRepository;
         this.systemSettingRepository = systemSettingRepository;
         this.simulationParameterRepository = simulationParameterRepository;
+        this.dailyInstrumentSnapshotRepository = dailyInstrumentSnapshotRepository;
         this.messagingTemplate = messagingTemplate;
     }
 
@@ -173,6 +176,70 @@ public class SimulationClockService {
             oiMap.put(contract.getId(), baseOI + random.nextInt((int) Math.max(1, baseOI / 2)));
             volMap.put(contract.getId(), (long) random.nextInt((int) Math.max(1, baseOI / 10)));
         }
+
+        // Initialize Daily Snapshots
+        long count = dailyInstrumentSnapshotRepository.count();
+        if (count == 0) {
+            System.out.println("No daily snapshots found. Generating 7 days of realistic historical data...");
+            LocalDate today = LocalDate.now(java.time.ZoneId.of("Europe/Berlin"));
+            List<DailyInstrumentSnapshot> newSnaps = new ArrayList<>();
+            for (Instrument instrument : instrumentRepository.findAll()) {
+                if (!instrument.isActive()) continue;
+                InstrumentSimulationParameter param = simParamsMap.get(instrument.getId());
+                double paramVol = param != null ? param.getBaseVolatility().doubleValue() : 0.20;
+                
+                double currentP = instrument.getInitialPrice().doubleValue();
+                
+                // We want yesterday's price to be very close to today's current price to have a realistic 1-day change.
+                // Let's generate 7 days backwards.
+                for (long i = 1; i <= 7; i++) {
+                    LocalDate d = today.minusDays(i);
+                    double z = random.nextGaussian();
+                    double stepVol = paramVol / Math.sqrt(252);
+                    
+                    // We are stepping backwards, so the formula is inverted, but random walk is symmetric.
+                    // Yesterday's price = Today's price / exp(drift + vol * Z)
+                    double drift = 0.0001; // small daily drift
+                    currentP = currentP / Math.exp(drift - 0.5 * stepVol * stepVol + stepVol * z);
+                    
+                    double dayIv = paramVol * (1.0 + 0.05 * random.nextGaussian());
+                    
+                    DailyInstrumentSnapshot snap = new DailyInstrumentSnapshot();
+                    snap.setInstrumentId(instrument.getId());
+                    snap.setTradeDate(d);
+                    snap.setClosePrice(BigDecimal.valueOf(currentP).setScale(4, RoundingMode.HALF_UP));
+                    snap.setImpliedVolatility(BigDecimal.valueOf(dayIv).setScale(4, RoundingMode.HALF_UP));
+                    newSnaps.add(snap);
+                }
+            }
+            dailyInstrumentSnapshotRepository.saveAll(newSnaps);
+            System.out.println("Generated " + newSnaps.size() + " daily snapshots.");
+        }
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Europe/Berlin")
+    public void captureDailySnapshot() {
+        System.out.println("Capturing End of Day snapshot...");
+        LocalDate tradeDate = LocalDate.now(java.time.ZoneId.of("Europe/Berlin")).minusDays(1);
+        List<DailyInstrumentSnapshot> snaps = new ArrayList<>();
+        for (Instrument instrument : instrumentRepository.findAll()) {
+            if (!instrument.isActive()) continue;
+            BigDecimal price = currentPrices.get(instrument.getSymbol());
+            if (price == null) continue;
+            
+            InstrumentSimulationParameter param = simParamsMap.get(instrument.getId());
+            double paramVol = param != null ? param.getBaseVolatility().doubleValue() : 0.20;
+            // Introduce slight variation for daily IV
+            double dayIv = paramVol * (1.0 + 0.05 * random.nextGaussian());
+            
+            DailyInstrumentSnapshot snap = new DailyInstrumentSnapshot();
+            snap.setInstrumentId(instrument.getId());
+            snap.setTradeDate(tradeDate);
+            snap.setClosePrice(price);
+            snap.setImpliedVolatility(BigDecimal.valueOf(dayIv).setScale(4, RoundingMode.HALF_UP));
+            snaps.add(snap);
+        }
+        dailyInstrumentSnapshotRepository.saveAll(snaps);
     }
 
     @Scheduled(fixedRate = 1000)

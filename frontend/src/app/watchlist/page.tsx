@@ -65,8 +65,8 @@ export default function WatchlistPage() {
 
   const fetchData = async () => {
     try {
-      // Fetch all instruments
-      const instRes = await fetch('http://localhost:8080/api/market-data/instruments', { credentials: 'include' });
+      // Fetch all metrics
+      const instRes = await fetch('http://localhost:8080/api/market-data/watchlist-metrics', { credentials: 'include' });
       if (instRes.status === 401 || instRes.status === 403) {
         router.push('/login');
         return;
@@ -134,6 +134,11 @@ export default function WatchlistPage() {
 
   const watchedIds = new Set(watchlist?.items?.map((i: any) => i.instrumentId) || []);
 
+  const formatPct = (val: number | undefined) => {
+      if (val === undefined) return '---';
+      return `${val > 0 ? '+' : ''}${val.toFixed(2)}%`;
+  };
+
   return (
     <div style={{ padding: '40px', background: 'var(--background)', minHeight: '100vh', color: '#fff' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
@@ -150,19 +155,34 @@ export default function WatchlistPage() {
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
             <tr style={{ background: 'rgba(0,0,0,0.2)', borderBottom: '1px solid var(--border)', color: '#9ca3af', fontSize: '13px', textTransform: 'uppercase' }}>
-              <th style={{ padding: '16px' }}>Symbol</th>
-              <th style={{ padding: '16px' }}>Type</th>
+              <th style={{ padding: '16px' }}>Ticker</th>
               <th style={{ padding: '16px' }}>Price</th>
+              <th style={{ padding: '16px' }}>Change</th>
+              <th style={{ padding: '16px' }}>Change %</th>
+              <th style={{ padding: '16px' }}>IV</th>
+              <th style={{ padding: '16px' }}>IV-Percentile</th>
+              <th style={{ padding: '16px' }}>IV-Rank</th>
               <th style={{ padding: '16px' }}>Watchlist Status</th>
             </tr>
           </thead>
           <tbody>
             {instruments.map(inst => {
               const isWatched = watchedIds.has(inst.id);
+              const curPrice = prices[inst.symbol] || inst.price;
+              
+              const changeVal = (prices[inst.symbol] !== undefined && inst.price !== undefined && inst.change !== undefined) 
+                  ? inst.change + (prices[inst.symbol] - inst.price)
+                  : inst.change;
+                  
+              const prevPrice = inst.price - inst.change;
+              const changePctVal = prevPrice > 0 ? (changeVal / prevPrice) * 100 : 0;
+              
+              const isUp = changeVal > 0;
+              const isDown = changeVal < 0;
+
               return (
                 <tr key={inst.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
                   <td style={{ padding: '16px', fontWeight: 600 }}>{inst.symbol}</td>
-                  <td style={{ padding: '16px', color: '#9ca3af' }}>{inst.type || inst.instrumentType}</td>
                   <td style={{ 
                     padding: '16px', 
                     fontFamily: 'monospace', 
@@ -170,8 +190,17 @@ export default function WatchlistPage() {
                     color: flashes[inst.symbol] === 'up' ? '#10b981' : flashes[inst.symbol] === 'down' ? '#ef4444' : 'inherit',
                     transition: 'color 0.3s'
                   }}>
-                    {prices[inst.symbol] ? `$${prices[inst.symbol].toFixed(2)}` : '---'}
+                    {curPrice ? `$${curPrice.toFixed(2)}` : '---'}
                   </td>
+                  <td style={{ padding: '16px', color: isUp ? '#10b981' : isDown ? '#ef4444' : 'inherit' }}>
+                      {changeVal !== undefined ? `${changeVal > 0 ? '+' : ''}${changeVal.toFixed(2)}` : '---'}
+                  </td>
+                  <td style={{ padding: '16px', color: isUp ? '#10b981' : isDown ? '#ef4444' : 'inherit' }}>
+                      {formatPct(changePctVal)}
+                  </td>
+                  <td style={{ padding: '16px' }}>{inst.iv ? `${(inst.iv * 100).toFixed(1)}%` : '---'}</td>
+                  <td style={{ padding: '16px' }}>{formatPct(inst.ivPercentile)}</td>
+                  <td style={{ padding: '16px' }}>{formatPct(inst.ivRank)}</td>
                   <td style={{ padding: '16px' }}>
                     <button
                       onClick={() => toggleWatchlist(inst.id, isWatched)}
