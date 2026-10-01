@@ -60,6 +60,7 @@ export default function ClientNavbar() {
               <a href="/portfolio" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Portfolio</a>
               <a href="/history" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>History</a>
               <a href="/chain" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Options Chain</a>
+              <a href="/chart/SPY" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Charts</a>
               <a href="/watchlist" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Watchlist</a>
               <a href="/learning" style={{ color: 'var(--foreground)', textDecoration: 'none', fontWeight: 500 }}>Learning</a>
               {isAdmin && (

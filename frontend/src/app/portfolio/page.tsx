@@ -75,8 +75,8 @@ export default function Portfolio() {
 
   positions.forEach(p => {
       const multiplier = p.type === 'OPTION' ? (p.contractMultiplier || 100) : (p.contractMultiplier || 1);
-      const cost = (p.averageEntryPrice || 0) * Math.abs(p.quantity) * multiplier;
-      totalCostBasis += p.quantity > 0 ? cost : -cost; // For net liquidation logic
+      const cost = (p.averageEntryPrice || 0) * p.quantity * multiplier;
+      totalCostBasis += cost; // For net liquidation logic
       totalRealizedPnl += (p.realizedPnl || 0);
       totalUnrealizedPnl += (p.unrealizedPnl || 0);
       portDelta += (p.delta || 0) * p.quantity * multiplier;
@@ -110,6 +110,12 @@ export default function Portfolio() {
           <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Total P&L (Real+Unreal)</div>
           <div style={{ fontSize: '32px', fontWeight: 700, color: totalPnl > 0 ? 'var(--success)' : totalPnl < 0 ? 'var(--danger)' : 'var(--foreground)' }}>
             {totalPnl > 0 ? '+' : ''}${totalPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+        </div>
+        <div>
+          <div style={{ color: '#9ca3af', fontSize: '14px', marginBottom: '4px' }}>Total Cost Basis</div>
+          <div style={{ fontSize: '32px', fontWeight: 700, color: 'var(--foreground)' }}>
+            {totalCostBasis < 0 ? '-' : ''}${Math.abs(totalCostBasis).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
           </div>
         </div>
         <div>

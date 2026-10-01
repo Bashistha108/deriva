@@ -174,6 +174,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
             <th style={{ padding: '16px' }}>Qty</th>
             <th style={{ padding: '16px' }}>Avg Price</th>
             <th style={{ padding: '16px' }}>Live Price</th>
+            <th style={{ padding: '16px' }}>Cost Basis</th>
             <th style={{ padding: '16px' }}>Unrealized P&L</th>
             <th style={{ padding: '16px' }}>Realized P&L</th>
             <th style={{ padding: '16px' }}>P&L %</th>
@@ -182,7 +183,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
         </thead>
         <tbody>
           <tr>
-            <td colSpan={9} style={{ padding: '24px 16px', color: '#888', textAlign: 'center' }}>No active positions found.</td>
+            <td colSpan={10} style={{ padding: '24px 16px', color: '#888', textAlign: 'center' }}>No active positions found.</td>
           </tr>
         </tbody>
       </table>
@@ -198,6 +199,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
             <th style={{ padding: '16px' }}>Qty</th>
             <th style={{ padding: '16px' }}>Avg Price</th>
             <th style={{ padding: '16px' }}>Live Price</th>
+            <th style={{ padding: '16px' }}>Cost Basis</th>
             <th style={{ padding: '16px' }}>Unrealized P&L</th>
             <th style={{ padding: '16px' }}>Realized P&L</th>
             <th style={{ padding: '16px' }}>P&L %</th>
@@ -214,17 +216,17 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
           let totalUnrealized = 0;
           
           group.stocks.forEach(p => {
-             totalCost += p.averageEntryPrice * Math.abs(p.quantity) * (p.contractMultiplier || 1);
+             totalCost += p.averageEntryPrice * p.quantity * (p.contractMultiplier || 1);
              totalRealized += p.realizedPnl;
              totalUnrealized += (p.unrealizedPnl || 0);
           });
           Object.values(group.options).flat().forEach(p => {
-             totalCost += p.averageEntryPrice * Math.abs(p.quantity) * (p.contractMultiplier || 100);
+             totalCost += p.averageEntryPrice * p.quantity * (p.contractMultiplier || 100);
              totalRealized += p.realizedPnl;
              totalUnrealized += (p.unrealizedPnl || 0);
           });
           
-          const totalPnlPct = totalCost > 0 ? (totalUnrealized / totalCost) * 100 : 0;
+          const totalPnlPct = totalCost !== 0 ? (totalUnrealized / Math.abs(totalCost)) * 100 : 0;
 
           return (
             <React.Fragment key={symbol}>
@@ -237,6 +239,9 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                   {symbol}
                 </td>
                 <td colSpan={4}></td>
+                <td style={{ padding: '16px', fontWeight: 600, color: '#fff' }}>
+                  {totalCost < 0 ? '-' : ''}{formatMoney(Math.abs(totalCost))}
+                </td>
                 <td style={{ padding: '16px', fontWeight: 600, color: totalUnrealized > 0 ? 'var(--success)' : totalUnrealized < 0 ? 'var(--danger)' : '#fff' }}>
                   {totalUnrealized > 0 ? '+' : ''}{formatMoney(totalUnrealized)}
                 </td>
@@ -255,8 +260,8 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                     const sideColor = pos.quantity > 0 ? 'var(--success)' : 'var(--danger)';
                     const unrealizedColor = (pos.unrealizedPnl || 0) > 0 ? 'var(--success)' : (pos.unrealizedPnl || 0) < 0 ? 'var(--danger)' : '#fff';
                     const realizedColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
-                    const costBasis = pos.averageEntryPrice * Math.abs(pos.quantity) * (pos.contractMultiplier || 1);
-                    const pnlPct = costBasis > 0 ? ((pos.unrealizedPnl || 0) / costBasis) * 100 : 0;
+                    const costBasis = pos.averageEntryPrice * pos.quantity * (pos.contractMultiplier || 1);
+                    const pnlPct = costBasis !== 0 ? ((pos.unrealizedPnl || 0) / Math.abs(costBasis)) * 100 : 0;
                     const pnlPctColor = pnlPct > 0 ? 'var(--success)' : pnlPct < 0 ? 'var(--danger)' : '#fff';
                     
                     return (
@@ -268,6 +273,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                         </td>
                         <td style={{ padding: '12px 16px' }}>{formatMoney(pos.averageEntryPrice)}</td>
                         <td style={{ padding: '12px 16px' }}>{formatMoney(pos.currentPrice || 0)}</td>
+                        <td style={{ padding: '12px 16px' }}>{costBasis < 0 ? '-' : ''}{formatMoney(Math.abs(costBasis))}</td>
                         <td style={{ padding: '12px 16px', fontWeight: 600, color: unrealizedColor }}>
                           {(pos.unrealizedPnl || 0) > 0 ? '+' : ''}{formatMoney(pos.unrealizedPnl || 0)}
                         </td>
@@ -301,7 +307,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                     
                     expLegs.forEach(p => {
                         const m = p.contractMultiplier || 100;
-                        expTotalCost += p.averageEntryPrice * Math.abs(p.quantity) * m;
+                        expTotalCost += p.averageEntryPrice * p.quantity * m;
                         expTotalRealized += p.realizedPnl;
                         expTotalUnrealized += (p.unrealizedPnl || 0);
                         expDelta += (p.delta || 0) * p.quantity * m;
@@ -310,7 +316,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                         expVega += (p.vega || 0) * p.quantity * m;
                     });
                     
-                    const expPnlPct = expTotalCost > 0 ? (expTotalUnrealized / expTotalCost) * 100 : 0;
+                    const expPnlPct = expTotalCost !== 0 ? (expTotalUnrealized / Math.abs(expTotalCost)) * 100 : 0;
 
                     return (
                       <React.Fragment key={expKey}>
@@ -331,6 +337,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                           </td>
                           <td style={{ padding: '12px 16px' }}>{getDte(expiry)}</td>
                           <td colSpan={3}></td>
+                          <td style={{ padding: '12px 16px' }}>{expTotalCost < 0 ? '-' : ''}{formatMoney(Math.abs(expTotalCost))}</td>
                           <td style={{ padding: '12px 16px', color: expTotalUnrealized > 0 ? 'var(--success)' : expTotalUnrealized < 0 ? 'var(--danger)' : '#fff' }}>
                             {expTotalUnrealized > 0 ? '+' : ''}{formatMoney(expTotalUnrealized)}
                           </td>
@@ -350,8 +357,8 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                           const sideColor = pos.quantity > 0 ? 'var(--success)' : 'var(--danger)';
                           const unrealizedColor = (pos.unrealizedPnl || 0) > 0 ? 'var(--success)' : (pos.unrealizedPnl || 0) < 0 ? 'var(--danger)' : '#fff';
                           const realizedColor = pos.realizedPnl > 0 ? 'var(--success)' : pos.realizedPnl < 0 ? 'var(--danger)' : '#fff';
-                          const costBasis = pos.averageEntryPrice * Math.abs(pos.quantity) * (pos.contractMultiplier || 100);
-                          const pnlPct = costBasis > 0 ? ((pos.unrealizedPnl || 0) / costBasis) * 100 : 0;
+                          const costBasis = pos.averageEntryPrice * pos.quantity * (pos.contractMultiplier || 100);
+                          const pnlPct = costBasis !== 0 ? ((pos.unrealizedPnl || 0) / Math.abs(costBasis)) * 100 : 0;
                           const pnlPctColor = pnlPct > 0 ? 'var(--success)' : pnlPct < 0 ? 'var(--danger)' : '#fff';
                           
                           return (
@@ -365,6 +372,7 @@ export default function PositionTable({ positions }: { positions: Position[] }) 
                               </td>
                               <td style={{ padding: '12px 16px' }}>{formatMoney(pos.averageEntryPrice)}</td>
                               <td style={{ padding: '12px 16px' }}>{formatMoney(pos.currentPrice || 0)}</td>
+                              <td style={{ padding: '12px 16px' }}>{costBasis < 0 ? '-' : ''}{formatMoney(Math.abs(costBasis))}</td>
                               <td style={{ padding: '12px 16px', color: unrealizedColor }}>
                                 {(pos.unrealizedPnl || 0) > 0 ? '+' : ''}{formatMoney(pos.unrealizedPnl || 0)}
                               </td>
