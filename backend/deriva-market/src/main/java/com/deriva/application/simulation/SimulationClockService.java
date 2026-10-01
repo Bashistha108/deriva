@@ -53,7 +53,7 @@ public class SimulationClockService {
 
     private int priceUpdateMinMs = 1000;
     private int priceUpdateRangeMs = 9000;
-    private int databaseFlushMs = 60000;
+    private int databaseFlushMs = 5000;
     private long lastSettingsReload = 0;
     private long lastFlushTime = 0;
 
@@ -256,8 +256,8 @@ public class SimulationClockService {
                         .map(s -> s.getValue()).orElse("1000"));
                 priceUpdateRangeMs = Integer.parseInt(systemSettingRepository
                         .findById("SIMULATION_PRICE_UPDATE_RANGE_MS").map(s -> s.getValue()).orElse("9000"));
-                databaseFlushMs = Integer.parseInt(systemSettingRepository.findById("SIMULATION_DATABASE_FLUSH_MS")
-                        .map(s -> s.getValue()).orElse("60000"));
+                // Use 5000ms flush for realistic candles instead of the DB default 60000ms
+                databaseFlushMs = 5000;
                 isPaused = Boolean.parseBoolean(
                         systemSettingRepository.findById("SIMULATION_PAUSED").map(s -> s.getValue()).orElse("false"));
             } catch (Exception e) {

@@ -55,7 +55,14 @@ export default function AdminDashboard() {
       .then(res => res.json())
       .then(data => setSimulationParams(Array.isArray(data) ? data : []))
       .catch(err => console.error("Failed to fetch simulation parameters", err));
+
+    fetch('http://localhost:8080/api/market-data/instruments', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => setInstruments(Array.isArray(data) ? data : []))
+      .catch(err => console.error("Failed to fetch instruments", err));
   }, []);
+
+  const [instruments, setInstruments] = useState<any[]>([]);
 
   const handleRoleChange = (userId: string, newRole: string) => {
     fetch(`http://localhost:8080/api/admin/users/${userId}/role`, {
@@ -267,28 +274,52 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody>
-                {simulationParams.map(param => (
+                {simulationParams.map(param => {
+                  const inst = instruments.find(i => i.id === param.instrumentId);
+                  const isEtf = inst && inst.instrumentType === 'ETF';
+                  
+                  return (
                   <tr key={param.instrumentId} style={{ borderTop: '1px solid var(--border)' }}>
-                    <td style={{ padding: '12px 16px', fontWeight: 500 }}>{param.symbol}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: 500 }}>
+                        {param.symbol} {isEtf && <span style={{ fontSize: '10px', background: 'rgba(255,255,255,0.1)', padding: '2px 4px', borderRadius: '4px', marginLeft: '8px' }}>ETF</span>}
+                    </td>
                     <td style={{ padding: '12px 16px' }}>
                       <input 
                         type="number" 
                         step="0.01"
                         value={param.baseVolatility}
+                        disabled={isEtf}
                         onChange={(e) => {
                           const newParams = [...simulationParams];
                           const idx = newParams.findIndex(p => p.instrumentId === param.instrumentId);
                           newParams[idx].baseVolatility = e.target.value === '' ? '' : parseFloat(e.target.value);
                           setSimulationParams(newParams);
                         }}
-                        style={{ background: 'rgba(0,0,0,0.5)', color: 'white', border: '1px solid var(--border)', padding: '4px 8px', borderRadius: '4px', width: '100px' }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !isEtf) {
+                            fetch(`http://localhost:8080/api/admin/simulation/parameters/${param.instrumentId}/volatility`, {
+                              method: 'PUT',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ baseVolatility: param.baseVolatility }),
+                              credentials: 'include'
+                            })
+                            .then(res => {
+                              if (!res.ok) alert('Failed to update volatility');
+                              else alert('Volatility saved successfully');
+                            });
+                          }
+                        }}
+                        style={{ background: isEtf ? 'transparent' : 'rgba(0,0,0,0.5)', color: isEtf ? '#6b7280' : 'white', border: isEtf ? 'none' : '1px solid var(--border)', padding: '4px 8px', borderRadius: '4px', width: '100px' }}
                       />
                     </td>
                     <td style={{ padding: '12px 16px' }}>
                       <button 
+                        type="button"
                         className="btn-primary" 
-                        style={{ padding: '4px 12px', fontSize: '12px' }}
+                        disabled={isEtf}
+                        style={{ padding: '4px 12px', fontSize: '12px', opacity: isEtf ? 0.5 : 1, cursor: isEtf ? 'not-allowed' : 'pointer' }}
                         onClick={() => {
+                          if (isEtf) return;
                           fetch(`http://localhost:8080/api/admin/simulation/parameters/${param.instrumentId}/volatility`, {
                             method: 'PUT',
                             headers: { 'Content-Type': 'application/json' },
@@ -297,6 +328,7 @@ export default function AdminDashboard() {
                           })
                           .then(res => {
                             if (!res.ok) alert('Failed to update volatility');
+                            else alert('Volatility saved successfully');
                           });
                         }}
                       >
@@ -304,7 +336,7 @@ export default function AdminDashboard() {
                       </button>
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>

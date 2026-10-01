@@ -125,8 +125,8 @@ export default function Dashboard() {
 
   positions.forEach(p => {
       const multiplier = p.type === 'OPTION' ? (p.contractMultiplier || 100) : (p.contractMultiplier || 1);
-      const cost = (p.averageEntryPrice || 0) * Math.abs(p.quantity) * multiplier;
-      totalCostBasis += p.quantity > 0 ? cost : -cost; // For net liquidation logic
+      const cost = (p.averageEntryPrice || 0) * p.quantity * multiplier;
+      totalCostBasis += cost; // For net liquidation logic
       totalRealizedPnl += (p.realizedPnl || 0);
       totalUnrealizedPnl += (p.unrealizedPnl || 0);
       portDelta += (p.delta || 0) * p.quantity * multiplier;
@@ -150,7 +150,7 @@ export default function Dashboard() {
       </h1>
       
       {/* Top Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '24px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px', marginBottom: '24px' }}>
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="card-header" style={{ margin: 0 }}>Net Liquidation</div>
@@ -209,6 +209,16 @@ export default function Dashboard() {
           </div>
           <div className="card-value" style={{ color: totalPnl > 0 ? 'var(--success)' : totalPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
             {totalPnl > 0 ? '+' : ''}${totalPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="card-header" style={{ margin: 0 }}>Cost Basis</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>$</div>
+          </div>
+          <div className="card-value" style={{ color: 'var(--foreground)', marginTop: '16px' }}>
+            {totalCostBasis < 0 ? '-' : ''}${Math.abs(totalCostBasis).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
           </div>
         </div>
       </div>
