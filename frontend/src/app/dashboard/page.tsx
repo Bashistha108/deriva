@@ -1,9 +1,17 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-
+import PositionTable from '@/components/PositionTable';
+import PortfolioChart from '@/components/PortfolioChart';
 export default function Dashboard() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [cashBalance, setCashBalance] = useState<number | null>(null);
+  const [isEditingBalance, setIsEditingBalance] = useState(false);
+  const [newBalanceInput, setNewBalanceInput] = useState('');
+
+  const [positions, setPositions] = useState<any[]>([]);
+  const [closedPositions, setClosedPositions] = useState<any[]>([]);
+  const [history, setHistory] = useState<any[]>([]);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -13,6 +21,10 @@ export default function Dashboard() {
         });
         if (res.ok) {
           setIsAuthenticated(true);
+          fetchCashBalance();
+          fetchPositions();
+          fetchClosedPositions();
+          fetchHistory();
         } else {
           window.location.href = '/login';
         }
@@ -20,10 +32,116 @@ export default function Dashboard() {
         window.location.href = '/login';
       }
     };
+
+    const fetchCashBalance = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/cash`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setCashBalance(data.balance);
+        }
+      } catch (err) {}
+    };
+
+    const fetchPositions = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/positions`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setPositions(data);
+        }
+      } catch (err) {}
+    };
+
+    const fetchClosedPositions = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/closed-positions`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setClosedPositions(data);
+        }
+      } catch (err) {}
+    };
+
+    const fetchHistory = async () => {
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/history`, {
+          credentials: 'include'
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setHistory(data);
+        }
+      } catch (err) {}
+    };
+
     checkAuth();
-  }, []);
+
+    const interval = setInterval(() => {
+      if (isAuthenticated) {
+        fetchCashBalance();
+        fetchPositions();
+        fetchClosedPositions();
+        fetchHistory();
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isAuthenticated]);
+
+  const handleUpdateBalance = async () => {
+    if (!newBalanceInput || isNaN(Number(newBalanceInput))) return;
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}/api/portfolio/cash/balance`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ amount: Number(newBalanceInput) })
+      });
+      if (res.ok) {
+        setCashBalance(Number(newBalanceInput));
+        setIsEditingBalance(false);
+        setNewBalanceInput('');
+      }
+    } catch (err) {}
+  };
 
   if (!isAuthenticated) return null; // or loading
+
+  // Calculate portfolio metrics
+  let totalCostBasis = 0;
+  let totalRealizedPnl = 0;
+  let totalUnrealizedPnl = 0;
+  let portDelta = 0;
+  let portGamma = 0;
+  let portTheta = 0;
+  let portVega = 0;
+
+  positions.forEach(p => {
+      const multiplier = p.type === 'OPTION' ? (p.contractMultiplier || 100) : (p.contractMultiplier || 1);
+      const cost = (p.averageEntryPrice || 0) * p.quantity * multiplier;
+      totalCostBasis += cost; // For net liquidation logic
+      totalRealizedPnl += (p.realizedPnl || 0);
+      totalUnrealizedPnl += (p.unrealizedPnl || 0);
+      portDelta += (p.delta || 0) * p.quantity * multiplier;
+      portGamma += (p.gamma || 0) * p.quantity * multiplier;
+      portTheta += (p.theta || 0) * p.quantity * multiplier;
+      portVega += (p.vega || 0) * p.quantity * multiplier;
+  });
+
+  closedPositions.forEach(p => {
+      totalRealizedPnl += (p.realizedPnl || 0);
+  });
+
+  const portfolioValue = totalCostBasis + totalUnrealizedPnl;
+  const netLiquidation = (cashBalance || 0) + portfolioValue;
+  const totalPnl = totalRealizedPnl + totalUnrealizedPnl;
 
   return (
     <div className="container" style={{ padding: '32px 24px', maxWidth: '1400px' }}>
@@ -32,47 +150,85 @@ export default function Dashboard() {
       </h1>
       
       {/* Top Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '24px', marginBottom: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '24px', marginBottom: '24px' }}>
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="card-header" style={{ margin: 0 }}>Net Liquidation</div>
             <div style={{ color: '#888', fontSize: '14px' }}>$</div>
           </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$150,000.00</div>
-          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>+2.5% from last month</div>
+          <div className="card-value" style={{ marginTop: '16px' }}>
+            ${netLiquidation.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>Total Account Value</div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="card-header" style={{ margin: 0 }}>Cash Balance</div>
+            {isEditingBalance ? (
+               <div style={{ display: 'flex', gap: '4px' }}>
+                 <button onClick={handleUpdateBalance} style={{ background: 'var(--success)', border: 'none', borderRadius: '4px', padding: '2px 8px', color: '#fff', cursor: 'pointer', fontSize: '12px' }}>Save</button>
+                 <button onClick={() => setIsEditingBalance(false)} style={{ background: '#333', border: 'none', borderRadius: '4px', padding: '2px 8px', color: '#fff', cursor: 'pointer', fontSize: '12px' }}>Cancel</button>
+               </div>
+            ) : (
+               <button onClick={() => { setIsEditingBalance(true); setNewBalanceInput(cashBalance?.toString() || '0'); }} style={{ background: 'transparent', border: '1px solid #333', borderRadius: '4px', padding: '2px 8px', color: '#888', cursor: 'pointer', fontSize: '12px' }}>Edit</button>
+            )}
+          </div>
+          {isEditingBalance ? (
+             <input type="number" value={newBalanceInput} onChange={e => setNewBalanceInput(e.target.value)} style={{ marginTop: '16px', background: '#141414', border: '1px solid #333', color: '#fff', padding: '4px 8px', borderRadius: '4px', width: '100%', boxSizing: 'border-box' }} autoFocus />
+          ) : (
+             <div className="card-value" style={{ marginTop: '16px' }}>{cashBalance !== null ? `$${cashBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}` : '...'}</div>
+          )}
+          <div style={{ fontSize: '12px', color: '#888', marginTop: '8px' }}>Available Funds</div>
         </div>
         
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="card-header" style={{ margin: 0 }}>Day P/L</div>
-            <div style={{ color: 'var(--success)', fontSize: '14px' }}>↗</div>
+            <div className="card-header" style={{ margin: 0 }}>Unrealized P/L</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>~</div>
           </div>
-          <div className="card-value" style={{ color: 'var(--success)', marginTop: '16px' }}>$1,250.50</div>
+          <div className="card-value" style={{ color: totalUnrealizedPnl > 0 ? 'var(--success)' : totalUnrealizedPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
+            {totalUnrealizedPnl > 0 ? '+' : ''}${totalUnrealizedPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
         </div>
 
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="card-header" style={{ margin: 0 }}>Buying Power</div>
-            <div style={{ color: '#888', fontSize: '14px' }}>~</div>
+            <div className="card-header" style={{ margin: 0 }}>Realized P/L</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>-</div>
           </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$50,000.00</div>
+          <div className="card-value" style={{ color: totalRealizedPnl > 0 ? 'var(--success)' : totalRealizedPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
+            {totalRealizedPnl > 0 ? '+' : ''}${totalRealizedPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
         </div>
 
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <div className="card-header" style={{ margin: 0 }}>Margin Usage</div>
-            <div style={{ color: '#888', fontSize: '14px' }}>❖</div>
+            <div className="card-header" style={{ margin: 0 }}>Total P/L</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>Σ</div>
           </div>
-          <div className="card-value" style={{ marginTop: '16px' }}>$100,000.00</div>
+          <div className="card-value" style={{ color: totalPnl > 0 ? 'var(--success)' : totalPnl < 0 ? 'var(--danger)' : 'var(--foreground)', marginTop: '16px' }}>
+            {totalPnl > 0 ? '+' : ''}${totalPnl.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
+        </div>
+
+        <div className="card">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="card-header" style={{ margin: 0 }}>Cost Basis</div>
+            <div style={{ color: 'var(--foreground)', fontSize: '14px' }}>$</div>
+          </div>
+          <div className="card-value" style={{ color: 'var(--foreground)', marginTop: '16px' }}>
+            {totalCostBasis < 0 ? '-' : ''}${Math.abs(totalCostBasis).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          </div>
         </div>
       </div>
 
       {/* Middle Row */}
       <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginBottom: '24px' }}>
         <div className="card" style={{ minHeight: '350px', display: 'flex', flexDirection: 'column' }}>
-          <div className="card-header">P/L Chart</div>
-          <div style={{ flex: 1, border: '1px dashed var(--border)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#666', background: '#141414' }}>
-            ↗ [P/L Chart Visualization Area]
+          <div className="card-header" style={{ marginBottom: '16px' }}>Equity Curve</div>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+            <PortfolioChart history={history} />
           </div>
         </div>
         <div className="card">
@@ -80,19 +236,19 @@ export default function Dashboard() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Delta (Δ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>150.5</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portDelta.toFixed(2)}</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Gamma (Γ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>-25.4</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portGamma.toFixed(2)}</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Theta (Θ)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>-10.2</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portTheta.toFixed(2)}</div>
             </div>
             <div style={{ background: '#141414', padding: '16px', borderRadius: '6px', border: '1px solid var(--border)' }}>
               <div style={{ fontSize: '12px', color: '#888', marginBottom: '12px' }}>Vega (ν)</div>
-              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>40.1</div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold' }}>{portVega.toFixed(2)}</div>
             </div>
           </div>
         </div>
@@ -108,26 +264,11 @@ export default function Dashboard() {
         <div className="card">
           <div className="card-header" style={{ marginBottom: '16px' }}>Activity</div>
           <div style={{ fontSize: '12px', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <span style={{ opacity: 0.7 }}>🕒</span> Open Orders
+            <span style={{ opacity: 0.7 }}>💼</span> Positions
           </div>
-          <table style={{ width: '100%', fontSize: '13px', textAlign: 'left', borderCollapse: 'collapse', marginBottom: '32px' }}>
-            <thead>
-              <tr style={{ color: '#888', borderBottom: '1px solid var(--border)' }}>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Symbol</th>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Side</th>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Qty</th>
-                <th style={{ padding: '12px 0', fontWeight: 'normal' }}>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style={{ padding: '16px 0', color: '#fff' }}>MSFT</td>
-                <td style={{ padding: '16px 0', color: 'var(--primary)' }}>BUY</td>
-                <td style={{ padding: '16px 0' }}>200</td>
-                <td style={{ padding: '16px 0', color: '#888' }}>WORKING</td>
-              </tr>
-            </tbody>
-          </table>
+          <div style={{ marginBottom: '32px' }}>
+            <PositionTable positions={positions} />
+          </div>
 
           <div style={{ fontSize: '12px', color: '#fff', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
             <span style={{ opacity: 0.7 }}>⚯</span> Recent Trades
@@ -142,12 +283,18 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td style={{ padding: '16px 0', color: '#fff' }}>AAPL</td>
-                <td style={{ padding: '16px 0', color: 'var(--primary)' }}>BUY</td>
-                <td style={{ padding: '16px 0' }}>$149.50</td>
-                <td style={{ padding: '16px 0', color: '#888' }}>10:30 AM</td>
-              </tr>
+              {closedPositions.length > 0 ? closedPositions.slice(0, 5).map(pos => (
+                <tr key={pos.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <td style={{ padding: '12px 0' }}>{pos.type === 'OPTION' ? `${pos.symbol} ${pos.strikePrice} ${pos.optionType}` : pos.symbol}</td>
+                  <td style={{ padding: '12px 0' }}>CLOSE</td>
+                  <td style={{ padding: '12px 0' }}>${pos.averageEntryPrice?.toFixed(2)}</td>
+                  <td style={{ padding: '12px 0' }}>-</td>
+                </tr>
+              )) : (
+                <tr>
+                  <td colSpan={4} style={{ padding: '16px 0', color: '#888', textAlign: 'center' }}>No recent trades</td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

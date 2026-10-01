@@ -3,13 +3,16 @@ package com.deriva.application.user;
 import com.deriva.domain.user.Role;
 import com.deriva.domain.user.User;
 import com.deriva.domain.user.UserPreference;
+import com.deriva.domain.user.UserRegisteredEvent;
 import com.deriva.persistence.user.UserPreferenceRepository;
 import com.deriva.persistence.user.UserRepository;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -18,11 +21,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserPreferenceRepository userPreferenceRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public UserService(UserRepository userRepository, UserPreferenceRepository userPreferenceRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserPreferenceRepository userPreferenceRepository, PasswordEncoder passwordEncoder, ApplicationEventPublisher eventPublisher) {
         this.userRepository = userRepository;
         this.userPreferenceRepository = userPreferenceRepository;
         this.passwordEncoder = passwordEncoder;
+        this.eventPublisher = eventPublisher;
     }
 
     @Transactional
@@ -57,6 +62,8 @@ public class UserService {
 
         userPreferenceRepository.save(pref);
 
+        eventPublisher.publishEvent(new UserRegisteredEvent(user.getId()));
+
         return user;
     }
 
@@ -66,5 +73,31 @@ public class UserService {
             user.setLastLoginAt(LocalDateTime.now());
             userRepository.save(user);
         });
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(UUID id) {
+        return userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+
+    @Transactional
+    public User updateUserRole(UUID userId, Role newRole) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setRole(newRole);
+        user.setUpdatedAt(LocalDateTime.now());
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public User updateUserStatus(UUID userId, boolean enabled) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        user.setEnabled(enabled);
+        user.setUpdatedAt(LocalDateTime.now());
+        return userRepository.save(user);
     }
 }

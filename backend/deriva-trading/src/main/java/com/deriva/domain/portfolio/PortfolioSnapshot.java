@@ -60,5 +60,53 @@ public class PortfolioSnapshot {
 
     public PortfolioSnapshot() {}
 
-    // Getters and setters omitted for brevity...
+    
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Long getMarketTickId() { return marketTickId; }
+    public void setMarketTickId(Long marketTickId) { this.marketTickId = marketTickId; }
+
+    public UUID getUserId() { return userId; }
+    public void setUserId(UUID userId) { this.userId = userId; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+
+    public BigDecimal getCashBalance() { return cashBalance; }
+    public void setCashBalance(BigDecimal cashBalance) { this.cashBalance = cashBalance; }
+
+    public BigDecimal getReservedCash() { return reservedCash; }
+    public void setReservedCash(BigDecimal reservedCash) { this.reservedCash = reservedCash; }
+
+    public BigDecimal getAvailableCash() { return availableCash; }
+    public void setAvailableCash(BigDecimal availableCash) { this.availableCash = availableCash; }
+
+    public BigDecimal getPortfolioValue() { return portfolioValue; }
+    public void setPortfolioValue(BigDecimal portfolioValue) { this.portfolioValue = portfolioValue; }
+
+    public BigDecimal getTotalEquity() { return totalEquity; }
+    public void setTotalEquity(BigDecimal totalEquity) { this.totalEquity = totalEquity; }
+
+    public BigDecimal getRealizedPnl() { return realizedPnl; }
+    public void setRealizedPnl(BigDecimal realizedPnl) { this.realizedPnl = realizedPnl; }
+
+    public BigDecimal getUnrealizedPnl() { return unrealizedPnl; }
+    public void setUnrealizedPnl(BigDecimal unrealizedPnl) { this.unrealizedPnl = unrealizedPnl; }
+
+    public BigDecimal getDelta() { return delta; }
+    public void setDelta(BigDecimal delta) { this.delta = delta; }
+
+    public BigDecimal getGamma() { return gamma; }
+    public void setGamma(BigDecimal gamma) { this.gamma = gamma; }
+
+    public BigDecimal getTheta() { return theta; }
+    public void setTheta(BigDecimal theta) { this.theta = theta; }
+
+    public BigDecimal getVega() { return vega; }
+    public void setVega(BigDecimal vega) { this.vega = vega; }
+
+    public BigDecimal getRho() { return rho; }
+    public void setRho(BigDecimal rho) { this.rho = rho; }
+
 }
