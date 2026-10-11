@@ -58,7 +58,12 @@ public class InstrumentSimulationParameter {
     public void setInstrument(Instrument instrument) { this.instrument = instrument; }
 
     public BigDecimal getBaseVolatility() { return baseVolatility; }
-    public void setBaseVolatility(BigDecimal baseVolatility) { this.baseVolatility = baseVolatility; }
+    public void setBaseVolatility(BigDecimal baseVolatility) {
+        if(baseVolatility == null || baseVolatility.compareTo(BigDecimal.ZERO) <= 0){
+            throw new IllegalArgumentException("Base volatility must be greater than zero");
+        }
+        this.baseVolatility = baseVolatility;
+    }
 
     public BigDecimal getDrift() { return drift; }
     public void setDrift(BigDecimal drift) { this.drift = drift; }
