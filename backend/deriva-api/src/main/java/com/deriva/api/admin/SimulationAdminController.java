@@ -50,17 +50,21 @@ public class SimulationAdminController {
 
     @PutMapping("/{instrumentId}/volatility")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ParamDTO> updateVolatility(
+    public ResponseEntity<ParamDTO> updateVolatility (
             @PathVariable Long instrumentId,
             @RequestBody Map<String, BigDecimal> request) {
         
         InstrumentSimulationParameter param = repository.findById(instrumentId).orElse(null);
         if (param == null) return ResponseEntity.notFound().build();
-        
-        if (request.containsKey("baseVolatility")) {
-            param.setBaseVolatility(request.get("baseVolatility"));
+
+        if(!request.containsKey("baseVolatility")) return ResponseEntity.badRequest().build();
+
+        BigDecimal baseVolatility = request.get("baseVolatility");
+
+        if(baseVolatility == null || baseVolatility.compareTo(BigDecimal.ZERO) <= 0){
+            return ResponseEntity.badRequest().build();
         }
-        
+        param.setBaseVolatility(baseVolatility);
         param = repository.save(param);
         
         // Notify simulation service immediately
